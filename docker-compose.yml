@@ -1,0 +1,7 @@
+version: "3.9"
+services:
+  sideburn-web:
+    container_name: sideburn-web
+    build: ./sideburn-web/
+    ports:
+      - "8585:80"
