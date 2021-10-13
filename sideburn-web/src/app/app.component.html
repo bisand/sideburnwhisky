@@ -1,101 +1,60 @@
-<div id="page" class="hfeed site">
-  <header id="masthead" class="site-header" role="banner">
-      <a class="home-link" href="http://www.sideburnwhisky.no/" title="Norsk whiskyforbund" rel="home">
-          <h1 class="site-title">Sideburn Whiskylaug</h1>
-          <h2 class="site-description">Lokalt whiskylaug i Tønsberg</h2>
-      </a>
+<div class="header">
+  <h2>Blog Name</h2>
+  <ul ngbNav #nav="ngbNav" class="nav">
+    <li ngbNavItem>
+      <a ngbNavLink>First</a>
+      <ng-template ngbNavContent>
+        <div class="card">
+          <h2>TITLE HEADING</h2>
+          <h5>Title description, Dec 7, 2017</h5>
+          <div class="fakeimg" style="height:200px;">Image</div>
+          <p>Some text..</p>
+        </div>
+        <div class="card">
+          <h2>TITLE HEADING</h2>
+          <h5>Title description, Sep 2, 2017</h5>
+          <div class="fakeimg" style="height:200px;">Image</div>
+          <p>Some text..</p>
+        </div>
+      </ng-template>
+    </li>
+    <li ngbNavItem>
+      <a ngbNavLink>Second</a>
+      <ng-template ngbNavContent>
+        <div class="card">
+          <h2>TITLE HEADING</h2>
+          <h5>Title description, Dec 7, 2017</h5>
+          <div class="fakeimg" style="height:200px;">Image</div>
+          <p>Some text..</p>
+        </div>
+      </ng-template>
+    </li>
+  </ul>
+</div>
 
-      <div id="navbar" class="navbar">
-          <nav id="site-navigation" class="navigation main-navigation" role="navigation">
-              <button class="menu-toggle">Menu</button>
-              <a class="screen-reader-text skip-link" href="#content" title="Skip to content">Skip to content</a>
-              <div class="menu-menu-1-container">
-                  <ul id="primary-menu" class="nav-menu">
-                      <li id="menu-item-13"
-                          class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-13">
-                          <a href="http://www.sideburnwhisky.no/" aria-current="page">Hjem</a></li>
-                      <li id="menu-item-28"
-                          class="menu-item menu-item-type-post_type menu-item-object-page menu-item-28"><a
-                              href="http://www.sideburnwhisky.no/medlemsfordeler/">Medlemsfordeler</a></li>
-                      <li id="menu-item-29"
-                          class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-29">
-                          <a href="http://www.sideburnwhisky.no/om/">Om NWF</a>
-                          <ul class="sub-menu">
-                              <li id="menu-item-77"
-                                  class="menu-item menu-item-type-post_type menu-item-object-page menu-item-77"><a
-                                      href="http://www.sideburnwhisky.no/om/vedtekter/">Vedtekter</a></li>
-                              <li id="menu-item-30"
-                                  class="menu-item menu-item-type-post_type menu-item-object-page menu-item-30"><a
-                                      href="http://www.sideburnwhisky.no/om/nws-styre/">NWFs styre</a></li>
-                              <li id="menu-item-439"
-                                  class="menu-item menu-item-type-post_type menu-item-object-page menu-item-439"><a
-                                      href="http://www.sideburnwhisky.no/hvordan-starte-whiskyklubb/">Hvordan starte
-                                      whiskyklubb</a></li>
-                          </ul>
-                      </li>
-                      <li id="menu-item-27"
-                          class="menu-item menu-item-type-post_type menu-item-object-page menu-item-27"><a
-                              href="http://www.sideburnwhisky.no/medlemsklubber/">Medlemsklubber</a></li>
-                      <li id="menu-item-31"
-                          class="menu-item menu-item-type-post_type menu-item-object-page menu-item-31"><a
-                              href="http://www.sideburnwhisky.no/festivaler/">Festivaler</a></li>
-                      <li id="menu-item-346"
-                          class="menu-item menu-item-type-post_type menu-item-object-page menu-item-346"><a
-                              href="http://www.sideburnwhisky.no/blogger/">Blogger</a></li>
-                      <li id="menu-item-26"
-                          class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a
-                              href="http://www.sideburnwhisky.no/kontakt/">Kontakt</a></li>
-                  </ul>
-              </div>
-              <form role="search" method="get" class="search-form" action="http://www.sideburnwhisky.no/">
-                  <label>
-                      <span class="screen-reader-text">Search for:</span>
-                      <input type="search" class="search-field" placeholder="Search …" value="" name="s">
-                  </label>
-                  <input type="submit" class="search-submit" value="Search">
-              </form>
-          </nav><!-- #site-navigation -->
-      </div><!-- #navbar -->
-  </header><!-- #masthead -->
+<div class="row">
+  <div class="leftcolumn">
+    <div [ngbNavOutlet]="nav"></div>
+  </div>
+  <div class="rightcolumn">
+    <div class="card">
+      <h2>About us</h2>
+      <div class="fakeimg" style="height:100px;">Image</div>
+      <p>Some text about me in culpa qui officia deserunt mollit anim..</p>
+    </div>
+    <div class="card">
+      <h3>Popular Post</h3>
+      <div class="fakeimg">Image</div><br>
+      <div class="fakeimg">Image</div><br>
+      <div class="fakeimg">Image</div>
+    </div>
+    <div class="card">
+      <h3>Follow us</h3>
+      <p>Some text..</p>
+    </div>
+  </div>
+</div>
 
-  <div id="main" class="site-main">
-
-      <div id="primary" class="content-area">
-          <div id="content" class="site-content" role="main">
-
-
-          </div><!-- #content -->
-      </div><!-- #primary -->
-
-      <div id="tertiary" class="sidebar-container" role="complementary">
-          <div class="sidebar-inner">
-              <div class="widget-area">
-                  <aside id="search-2" class="widget widget_search">
-                      <h3 class="widget-title">Søk</h3>
-                      <form role="search" method="get" class="search-form" action="http://www.sideburnwhisky.no/">
-                          <label>
-                              <span class="screen-reader-text">Search for:</span>
-                              <input type="search" class="search-field" placeholder="Search …" value="" name="s">
-                          </label>
-                          <input type="submit" class="search-submit" value="Search">
-                      </form>
-                  </aside>
-                  <aside id="recent-posts-2" class="widget widget_recent_entries">
-                      <h3 class="widget-title">Siste innlegg</h3>
-                      <ul>
-                      </ul>
-                  </aside>
-                  <aside id="archives-2" class="widget widget_archive">
-                      <h3 class="widget-title">Arkiv</h3>
-                      <ul>
-                      </ul>
-                  </aside>
-              </div><!-- .widget-area -->
-          </div><!-- .sidebar-inner -->
-      </div><!-- #tertiary -->
-
-  </div><!-- #main -->
-  <footer id="colophon" class="site-footer" role="contentinfo">
-
-  </footer><!-- #colophon -->
+<div class="footer">
+  <h2>Footer</h2>
 </div>
