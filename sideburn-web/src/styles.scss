@@ -1,40 +1,61 @@
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 
 /* Importing Bootstrap SCSS file. */
-@import '~bootstrap/scss/bootstrap';
+@import "~bootstrap/scss/bootstrap";
+$box-shadow: 0 0.5rem 1rem rgba($black, 0.15) !default;
+$background: rgb(40, 40, 40);
+$card-background: rgb(45, 45, 45);
+$max-width: 1200px;
 
 body {
   font-family: Arial;
-  padding: 0px;
-  background: #414040;
-  max-width: 1600px;
-  margin: auto;
+  padding: 20px 20px 20px 20px;
+  background: $background;
+  color: #aaa;
 }
 
 .nav {
   top: 230px;
+  background: $card-background;
+}
+.header .banner {
+  height: 230px;
 }
 /* Header/Blog Title */
 .header {
   background: url(/assets/images/banner-top.jpg) no-repeat scroll top;
-  padding: 30px;
-  font-size: 40px;
-  text-align: center;
+  padding: 0px;
+  max-width: $max-width;
+  margin: auto;
+}
+
+.content {
+  max-width: $max-width;
+  margin: auto;
+  padding: auto;
 }
 
 /* Create two unequal columns that floats next to each other */
 /* Left column */
 .leftcolumn {
   float: left;
-  width: 75%;
+  width: 74%;
+  margin-left: auto;
 }
 
 /* Right column */
 .rightcolumn {
   float: left;
-  width: 25%;
-  padding-left: 20px;
+  width: 24%;
+  padding-left: 2%;
+  margin-right: auto;
 }
 
 /* Fake image */
@@ -46,9 +67,10 @@ body {
 
 /* Add a card effect for articles */
 .card {
-  background-color: white;
+  background-color: $card-background;
   padding: 20px;
   margin-top: 20px;
+  box-shadow: $box-shadow;
 }
 
 /* Clear floats after the columns */
@@ -62,13 +84,14 @@ body {
 .footer {
   padding: 20px;
   text-align: center;
-  background: #ddd;
+  background: $card-background;
   margin-top: 20px;
 }
 
 /* Responsive layout - when the screen is less than 800px wide, make the two columns stack on top of each other instead of next to each other */
 @media screen and (max-width: 800px) {
-  .leftcolumn, .rightcolumn {
+  .leftcolumn,
+  .rightcolumn {
     width: 100%;
     padding: 0;
   }
