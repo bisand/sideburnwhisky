@@ -82,13 +82,21 @@ a:visited {
   background-color: #414141;
 }
 
-.header .banner {
+.header .banner-large {
   height: 230px;
+  background: url(/assets/images/banner-top.jpg) no-repeat scroll top;
+}
+.header .banner-med {
+  height: 150px;
+  background: url(/assets/images/banner-med-top.jpg) no-repeat scroll top;
+}
+.header .banner-small {
+  height: 100px;
+  background: url(/assets/images/banner-small-top.jpg) no-repeat scroll top;
 }
 
 /* Header/Blog Title */
 .header {
-  background: url(/assets/images/banner-top.jpg) no-repeat scroll top;
   padding: 0px;
   max-width: $max-width;
   margin: auto;
@@ -144,10 +152,6 @@ a:visited {
   font-weight: 200;
   color: #aaa;
   margin-left: 4px;
-}
-
-.meta mat-icon {
-
 }
 
 /* Add a card effect for articles */
