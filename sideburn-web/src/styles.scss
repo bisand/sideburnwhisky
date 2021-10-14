@@ -1,3 +1,39 @@
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use "~@angular/material" as mat;
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$sideburn-web-primary: mat.define-palette(mat.$indigo-palette);
+$sideburn-web-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$sideburn-web-warn: mat.define-palette(mat.$red-palette);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$sideburn-web-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $sideburn-web-primary,
+      accent: $sideburn-web-accent,
+      warn: $sideburn-web-warn,
+    ),
+  )
+);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include mat.all-component-themes($sideburn-web-theme);
+
 html,
 body {
   height: 100%;
@@ -11,7 +47,7 @@ body {
 @import "~bootstrap/scss/bootstrap";
 $box-shadow: 0 0.5rem 1rem rgba($black, 0.15) !default;
 $background: rgb(40, 40, 40);
-$card-background: rgb(45, 45, 45);
+$card-background: rgb(40, 40, 40);
 $max-width: 1200px;
 
 body {
@@ -34,6 +70,7 @@ body {
   padding: 0px;
   max-width: $max-width;
   margin: auto;
+  box-shadow: $box-shadow;
 }
 
 .content {
@@ -65,12 +102,25 @@ body {
   padding: 20px;
 }
 
+.meta .date,
+.meta .tags,
+.meta .comments,
+.meta .edit {
+  padding-right: 10px;
+}
+
+.meta {
+  font-size: 18.9px;
+  font-weight: 200;
+  color: #aaa;
+  margin-left: 4px;
+}
+
 /* Add a card effect for articles */
 .card {
   background-color: $card-background;
   padding: 20px;
   margin-top: 20px;
-  box-shadow: $box-shadow;
 }
 
 /* Clear floats after the columns */
@@ -95,4 +145,13 @@ body {
     width: 100%;
     padding: 0;
   }
+}
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
 }

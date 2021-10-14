@@ -9,6 +9,8 @@ import { AuthModule } from '@auth0/auth0-angular';
 import { AuthButtonComponentComponent } from './auth-button-component/auth-button-component.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
+import { MatIconModule } from '@angular/material/icon';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -23,6 +25,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
       clientId: 'PJeWwDMvJmzo25dz8M1EgnK8txLlwyGF'
     }),
     NgbModule,
+    MatIconModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
