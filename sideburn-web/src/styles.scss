@@ -46,24 +46,46 @@ body {
 /* Importing Bootstrap SCSS file. */
 @import "~bootstrap/scss/bootstrap";
 $box-shadow: 0 0.5rem 1rem rgba($black, 0.15) !default;
-$background: rgb(40, 40, 40);
-$card-background: rgb(40, 40, 40);
+$background: #22272e;
+$nav-background: #2d333b;
+$nav-link-color: #cdd9e5;
+$nav-link-hover-color: #8e98a1;
+$nav-link-visited-color: $nav-link-color;
+$card-background: #22272e;
+$default-foreground: #adbac7;
 $max-width: 1200px;
 
 body {
   font-family: Arial;
   padding: 20px 20px 20px 20px;
   background: $background;
-  color: #aaa;
+  color: $default-foreground;
 }
 
 .nav {
   top: 230px;
-  background: $card-background;
+  background: $nav-background;
 }
+
+a {
+  color: $nav-link-color;
+}
+a:hover {
+  color: $nav-link-hover-color;
+}
+a:visited {
+  color: $nav-link-visited-color;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+  color: #fff;
+  background-color: #414141;
+}
+
 .header .banner {
   height: 230px;
 }
+
 /* Header/Blog Title */
 .header {
   background: url(/assets/images/banner-top.jpg) no-repeat scroll top;
@@ -102,23 +124,36 @@ body {
   padding: 20px;
 }
 
+.article-image {
+  float:left;
+  width: 300px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
 .meta .date,
 .meta .tags,
 .meta .comments,
 .meta .edit {
   padding-right: 10px;
+  font-size: 10pt;
 }
 
 .meta {
-  font-size: 18.9px;
+  font-size: 12px;
   font-weight: 200;
   color: #aaa;
   margin-left: 4px;
 }
 
+.meta mat-icon {
+
+}
+
 /* Add a card effect for articles */
 .card {
   background-color: $card-background;
+  border-color: #444c56;;
   padding: 20px;
   margin-top: 20px;
 }
