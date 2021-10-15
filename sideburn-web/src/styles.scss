@@ -45,6 +45,7 @@ body {
 
 /* Importing Bootstrap SCSS file. */
 @import "~bootstrap/scss/bootstrap";
+
 $box-shadow: 0 0.5rem 1rem rgba($black, 0.15) !default;
 $background: #22272e;
 $nav-background: #2d333b;
@@ -63,7 +64,6 @@ body {
 }
 
 .nav {
-  top: 230px;
   background: $nav-background;
 }
 
@@ -77,7 +77,8 @@ a:visited {
   color: $nav-link-visited-color;
 }
 
-.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+.nav-pills .nav-link.active,
+.nav-pills .show > .nav-link {
   color: #fff;
   background-color: #414141;
 }
@@ -125,15 +126,8 @@ a:visited {
   margin-right: auto;
 }
 
-/* Fake image */
-.fakeimg {
-  background-color: #aaa;
-  width: 100%;
-  padding: 20px;
-}
-
 .article-image {
-  float:left;
+  float: left;
   width: 300px;
   margin-right: 10px;
   margin-bottom: 10px;
@@ -154,10 +148,18 @@ a:visited {
   margin-left: 4px;
 }
 
+.meta .mat-icon {
+  font-size: 12px;
+  height: 12px;
+  width: 12px;
+  vertical-align: baseline;
+  margin-right: 3px;
+}
+
 /* Add a card effect for articles */
 .card {
   background-color: $card-background;
-  border-color: #444c56;;
+  border-color: #444c56;
   padding: 20px;
   margin-top: 20px;
 }

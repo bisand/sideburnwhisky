@@ -2,49 +2,85 @@
   <div class="banner-small d-md-none"></div>
   <div class="banner-med d-none d-md-block d-lg-none"></div>
   <div class="banner-large d-none d-lg-block"></div>
-  <ul ngbNav #nav="ngbNav" class="nav nav-pills">
-    <li ngbNavItem>
-      <a ngbNavLink>Hjem</a>
-      <ng-template ngbNavContent>
-        <div class="card">
-          <h2>Kommer snart</h2>
-          <h6>Vi jobber på "spreng" med å ferdigstille sidene.</h6>
-          <div class="meta">
-            <time class="date dt-published" datetime="2021-10-14T05:15:00+00:00" itemprop="datePublished">
-              <mat-icon aria-hidden="false" aria-label="Publisert">edit_calendar</mat-icon> 14 oktober 2021
-            </time>
-            <span class="tags">
-              <mat-icon aria-hidden="false" aria-label="Kategorier">sell</mat-icon>
-              <a href="/tags/#web">web</a>
-            </span>
+  <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" (click)="isMenuCollapsed = !isMenuCollapsed">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul ngbNav #nav="ngbNav" class="navbar nav w-100">
+          <li ngbNavItem>
+            <a ngbNavLink>Hjem</a>
+            <ng-template ngbNavContent>
+              <div class="card">
+                <h2>Kommer snart</h2>
+                <h6>Vi jobber på "spreng" med å ferdigstille sidene.</h6>
+                <div class="meta">
+                  <time class="date dt-published" datetime="2021-10-14T05:15:00+00:00" itemprop="datePublished">
+                    <mat-icon aria-hidden="false" aria-label="Publisert">edit_calendar</mat-icon> 14 oktober 2021
+                  </time>
+                  <span class="tags">
+                    <mat-icon aria-hidden="false" aria-label="Kategorier">sell</mat-icon>
+                    <a href="/tags/#web">web</a>
+                  </span>
+                </div>
+                <p><img src="../assets/images/work-in-progress.jpg" class="article-image">
+                  Vi er snart klare med litt mer innhold. Denne siden er tilgjengelig for å gi medlemmene en liten smakebit på
+                  hvordan det vil se ut. Vi tar gjerne imot tilbakemeldinger og endringsforlag.</p>
+              </div>
+            </ng-template>
+          </li>
+          <li ngbNavItem>
+            <a ngbNavLink>Vedtekter</a>
+            <ng-template ngbNavContent>
+              <div class="card">
+                <h2>Vedtekter - Sideburn Whiskylaug</h2>
+                <h6>Oppdatert, 13 Oktober 2021</h6>
+                <p>Under utarbeidelse..</p>
+              </div>
+            </ng-template>
+          </li>
+          <li ngbNavItem>
+            <a ngbNavLink>Om oss</a>
+            <ng-template ngbNavContent>
+            </ng-template>
+          </li>
+          <li ngbNavItem>
+            <a ngbNavLink>Arrangementer</a>
+            <ng-template ngbNavContent>
+            </ng-template>
+          </li>
+                <li [ngbNavItem]="3" *ngIf="(auth.isAuthenticated$ | async) == false" class="ml-auto">
+          <a ngbNavLink href="#" (click)="loginWithRedirect()"><span class="glyphicon glyphicon-log-in"></span>
+            Login</a>
+        </li>
+        <li ngbDropdown [ngbNavItem]="4" *ngIf="(auth.user$ | async) as profile" placement="bottom-right"
+          display="dynamic" class="nav-item ml-auto">
+          <a href (click)="false" ngbNavLink ngbDropdownToggle>
+            <img [src]="profile.picture" alt="Profile picture" class="nav-user-profile rounded-circle"
+              style="width: 16px" /> {{ profile.name }}
+          </a>
+          <div ngbDropdownMenu>
+            <button ngbDropdownItem>
+              <img [src]="profile.picture" alt="Profile picture" class="nav-user-profile rounded-circle"
+                style="width: 40px" /> {{ profile.name }}
+            </button>
+            <div class="dropdown-divider"></div>
+            <button ngbDropdownItem routerLink="/profile/" *ngIf="profile">
+              <mat-icon aria-hidden="false" aria-label="Kategorier">user</mat-icon>
+            </button>
+            <button ngbDropdownItem routerLink="/portfolio-editor/" *ngIf="profile">
+              <mat-icon aria-hidden="false" aria-label="Kategorier">edit</mat-icon>
+            </button>
+            <div class="dropdown-divider"></div>
+            <button ngbDropdownItem (click)="logoutWithRedirect()" id="qsLogoutBtn">
+              <mat-icon aria-hidden="false" aria-label="Kategorier">poweroff</mat-icon>
+            </button>
           </div>
-          <p><img src="../assets/images/work-in-progress.jpg" class="article-image">
-            Vi er snart klare med litt mer innhold. Denne siden er tilgjengelig for å gi medlemmene en liten smakebit på
-            hvordan det vil se ut. Vi tar gjerne imot tilbakemeldinger og endringsforlag.</p>
-        </div>
-      </ng-template>
-    </li>
-    <li ngbNavItem>
-      <a ngbNavLink>Vedtekter</a>
-      <ng-template ngbNavContent>
-        <div class="card">
-          <h2>Vedtekter - Sideburn Whiskylaug</h2>
-          <h6>Oppdatert, 13 Oktober 2021</h6>
-          <p>Under utarbeidelse..</p>
-        </div>
-      </ng-template>
-    </li>
-    <li ngbNavItem>
-      <a ngbNavLink>Om oss</a>
-      <ng-template ngbNavContent>
-      </ng-template>
-    </li>
-    <li ngbNavItem>
-      <a ngbNavLink>Arrangementer</a>
-      <ng-template ngbNavContent>
-      </ng-template>
-    </li>
-  </ul>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
 </div>
 <div class="content">
   <div class="row">
