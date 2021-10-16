@@ -21,7 +21,7 @@ export class AppComponent {
   logoutWithRedirect(): void {
     // const url = this.auth.buildLogoutUrl({ returnTo: `${window.location.origin + '/portfolio/'}` }).subscribe(url => {
     // });
-    this.auth.logout({ returnTo: `${window.location.origin + '/portfolio/'}` });
+    this.auth.logout({ returnTo: `${window.location.origin + '/'}` });
   }
 
 }
