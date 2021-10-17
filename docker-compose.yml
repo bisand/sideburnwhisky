@@ -6,3 +6,14 @@ services:
     build: ./sideburn-web/
     ports:
       - "8585:80"
+  sideburn-api:
+    restart: always
+    container_name: sideburn-api
+    build: ./sideburn-api/
+    ports:
+      - "8686:4200"
+  sideburn-db:
+    image: couchdb
+    restart: always
+    volumes:
+      - "./sideburn-db/couchdb/data:/opt/couchdb/data"
