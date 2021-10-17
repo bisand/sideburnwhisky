@@ -16,10 +16,15 @@ services:
       - 'COUCHDB_PASSWORD=${COUCHDB_PASSWORD}'
     volumes:
       - "./sideburn-db/couchdb/data:/opt/couchdb/data"
+    ports:
+      - "5984:5984"
   sideburn-api:
     restart: always
     container_name: sideburn-api
     build: ./sideburn-api/
     links: ['sideburn-db']
+    environment:
+      - 'COUCHDB_USER=${COUCHDB_USER}'
+      - 'COUCHDB_PASSWORD=${COUCHDB_PASSWORD}'
     ports:
-      - "8686:4200"
+      - "8686:8080"
