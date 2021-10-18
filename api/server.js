@@ -1,11 +1,24 @@
 'use strict';
 require('dotenv').config();
 const express = require('express');
-const nano = require('nano')('http://' + process.env.COUCHDB_USER + ':' + process.env.COUCHDB_PASSWORD + '@localhost:5984');
+const nano = require('nano')('http://localhost:5984');
+
+//TODO Use async/await
+nano.auth(process.env.COUCHDB_USER, process.env.COUCHDB_PASSWORD, (err, resp) => {
+  if (err)
+    console.error(err);
+  if (resp)
+    console.log(resp);
+});
 const test = nano.db.use('test');
-test.info((err, data) => {
-  console.log(err);
-  console.log(data);
+test.info((err, resp) => {
+  if (err && err.statusCode === 404) {
+    console.error(err);
+    console.log("Creating database...");
+    nano.db.create('test', (err, body) => { });
+  }
+  if (resp)
+    console.log(resp);
 });
 // const response = test.insert({ happy: true }, 'rabbit', (err, data) => {
 //   console.log(err);
