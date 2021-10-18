@@ -1,19 +1,15 @@
-FROM node:lts-alpine
+FROM node:lts-alpine as build-step
+RUN mkdir -p /app
+WORKDIR /app
+COPY package.json /app
+RUN npm install
+COPY . /app
+RUN npm run build --prod
 
-# Create app directory
+FROM node:lts-alpine
+COPY --from=build-step /app/dist/ /usr/src/app/
+
 WORKDIR /usr/src/app
 
-# Install app dependencies
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
-# where available (npm@5+)
-COPY package*.json ./
-
-RUN npm install
-# If you are building your code for production
-# RUN npm ci --only=production
-
-# Bundle app source
-COPY . .
-
 EXPOSE 8080
-CMD [ "node", "server.js" ]
+CMD [ "node", "index.js" ]
