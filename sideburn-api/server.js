@@ -1,39 +1,29 @@
 'use strict';
 require('dotenv').config();
 const express = require('express');
+const nano = require('nano')('http://' + process.env.COUCHDB_USER + ':' + process.env.COUCHDB_PASSWORD + '@localhost:5984');
+const test = nano.db.use('test');
+test.info((err, data) => {
+  console.log(err);
+  console.log(data);
+});
+// const response = test.insert({ happy: true }, 'rabbit', (err, data) => {
+//   console.log(err);
+//   console.log(data);
+// });
 
 // Constants
 const PORT = 8080;
 const HOST = '0.0.0.0';
-
-const NodeCouchDb = require('node-couchdb');
-
-// node-couchdb instance talking to external service
-const couch = new NodeCouchDb({
-  host: 'localhost',
-  protocol: 'http',
-  port: 5984,
-  auth: {
-    user: process.env.COUCHDB_USER,
-    pass: process.env.COUCHDB_PASSWORD
-  }
-});
 
 
 // App
 const app = express();
 app.get('/', async (req, res) => {
   try {
-    couch.listDatabases()
-      .then(
-        dbs => {
-          res.send(dbs);
-        },
-        err => {
-          res.send(err);
-        });
+    res.send(dbs);
   } catch (error) {
-    res.send(JSON.stringify(error));
+    res.send(error);
   }
 });
 
