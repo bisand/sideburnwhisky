@@ -1,15 +1,15 @@
 version: "3.9"
 services:
-  sideburn-web:
+  web:
     restart: always
-    container_name: sideburn-web
+    container_name: web
     build: ./sideburn-web/
     ports:
       - "8585:80"
-  sideburn-db:
+  db:
     # image: couchdb
     build: ./sideburn-db/
-    container_name: sideburn-db
+    container_name: db
     restart: always
     environment:
       - 'COUCHDB_USER=${COUCHDB_USER}'
@@ -18,11 +18,11 @@ services:
       - "./sideburn-db/couchdb/data:/opt/couchdb/data"
     ports:
       - "5984:5984"
-  sideburn-api:
+  api:
     restart: always
-    container_name: sideburn-api
+    container_name: api
     build: ./sideburn-api/
-    links: ['sideburn-db']
+    links: ['db']
     environment:
       - 'COUCHDB_USER=${COUCHDB_USER}'
       - 'COUCHDB_PASSWORD=${COUCHDB_PASSWORD}'
