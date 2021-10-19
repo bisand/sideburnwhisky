@@ -1,4 +1,4 @@
-import { User } from '../models/user';
+import { User } from '../models/User';
 import { IDataService } from './IDataService';
 
 export class UserService {
@@ -7,7 +7,7 @@ export class UserService {
             const response = await this._dataService.db.list();
             const result: User[] = [];
             response.rows.forEach(doc => {
-                result.push(new User(doc));
+                result.push(Object.assign({} as User, doc));
             });
             return result;
         } catch (error) {

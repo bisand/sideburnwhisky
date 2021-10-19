@@ -4,13 +4,16 @@ WORKDIR /app
 COPY package.json /app
 RUN npm install
 COPY . /app
-RUN npm run build --prod
+RUN npm install
+RUN npm run clean
+RUN npm run build
 
 FROM node:lts-alpine
-COPY --from=build-step /app/dist/ /usr/src/app/
+WORKDIR /usr/src/app/
+COPY --from=build-step /app/dist/ ./dist/
 
-WORKDIR /usr/src/app
-RUN npm install
+COPY package* ./
+RUN npm install --production
 
 EXPOSE 8080
-CMD [ "node", "index.js" ]
+CMD npm start

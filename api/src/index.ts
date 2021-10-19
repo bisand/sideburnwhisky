@@ -1,6 +1,6 @@
-import dotenv from 'dotenv';
 import express, { Request, Response } from 'express';
-import { User } from './models/user';
+import dotenv from 'dotenv';
+import { User } from './models/User';
 import { DataService } from './services/DataService';
 import { DatabaseConfig } from "./services/DatabaseConfig";
 import { UserService } from './services/UserService';
@@ -28,7 +28,13 @@ const config: DatabaseConfig = {
 
 const dataService = new DataService(config, async () => {
   const userService = new UserService(dataService);
-  let user = new User();
+  let user = <User>{
+    userId: 1337,
+    userName: 'bisand',
+    firstName: 'André',
+    lastName: 'Biseth',
+    email: 'andre@biseth.net',
+  };
   user._id = await userService.createUser(user);
   const users = await userService.getUsers();
 

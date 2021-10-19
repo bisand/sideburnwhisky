@@ -26,5 +26,8 @@ services:
     environment:
       - 'COUCHDB_USER=${COUCHDB_USER}'
       - 'COUCHDB_PASSWORD=${COUCHDB_PASSWORD}'
+      - 'COUCHDB_HOST=${COUCHDB_HOST}'
+      - 'COUCHDB_PORT=${COUCHDB_PORT}'
+      - 'COUCHDB_DATABASE=${COUCHDB_DATABASE}'
     ports:
       - "8686:8080"

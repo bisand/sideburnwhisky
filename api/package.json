@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc --build",
-    "start": "ts-node ./src/index.ts",
+    "clean": "rm -rf ./dist/* ",
+    "debug": "ts-node ./src/index.ts",
+    "start": "node ./dist/index.js",
     "dev": "ts-node-dev --respawn ./src/index.ts"
   },
   "author": "André Biseth",
