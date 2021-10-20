@@ -5,7 +5,7 @@ import { IDataService } from './IDataService';
 import { DocumentService } from './DocumentService';
 
 export class UserService extends DocumentService {
-    private _designName: string;
+    private _designName: string = 'sideburn-users';
 
     async saveUser(user: User): Promise<string> {
         try {
@@ -48,7 +48,6 @@ export class UserService extends DocumentService {
 
     constructor(dataService: IDataService) {
         super(dataService);
-        this._designName = 'sideburn-users';
         this.createViews();
     }
 
