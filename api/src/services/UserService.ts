@@ -2,6 +2,16 @@ import { User } from '../models/User';
 import { IDataService } from './IDataService';
 
 export class UserService {
+    private createViews(){
+        // function (doc) { 
+        //     if (doc.type === "user" && doc.active) { 
+        //       emit(doc.username, doc)
+        //     }
+        //   }
+        // Use this view to retrieve active Users
+        //this._dataService.db.createIndex()
+    }
+
     async getUsers(): Promise<User[]> {
         try {
             const response = await this._dataService.db.view("sideburn", "users-all");
