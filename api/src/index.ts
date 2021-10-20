@@ -1,11 +1,14 @@
 import express, { Request, Response } from 'express';
+import bodyParser from 'body-parser'
 import dotenv from 'dotenv';
 import { User } from './models/User';
 import { DataService } from './services/DataService';
 import { DatabaseConfig } from "./services/DatabaseConfig";
 import { UserService } from './services/UserService';
+import { HttpError } from './models/HttpError';
 
 dotenv.config();
+var jsonParser = bodyParser.json()
 
 if (!process.env.COUCHDB_HOST)
   throw new Error('The required environment variable "COUCHDB_HOST" is missing.');
@@ -28,24 +31,9 @@ const config: DatabaseConfig = {
 
 const dataService = new DataService(config, async () => {
   const userService = new UserService(dataService);
-  let user = <User>{
-    _id: 'user-andre@biseth.net',
-    type: 'user',
-    username: 'bisand',
-    firstName: 'André',
-    lastName: 'Biseth',
-    email: 'andre@biseth.net',
-    created: new Date(),
-    lastLogin: undefined,
-    roles: [],
-    active: true
-  };
-  user._id = await userService.createUser(user);
-  const users = await userService.getUsers();
 
   const app: express.Application = express();
   const port: number = 8080;
-
 
   app.get('/', (req: Request, res: Response) => {
     res.send('Hello World');
@@ -61,6 +49,16 @@ const dataService = new DataService(config, async () => {
     res.send(users);
   });
 
+  app.put('/users/', jsonParser, async (req: Request, res: Response) => {
+    let user = new User();
+    Object.assign(user, req.body);
+    try {
+      const id = await userService.saveUser(user);
+      res.send({ id });
+    } catch (error: any) {
+      res.status(error.statusCode).send(error);
+    }
+  });
 
   app.get('/:name', (req: Request, res: Response) => {
     res.send(`Hello ${req.param('name', 'Mark')}`);

@@ -1,10 +1,26 @@
+import nano from 'nano';
 import { User } from '../models/User';
+import { HttpError } from '../models/HttpError';
 import { IDataService } from './IDataService';
+import { DocumentService } from './DocumentService';
 
-export class UserService {
+export class UserService extends DocumentService {
+    private _designName: string;
+
+    async saveUser(user: User): Promise<string> {
+        try {
+            const response = await this._dataService.db.insert(user);
+            if (response.ok)
+                return response.id;
+        } catch (error: any) {
+            throw new HttpError(error.statusCode, error.message);
+        }
+        return '';
+    }
+
     async getUsers(): Promise<User[]> {
         try {
-            const response = await this._dataService.db.view("sideburn-users", "all");
+            const response = await this._dataService.db.view(this._designName, "all", { include_docs: true });
             const result: User[] = [];
             response.rows.forEach(doc => {
                 result.push(Object.assign({} as User, doc));
@@ -18,7 +34,7 @@ export class UserService {
 
     async getActiveUsers(): Promise<User[]> {
         try {
-            const response = await this._dataService.db.view("sideburn-users", "active");
+            const response = await this._dataService.db.view(this._designName, "active", { include_docs: true });
             const result: User[] = [];
             response.rows.forEach(doc => {
                 result.push(Object.assign({} as User, doc));
@@ -30,59 +46,42 @@ export class UserService {
         return [];
     }
 
-    private _dataService: IDataService;
-    async createUser(user: User): Promise<string> {
-        try {
-            const response = await this._dataService.db.insert(user);
-            if (response.ok)
-                return response.id;
-        } catch (error) {
-            console.error(error);
-        }
-        return "";
-    }
     constructor(dataService: IDataService) {
-        this._dataService = dataService;
+        super(dataService);
+        this._designName = 'sideburn-users';
         this.createViews();
     }
 
-    private async createViews() {
-        // function (doc) { 
-        //     if (doc.type === "user" && doc.active) { 
-        //       emit(doc.username, doc)
-        //     }
-        //   }
-        // Use this view to retrieve acti ve Users
+    private createViews() {
         const allUsers = `function (doc) {
             if (doc.type === "user") { 
-                emit(doc.username, doc)
+                emit(doc.username, doc.firstName + ' ' + doc.lastName)
             }
         }`;
         const activeUsers = `function (doc) {
             if (doc.type === "user" && doc.active) { 
-                emit(doc.username, doc)
+                emit(doc.username, doc.firstName + ' ' + doc.lastName)
             }
         }`;
 
         // Design Document
-        const ddoc = {
-            _id: '_design/sideburn-users',
+        const ddoc: any = {
+
+            _id: '_design/' + this._designName,
+            version: '1',
             views: {
                 'active': {
-                    map: activeUsers,
-                    // reduce: '_sum'
+                    map: activeUsers
                 },
                 'all': {
-                    map: allUsers,
-                    // reduce: '_sum'
+                    map: allUsers
                 },
             },
             options: {
-                // partitioned: true
             }
         }
 
         // create design document
-        await this._dataService.db.insert(ddoc);
+        this.createDesignDocument('_design/' + this._designName, ddoc);
     }
 }
