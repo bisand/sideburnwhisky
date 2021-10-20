@@ -29,11 +29,16 @@ const config: DatabaseConfig = {
 const dataService = new DataService(config, async () => {
   const userService = new UserService(dataService);
   let user = <User>{
-    userId: 1337,
-    userName: 'bisand',
+    _id: 'user-andre@biseth.net',
+    type: 'user',
+    username: 'bisand',
     firstName: 'André',
     lastName: 'Biseth',
     email: 'andre@biseth.net',
+    created: new Date(),
+    lastLogin: undefined,
+    roles: [],
+    active: true
   };
   user._id = await userService.createUser(user);
   const users = await userService.getUsers();
@@ -44,6 +49,16 @@ const dataService = new DataService(config, async () => {
 
   app.get('/', (req: Request, res: Response) => {
     res.send('Hello World');
+  });
+
+  app.get('/users', async (req: Request, res: Response) => {
+    const users = await userService.getUsers();
+    res.send(users);
+  });
+
+  app.get('/users/active', async (req: Request, res: Response) => {
+    const users = await userService.getActiveUsers();
+    res.send(users);
   });
 
 
