@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import bodyParser from 'body-parser'
 import dotenv from 'dotenv';
 import { DataService } from './services/DataService';
@@ -41,7 +41,7 @@ const dataService = new DataService(config, async () => {
   const articleService = new ArticleService(dataService);
 
   app.get('/', (req: Request, res: Response) => {
-    res.send('Hello World');
+    res.send('Sideburn Whiskylaug API v1.0');
   });
 
   app.listen(port, () => {
