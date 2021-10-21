@@ -1,10 +1,7 @@
-import * as Nano from 'nano';
+import { BaseDocument } from "./BaseDocument";
 import { Role } from "./Role";
 
-export class User implements Nano.Document {
-    public _id!: string;
-    public _rev!: string;
-    public type: string;
+export class User extends BaseDocument {
     public username?: string;
     public firstName?: string;
     public lastName?: string;
@@ -14,6 +11,6 @@ export class User implements Nano.Document {
     public active?: Boolean;
     public roles?: Role[];
     constructor() {
-        this.type = 'user';
+        super('user');
     }
 }

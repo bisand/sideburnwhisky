@@ -7,15 +7,15 @@ import { ArticleService } from '../services/ArticleService';
 export class ArticleController {
   private _app: express.Application;
   private _articleService: ArticleService;
-  constructor(app: express.Application, userService: ArticleService) {
+  constructor(app: express.Application, articleService: ArticleService) {
     this._app = app;
-    this._articleService = userService;
+    this._articleService = articleService;
   }
 
   public start() {
     this._app.get('/articles', async (req: Request, res: Response) => {
-      // const users = await this._articleService.getUsers();
-      // res.send(users);
+      const articles = await this._articleService.getArticles();
+      res.send(articles);
     });
 
     this._app.get('/articles/active', async (req: Request, res: Response) => {

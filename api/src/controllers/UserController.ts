@@ -34,9 +34,5 @@ export class UserController {
         res.status(error.statusCode).send(error);
       }
     });
-
-    this._app.get('/:name', (req: Request, res: Response) => {
-      res.send(`Hello ${req.param('name', 'Mark')}`);
-    });
   }
 }

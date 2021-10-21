@@ -5,9 +5,7 @@ import { IDataService } from './IDataService';
 import { DocumentService } from './DocumentService';
 
 export class UserService extends DocumentService {
-    private _designName: string = 'sideburn-users';
-
-    async saveUser(user: User): Promise<string> {
+    public async saveUser(user: User): Promise<string> {
         try {
             const response = await this._dataService.db.insert(user);
             if (response.ok)
@@ -18,7 +16,7 @@ export class UserService extends DocumentService {
         return '';
     }
 
-    async getUsers(): Promise<User[]> {
+    public async getUsers(): Promise<User[]> {
         try {
             const response = await this._dataService.db.view(this._designName, "all", { include_docs: true });
             const result: User[] = [];
@@ -32,7 +30,7 @@ export class UserService extends DocumentService {
         return [];
     }
 
-    async getActiveUsers(): Promise<User[]> {
+    public async getActiveUsers(): Promise<User[]> {
         try {
             const response = await this._dataService.db.view(this._designName, "active", { include_docs: true });
             const result: User[] = [];
@@ -46,11 +44,14 @@ export class UserService extends DocumentService {
         return [];
     }
 
+    private _designName: string = 'sideburn-users';
+
     constructor(dataService: IDataService) {
         super(dataService);
         this.createViews();
     }
 
+    // Remember to change version number in the design document when changing views.
     private createViews() {
         const allUsers = `function (doc) {
             if (doc.type === "user") { 

@@ -1,8 +1,6 @@
-import * as Nano from 'nano';
+import { BaseDocument } from './BaseDocument';
 
-export class Article implements Nano.Document {
-    _id!: string;
-    _rev!: string;
+export class Article extends BaseDocument {
     public dateCreated: Date;
     public dateModified: Date;
     public datePublished?: Date;
@@ -15,6 +13,7 @@ export class Article implements Nano.Document {
     public image?: string;    
 
     constructor(author: string){
+        super('article');
         this.author = author
         this.dateCreated = new Date();
         this.dateModified = this.dateCreated;
