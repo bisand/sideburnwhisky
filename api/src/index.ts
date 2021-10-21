@@ -52,4 +52,3 @@ const dataService = new DataService(config, async () => {
     console.log(`Server listening at port: ${port}`);
   });
 });
-

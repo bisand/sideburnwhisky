@@ -5,25 +5,28 @@ import { IDataService } from "./IDataService";
 import { LoremIpsum } from "lorem-ipsum";
 
 export class ArticleService extends DocumentService {
-    private getLoremIpsum(){
+    private getLoremIpsum() {
         const lorem = new LoremIpsum({
             sentencesPerParagraph: {
-              max: 8,
-              min: 4
+                max: 8,
+                min: 4
             },
             wordsPerSentence: {
-              max: 16,
-              min: 4
+                max: 16,
+                min: 4
             }
-          });
-          return lorem;
+        });
+        return lorem;
     }
     public async addDemoArticles() {
         try {
             var data = new Article('andre@biseth.net');
-            data.title = this.getLoremIpsum().generateWords(4);
-            data.subject = this.getLoremIpsum().generateSentences(2);
+            data.title = this.getLoremIpsum().generateSentences(1);
+            data.subject = this.getLoremIpsum().generateSentences(4);
             data.body = this.getLoremIpsum().generateParagraphs(7);
+            let id = this.replaceSpecialChars(data.title).replace(/[^A-Z0-9]+/ig, "-").replace(/[^A-Z0-9]+/ig, "-").toLowerCase();
+            const date = new Date();
+            data._id = date.toISOString().slice(0, 10) + '-' + id;
             const response = await this._dataService.db.insert(data);
             if (response.ok)
                 return response.id;
@@ -49,7 +52,7 @@ export class ArticleService extends DocumentService {
 
     private _designName: string = 'sideburn-articles';
 
-    constructor(dataService: IDataService){
+    constructor(dataService: IDataService) {
         super(dataService);
         this.createViews();
     }

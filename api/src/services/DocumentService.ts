@@ -7,6 +7,20 @@ export abstract class DocumentService {
         this._dataService = dataService;
     }
 
+    protected replaceSpecialChars(s: string): string {
+        let translate_re = /[æøåéÆØÅÉ]/g;
+        let translate: object = {
+            "æ": "a", "ø": "o", "å": "a", "é": "e",
+            "Æ": "A", "Ø": "O", "Å": "A", "É": "E"
+        };
+        const result = s.replace(translate_re, function (match) {
+            let i: any = Object.keys(translate).findIndex((val) => {
+                return val === match;
+            });
+            return Object.values(translate)[i];;
+        });
+        return result;
+    }
     protected createDesignDocument(documentName: string, designDocument: any) {
         this._dataService.db.get(documentName, (err, design: any) => {
             if (err)
