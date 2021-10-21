@@ -13,9 +13,6 @@ export class UserController {
   }
 
   public start() {
-    this._app.get('/', (req: Request, res: Response) => {
-      res.send('Hello World');
-    });
 
     this._app.get('/users', async (req: Request, res: Response) => {
       const users = await this._userService.getUsers();

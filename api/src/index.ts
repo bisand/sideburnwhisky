@@ -41,7 +41,7 @@ const dataService = new DataService(config, async () => {
   const articleService = new ArticleService(dataService);
 
   app.get('/', (req: Request, res: Response) => {
-    res.send('Sideburn Whiskylaug API v1.0');
+    res.send({ application: 'Sideburn Whiskylaug API', version: '1.0' });
   });
 
   app.listen(port, () => {
