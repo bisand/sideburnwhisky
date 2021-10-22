@@ -30,7 +30,7 @@ export class DataService implements IDataService {
         this.init(databaseReadyCallback);
     }
 
-    public async init(databaseReadyCallback?: () => void) {
+    private async init(databaseReadyCallback?: () => void) {
         // const response: DatabaseAuthResponse = await this._nano.auth(this._config.user, this._config.password);
         // if (!response.ok) {
         //     throw new Error("An error occurred during database authentication.");
