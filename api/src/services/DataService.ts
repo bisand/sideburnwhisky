@@ -5,12 +5,9 @@ import { IDataService } from './IDataService';
 export class DataService implements IDataService {
     private _config: DatabaseConfig;
     private _nano: ServerScope;
-    private _db: any;
+    private _db!: DocumentScope<unknown>;
     public get db(): DocumentScope<unknown> {
         return this._db;
-    }
-    public set db(value: any) {
-        this._db = value;
     }
 
     constructor(config: DatabaseConfig, databaseReadyCallback?: () => void) {
@@ -27,17 +24,17 @@ export class DataService implements IDataService {
         this._config = config
 
         this._nano = Nano({
-            url: 'http://' + this._config.host + ':' + this._config.port,
+            url: 'http://' + this._config.user + ':' + this._config.password + '@' + this._config.host + ':' + this._config.port,
             requestDefaults: { jar: true }
         }) as ServerScope;
         this.init(databaseReadyCallback);
     }
 
     public async init(databaseReadyCallback?: () => void) {
-        const response: DatabaseAuthResponse = await this._nano.auth(this._config.user, this._config.password);
-        if (!response.ok) {
-            throw new Error("An error occurred during database authentication.");
-        }
+        // const response: DatabaseAuthResponse = await this._nano.auth(this._config.user, this._config.password);
+        // if (!response.ok) {
+        //     throw new Error("An error occurred during database authentication.");
+        // }
 
         const dblist = await this._nano.db.list();
         if (!dblist || dblist.indexOf(this._config.databaseName) === -1) {
