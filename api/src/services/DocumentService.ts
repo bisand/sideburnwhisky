@@ -7,6 +7,12 @@ export abstract class DocumentService {
         this._dataService = dataService;
     }
 
+    protected generateTextId(textInId: string): string {
+        let id = this.replaceSpecialChars(textInId).replace(/[^A-Z0-9]+/ig, "-").replace(/[^A-Z0-9]+/ig, "-").toLowerCase();
+        const date = new Date();
+        return date.toISOString().slice(0, 10) + '-' + id;
+    }
+
     protected replaceSpecialChars(s: string): string {
         let translate_re = /[æøåéÆØÅÉ]/g;
         let translate: object = {
@@ -21,6 +27,7 @@ export abstract class DocumentService {
         });
         return result;
     }
+
     protected createDesignDocument(documentName: string, designDocument: any) {
         this._dataService.db.get(documentName, (err, design: any) => {
             if (err)

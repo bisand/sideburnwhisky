@@ -20,3 +20,4 @@ export class Whisky extends BaseDocument {
         this.dateCreated = new Date();
         this.dateModified = this.dateCreated;
     }
+}
