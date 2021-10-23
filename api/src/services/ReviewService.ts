@@ -15,7 +15,11 @@ export class ReviewService extends DocumentService {
             if (response.ok)
                 return response.id;
         } catch (error: any) {
-            throw new HttpError(error.statusCode, error.message);
+            if (error?.statusCode === 401) {
+                await this._dataService.auth();
+                await this.addDemoReview();
+            } else
+                throw new HttpError(error.statusCode, error.message);
         }
         return '';
     }
@@ -28,8 +32,12 @@ export class ReviewService extends DocumentService {
                 result.push(Object.assign({} as Review, doc));
             });
             return result;
-        } catch (error) {
+        } catch (error: any) {
             console.error(error);
+            if (error?.statusCode === 401) {
+                await this._dataService.auth();
+                return await this.getReviews();
+            }
         }
         return [];
     }

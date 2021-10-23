@@ -16,7 +16,11 @@ export class ArticleService extends DocumentService {
             if (response.ok)
                 return response.id;
         } catch (error: any) {
-            throw new HttpError(error.statusCode, error.message);
+            if (error?.statusCode === 401) {
+                await this._dataService.auth();
+                await this.addDemoArticle();
+            } else
+                throw new HttpError(error.statusCode, error.message);
         }
         return '';
     }
@@ -29,8 +33,12 @@ export class ArticleService extends DocumentService {
                 result.push(Object.assign({} as Article, doc));
             });
             return result;
-        } catch (error) {
+        } catch (error: any) {
             console.error(error);
+            if (error?.statusCode === 401) {
+                await this._dataService.auth();
+                return await this.getArticles();
+            }
         }
         return [];
     }

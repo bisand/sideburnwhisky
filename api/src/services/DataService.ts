@@ -56,14 +56,22 @@ export class DataService implements IDataService {
 
     private async init(databaseReadyCallback?: () => void) {
 
-        await this.auth();
+        //await this.auth();
         this.startScheduler();
 
-        const dblist = await this._nano.db.list();
-        if (!dblist || dblist.indexOf(this._config.databaseName) === -1) {
-            const result: DatabaseCreateResponse = await this._nano.db.create(this._config.databaseName);
-            if (!result.ok) {
-                throw new Error("An error occurred while trying to create database.");
+        try {
+            const dblist = await this._nano.db.list();
+            if (!dblist || dblist.indexOf(this._config.databaseName) === -1) {
+                const result: DatabaseCreateResponse = await this._nano.db.create(this._config.databaseName);
+                if (!result.ok) {
+                    throw new Error("An error occurred while trying to create database.");
+                }
+            }
+        } catch (error: any) {
+            console.log(error);
+            if (error?.statusCode === 401) {
+                await this.auth();
+                await this.init(databaseReadyCallback)
             }
         }
 
