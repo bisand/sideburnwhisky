@@ -45,7 +45,7 @@ export class DataService implements IDataService {
     }
 
     private startScheduler() {
-        var minutes = 1, the_interval = minutes * 60 * 1000;
+        var minutes = 5, the_interval = minutes * 60 * 1000;
         var self = this;
         setInterval(async function () {
             console.log("Running scheduled tasks...");
