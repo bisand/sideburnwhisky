@@ -56,7 +56,7 @@ export class DataService implements IDataService {
 
     private async init(databaseReadyCallback?: () => void) {
 
-        //await this.auth();
+        await this.auth();
         this.startScheduler();
 
         try {
