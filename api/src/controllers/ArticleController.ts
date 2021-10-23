@@ -1,5 +1,4 @@
 import express, { Request, Response } from 'express';
-import { Article } from '../models/Article';
 import { jsonParser } from '../index';
 import { ArticleService } from '../services/ArticleService';
 

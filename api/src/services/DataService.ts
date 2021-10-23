@@ -1,4 +1,4 @@
-import Nano, { DatabaseAuthResponse, DatabaseCreateResponse, DocumentScope, ServerScope } from "nano";
+import Nano, { DatabaseAuthResponse, DatabaseSessionResponse, DatabaseCreateResponse, DocumentScope, ServerScope } from "nano";
 import { DatabaseConfig } from "./DatabaseConfig";
 import { IDataService } from './IDataService';
 
@@ -23,18 +23,41 @@ export class DataService implements IDataService {
             throw new Error('The required environment variable "COUCHDB_DATABASE" is missing.');
         this._config = config
 
+        const url = 'http://' + this._config.host + ':' + this._config.port;
         this._nano = Nano({
-            url: 'http://' + this._config.user + ':' + this._config.password + '@' + this._config.host + ':' + this._config.port,
+            url: url,
             requestDefaults: { jar: true }
         }) as ServerScope;
         this.init(databaseReadyCallback);
     }
 
+    public async auth() {
+        const response: DatabaseAuthResponse = await this._nano.auth(this._config.user, this._config.password);
+        if (!response.ok) {
+            throw new Error("An error occurred during database authentication.");
+        }
+    }
+
+    private async session() {
+        const res: DatabaseSessionResponse = await this._nano.session();
+        if (res.userCtx?.name !== 'admin')
+            await this.auth();
+    }
+
+    private startScheduler() {
+        var minutes = 1, the_interval = minutes * 60 * 1000;
+        var self = this;
+        setInterval(async function () {
+            console.log("Running scheduled tasks...");
+            await self.session();
+            console.log("Scheduled tasks done.");
+        }, the_interval);
+    }
+
     private async init(databaseReadyCallback?: () => void) {
-        // const response: DatabaseAuthResponse = await this._nano.auth(this._config.user, this._config.password);
-        // if (!response.ok) {
-        //     throw new Error("An error occurred during database authentication.");
-        // }
+
+        await this.auth();
+        this.startScheduler();
 
         const dblist = await this._nano.db.list();
         if (!dblist || dblist.indexOf(this._config.databaseName) === -1) {

@@ -7,6 +7,8 @@ import { UserService } from './services/UserService';
 import { UserController } from './controllers/UserController';
 import { ArticleService } from './services/ArticleService';
 import { ArticleController } from './controllers/ArticleController';
+import { ReviewService } from './services/ReviewService';
+import { ReviewController } from './controllers/ReviewController';
 
 dotenv.config();
 export var jsonParser = bodyParser.json()
@@ -42,7 +44,12 @@ const dataService = new DataService(config, async () => {
   const articleService = new ArticleService(dataService);
   const articleController = new ArticleController(app, articleService);
   articleController.start();
-  articleService.addDemoArticles();
+  articleService.addDemoArticle();
+
+  const reviewService = new ReviewService(dataService);
+  const reviewController = new ReviewController(app, reviewService);
+  reviewController.start();
+  reviewService.addDemoReview();
 
   app.get('/', (req: Request, res: Response) => {
     res.send({ application: 'Sideburn Whiskylaug API', version: '1.0' });

@@ -1,5 +1,5 @@
+import { LoremIpsum } from "lorem-ipsum";
 import { IDataService } from './IDataService';
-
 
 export abstract class DocumentService {
     protected _dataService: IDataService;
@@ -16,8 +16,8 @@ export abstract class DocumentService {
     protected replaceSpecialChars(s: string): string {
         let translate_re = /[æøåéÆØÅÉ]/g;
         let translate: object = {
-            "æ": "a", "ø": "o", "å": "a", "é": "e",
-            "Æ": "A", "Ø": "O", "Å": "A", "É": "E"
+            "æ": "e", "ø": "o", "å": "a", "é": "e",
+            "Æ": "E", "Ø": "O", "Å": "A", "É": "E"
         };
         const result = s.replace(translate_re, function (match) {
             let i: any = Object.keys(translate).findIndex((val) => {
@@ -43,5 +43,19 @@ export abstract class DocumentService {
                 });
             }
         });
+    }
+
+    protected getLoremIpsum() {
+        const lorem = new LoremIpsum({
+            sentencesPerParagraph: {
+                max: 8,
+                min: 4
+            },
+            wordsPerSentence: {
+                max: 16,
+                min: 4
+            }
+        });
+        return lorem;
     }
 }

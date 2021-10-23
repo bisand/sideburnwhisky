@@ -1,13 +1,12 @@
-import { Article } from "../models/Article";
 import { HttpError } from "../models/HttpError";
+import { Review } from '../models/Review';
 import { DocumentService } from "./DocumentService";
 import { IDataService } from "./IDataService";
 
-export class ArticleService extends DocumentService {
-
-    public async addDemoArticle() {
+export class ReviewService extends DocumentService {
+    public async addDemoReview() {
         try {
-            var data = new Article('andre@biseth.net');
+            var data = new Review('andre@biseth.net');
             data.title = this.getLoremIpsum().generateSentences(1);
             data.subject = this.getLoremIpsum().generateSentences(4);
             data.body = this.getLoremIpsum().generateParagraphs(7);
@@ -21,12 +20,12 @@ export class ArticleService extends DocumentService {
         return '';
     }
 
-    public async getArticles(): Promise<Article[]> {
+    public async getReviews(): Promise<Review[]> {
         try {
             const response = await this._dataService.db.view(this._designName, "all", { include_docs: true });
-            const result: Article[] = [];
+            const result: Review[] = [];
             response.rows.forEach(doc => {
-                result.push(Object.assign({} as Article, doc));
+                result.push(Object.assign({} as Review, doc));
             });
             return result;
         } catch (error) {
@@ -35,7 +34,7 @@ export class ArticleService extends DocumentService {
         return [];
     }
 
-    private _designName: string = 'sideburn-articles';
+    private _designName: string = 'sideburn-reviews';
 
     constructor(dataService: IDataService) {
         super(dataService);
@@ -44,13 +43,13 @@ export class ArticleService extends DocumentService {
 
     // Remember to change version number in the design document when changing views.
     private createViews() {
-        const allUsers = `function (doc) {
-            if (doc.type === "article") { 
+        const allReviews = `function (doc) {
+            if (doc.type === "review") { 
                 emit(doc.title, doc.datePublished)
             }
         }`;
-        const activeUsers = `function (doc) {
-            if (doc.type === "article" && doc.active) { 
+        const activeReviews = `function (doc) {
+            if (doc.type === "review" && doc.active) { 
                 emit(doc.title, doc.datePublished)
             }
         }`;
@@ -62,10 +61,10 @@ export class ArticleService extends DocumentService {
             version: '2',
             views: {
                 'active': {
-                    map: activeUsers
+                    map: activeReviews
                 },
                 'all': {
-                    map: allUsers
+                    map: allReviews
                 },
             },
             options: {
