@@ -15,7 +15,7 @@ export class Whisky extends BaseDocument {
     public destilled?: Date;
     public tapped?: Date;
 
-    constructor(author: string) {
+    constructor() {
         super('whisky');
         this.dateCreated = new Date();
         this.dateModified = this.dateCreated;

@@ -9,6 +9,15 @@
 			"problemMatcher": [],
 			"label": "npm: build - api",
 			"detail": "tsc --build"
+		},
+		{
+			"type": "npm",
+			"script": "build",
+			"path": "web/",
+			"group": "build",
+			"problemMatcher": [],
+			"label": "npm: build - web",
+			"detail": "tsc --build"
 		}
 	]
 }
