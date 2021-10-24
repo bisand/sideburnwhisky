@@ -1,6 +1,6 @@
 import { DocumentScope } from "nano";
 
 export interface IDataService {
-    auth(): void;
+    auth(): Promise<Boolean>;
     get db(): DocumentScope<unknown>
 }

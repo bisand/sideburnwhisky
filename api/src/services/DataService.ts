@@ -31,27 +31,44 @@ export class DataService implements IDataService {
         this.init(databaseReadyCallback);
     }
 
-    public async auth() {
-        const response: DatabaseAuthResponse = await this._nano.auth(this._config.user, this._config.password);
-        if (!response.ok) {
-            throw new Error("An error occurred during database authentication.");
+    public async auth(): Promise<Boolean> {
+        try {
+            const response: DatabaseAuthResponse = await this._nano.auth(this._config.user, this._config.password);
+            if (response.ok) {
+                return true;
+            }
+        } catch (error: any) {
+            console.error(error);
+        }
+        return false;
+    }
+
+    private async session(): Promise<void> {
+        try {
+            const res: DatabaseSessionResponse = await this._nano.session();
+            if (res.userCtx?.name !== 'admin')
+                await this.auth();
+        } catch (error: any) {
+            console.error(error);
         }
     }
 
-    private async session() {
-        const res: DatabaseSessionResponse = await this._nano.session();
-        if (res.userCtx?.name !== 'admin')
-            await this.auth();
-    }
-
     private startScheduler() {
-        var minutes = 5, the_interval = minutes * 60 * 1000;
-        var self = this;
-        setInterval(async function () {
-            console.log("Running scheduled tasks...");
-            await self.session();
-            console.log("Scheduled tasks done.");
-        }, the_interval);
+        try {
+            var minutes = 5, the_interval = minutes * 60 * 1000;
+            var self = this;
+            setInterval(async function () {
+                try {
+                    console.log("Running scheduled tasks...");
+                    await self.auth();
+                    console.log("Scheduled tasks done.");
+                } catch (error) {
+                    console.error(`An error ocurred while running scheduled tasks: ${error}`);
+                }
+            }, the_interval);
+        } catch (error: any) {
+            console.error(error)
+        }
     }
 
     private async init(databaseReadyCallback?: () => void) {
