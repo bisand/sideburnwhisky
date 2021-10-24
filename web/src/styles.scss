@@ -64,6 +64,13 @@ body {
   color: $default-foreground;
 }
 
+input {
+  background-color: $nav-background;
+  border-style: solid;
+  border-color: $card-border-color;
+  color: $default-foreground;
+}
+
 .nav {
   background: $nav-background;
 }
@@ -164,15 +171,16 @@ a:visited {
   padding: 20px;
   margin-top: 20px;
 }
-.card .header {
+
+.card-header {
   background-color: $card-border-color;
   border-color: $card-border-color;
   padding: 5px 20px 5px 20px;
   margin: -20px -20px 20px -20px;
-  font-size: larger;
+  font-size: large;
   font-weight: bold;
 }
-.card .content {
+.card-content {
   margin-top: 20px;
 }
 
