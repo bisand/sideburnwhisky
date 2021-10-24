@@ -12,6 +12,7 @@ const routes: Routes = [
   { path: 'om-oss', component: AboutComponent },
   { path: 'tester', component: ReviewsComponent },
   { path: 'arrangementer', component: EventsComponent },
+  { path: '**', redirectTo: '/' }
 ];
 
 @NgModule({

@@ -53,8 +53,9 @@ $nav-link-color: #cdd9e5;
 $nav-link-hover-color: #8e98a1;
 $nav-link-visited-color: $nav-link-color;
 $card-background: #22272e;
+$card-border-color: #2d353f;
 $default-foreground: #adbac7;
-$max-width: 1200px;
+$max-width: 1600px;
 
 body {
   font-family: Arial;
@@ -159,9 +160,17 @@ a:visited {
 /* Add a card effect for articles */
 .card {
   background-color: $card-background;
-  border-color: #444c56;
+  border-color: $card-border-color;
   padding: 20px;
   margin-top: 20px;
+}
+.card .header {
+  background-color: $card-border-color;
+  border-color: $card-border-color;
+  padding: 5px 20px 5px 20px;
+  margin: -20px -20px 20px -20px;
+  font-size: larger;
+  font-weight: bold;
 }
 
 /* Clear floats after the columns */
