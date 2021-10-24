@@ -9,46 +9,19 @@
     <div [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse" id="navbarNavDropdown">
       <ul ngbNav #nav="ngbNav" class="navbar nav w-100">
         <li ngbNavItem>
-          <a ngbNavLink>Hjem</a>
-          <ng-template ngbNavContent>
-            <div class="card">
-              <h2>Kommer snart</h2>
-              <h6>Vi jobber på "spreng" med å ferdigstille sidene.</h6>
-              <div class="meta">
-                <time class="date dt-published" datetime="2021-10-14T05:15:00+00:00" itemprop="datePublished">
-                  <mat-icon aria-hidden="false" aria-label="Publisert">edit_calendar</mat-icon> 14 oktober 2021
-                </time>
-                <span class="tags">
-                  <mat-icon aria-hidden="false" aria-label="Kategorier">sell</mat-icon>
-                  <a href="/tags/#web">web</a>
-                </span>
-              </div>
-              <p><img src="../assets/images/work-in-progress.jpg" class="article-image">
-                Vi er snart klare med litt mer innhold. Denne siden er tilgjengelig for å gi medlemmene en liten
-                smakebit på
-                hvordan det vil se ut. Vi tar gjerne imot tilbakemeldinger og endringsforlag.</p>
-            </div>
-          </ng-template>
+          <a ngbNavLink routerLink=".">Hjem</a>
         </li>
         <li ngbNavItem>
-          <a ngbNavLink>Vedtekter</a>
-          <ng-template ngbNavContent>
-            <div class="card">
-              <h2>Vedtekter - Sideburn Whiskylaug</h2>
-              <h6>Oppdatert, 13 Oktober 2021</h6>
-              <p>Under utarbeidelse..</p>
-            </div>
-          </ng-template>
+          <a ngbNavLink routerLink="/tester/">Tester</a>
         </li>
         <li ngbNavItem>
-          <a ngbNavLink>Om oss</a>
-          <ng-template ngbNavContent>
-          </ng-template>
+          <a ngbNavLink routerLink="/arrangementer/">Arrangementer</a>
         </li>
         <li ngbNavItem>
-          <a ngbNavLink>Arrangementer</a>
-          <ng-template ngbNavContent>
-          </ng-template>
+          <a ngbNavLink routerLink="/vedtekter/">Vedtekter</a>
+        </li>
+        <li ngbNavItem>
+          <a ngbNavLink routerLink="/om-oss/">Om oss</a>
         </li>
         <li [ngbNavItem]="3" *ngIf="(auth.isAuthenticated$ | async) == false" class="ml-auto">
           <a ngbNavLink href="#" (click)="loginWithRedirect()"><span class="glyphicon glyphicon-log-in"></span>
@@ -81,30 +54,11 @@
       </ul>
     </div>
   </nav>
-
 </div>
 <div class="content">
-  <div class="row">
-    <div class="leftcolumn">
-      <div [ngbNavOutlet]="nav"></div>
-    </div>
-    <div class="rightcolumn">
-      <div class="card">
-        <h2>Søk</h2>
-        <input type="text" />
-      </div>
-      <div class="card">
-        <h3>Populære nyheter</h3>
-        <p>...</p>
-      </div>
-      <div class="card">
-        <h3>Følg oss</h3>
-        <p>...</p>
-      </div>
-    </div>
-  </div>
+  <router-outlet></router-outlet>
+</div>
 
-  <div class="footer">
-    <h2>Footer</h2>
-  </div>
+<div class="footer">
+  <h2>Footer</h2>
 </div>

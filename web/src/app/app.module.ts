@@ -10,11 +10,23 @@ import { AuthButtonComponentComponent } from './auth-button-component/auth-butto
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { MatIconModule } from '@angular/material/icon';
+import { HomeComponent } from './home/home.component';
+import { AboutComponent } from './about/about.component';
+import { StatuteComponent } from './statute/statute.component';
+import { ReviewsComponent } from './reviews/reviews.component';
+import { WhiskeyComponent } from './whiskey/whiskey.component';
+import { EventsComponent } from './events/events.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    AuthButtonComponentComponent
+    AuthButtonComponentComponent,
+    HomeComponent,
+    AboutComponent,
+    StatuteComponent,
+    ReviewsComponent,
+    WhiskeyComponent,
+    EventsComponent
   ],
   imports: [
     BrowserModule,
