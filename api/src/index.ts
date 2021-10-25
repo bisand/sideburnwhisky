@@ -1,4 +1,5 @@
 import express, { Request, Response } from 'express';
+import helmet from "helmet";
 import bodyParser from 'body-parser'
 import dotenv from 'dotenv';
 import { DataService } from './services/DataService';
@@ -35,6 +36,7 @@ const config: DatabaseConfig = {
 const dataService = new DataService(config, async () => {
 
   const app: express.Application = express();
+  app.use(helmet());
   const port: number = 8080;
 
   const userService = new UserService(dataService);
