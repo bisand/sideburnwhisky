@@ -1,9 +1,13 @@
 version: "3.9"
+
 services:
   web:
     restart: always
     container_name: web
     build: ./web/
+    # volumes:
+    #   - web_data:/usr/share/nginx/html:ro
+    #   - nginx_config:/etc/nginx:ro
     ports:
       - "8585:80"
   db:
@@ -31,3 +35,13 @@ services:
       - 'COUCHDB_DATABASE=${COUCHDB_DATABASE}'
     ports:
       - "8686:8080"
+
+# volumes:
+#   nginx_config:
+#   web_data:
+    # driver: local
+    # driver_opts:
+    #   type: 'none'
+    #   o: 'bind'
+    #   device: './.volumes/web/html'
+

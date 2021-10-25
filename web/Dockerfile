@@ -7,6 +7,7 @@ COPY . /app
 RUN npm run build --prod
 
 FROM nginx:alpine
+COPY ./nginx.conf /etc/nginx/nginx.conf
+COPY ./nginx_default.conf /etc/nginx/conf.d/default.conf
 COPY --from=build-step /app/dist/sideburn-web /usr/share/nginx/html
-# COPY . /usr/share/nginx/html
 EXPOSE 8585:80
