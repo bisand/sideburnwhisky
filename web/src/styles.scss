@@ -62,6 +62,7 @@ body {
   padding: 20px 20px 20px 20px;
   background: $background;
   color: $default-foreground;
+  overflow-y: scroll; /* Show vertical scrollbar */
 }
 
 input {
