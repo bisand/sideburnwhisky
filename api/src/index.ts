@@ -40,31 +40,56 @@ var checkJwt = auth({
   issuer: 'https://bisand.auth0.com/',
 });
 
+// Prepare database connection.
 const dataService = new DataService(config, async () => {
 
   const app: express.Application = express();
-  app.use(helmet());
   const port: number = 8080;
 
+  app.use(helmet());
+
+  // Handle users
   const userService = new UserService(dataService);
   const userController = new UserController(app, checkJwt, userService);
   userController.start();
 
+  // Handle articles
   const articleService = new ArticleService(dataService);
   const articleController = new ArticleController(app, articleService);
   articleController.start();
   articleService.addDemoArticle();
 
+  // Handle reviews
   const reviewService = new ReviewService(dataService);
   const reviewController = new ReviewController(app, reviewService);
   reviewController.start();
   reviewService.addDemoReview();
 
+  // Root path
   app.get('/', (req: Request, res: Response) => {
     res.send({ application: 'Sideburn Whiskylaug API', version: '1.0' });
+  });
+
+  // Handle 404 not found
+  app.use((req: any, res: any, next: any) => {
+    res.status(404).json({ "status": 404, "message": `Unable to find ${req.path}` });
+    console.warn(`Unable to find path ${req.url}`);
+  });
+
+  // Handle unhandled errors
+  app.use(function (err: any, req: any, res: any, next: any) {
+    if (err.status === 401) {
+      res.status(401);
+      res.json({ "status": err.status, "message": err.message });
+    } else {
+      res.status(err.status);
+      res.json({ "status": err.status, "message": err.message });
+    }
+    console.error(err.stack);
   });
 
   app.listen(port, () => {
     console.log(`Server listening at port: ${port}`);
   });
+
 });
