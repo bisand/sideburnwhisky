@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '@auth0/auth0-angular';
+import { LocalAuthService } from '../local-auth.service';
+import { User } from '@auth0/auth0-spa-js';
 
 @Component({
   selector: 'app-nav-bar',
@@ -9,8 +10,15 @@ import { AuthService } from '@auth0/auth0-angular';
 export class NavBarComponent implements OnInit {
 
   public isMenuCollapsed = true;
+  public get isAuthenticated(): Boolean{
+    return this.auth.isAuthenticated;
+  }
+  public get profile(): User | null | undefined{
+    return this.auth.profile;
+  }
 
-  constructor(public auth: AuthService) { }
+
+  constructor(public auth: LocalAuthService) { }
 
   ngOnInit(): void {
   }

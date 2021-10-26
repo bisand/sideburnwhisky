@@ -17,6 +17,8 @@ import { ReviewsComponent } from './reviews/reviews.component';
 import { WhiskeyComponent } from './whiskey/whiskey.component';
 import { EventsComponent } from './events/events.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
+import { ArticleToolBoxComponent } from './article-tool-box/article-tool-box.component';
+import { ArticleEditorComponent } from './article-editor/article-editor.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,9 @@ import { NavBarComponent } from './nav-bar/nav-bar.component';
     ReviewsComponent,
     WhiskeyComponent,
     EventsComponent,
-    NavBarComponent
+    NavBarComponent,
+    ArticleToolBoxComponent,
+    ArticleEditorComponent
   ],
   imports: [
     BrowserModule,
