@@ -10,6 +10,7 @@ import { ArticleService } from './services/ArticleService';
 import { ArticleController } from './controllers/ArticleController';
 import { ReviewService } from './services/ReviewService';
 import { ReviewController } from './controllers/ReviewController';
+import { auth, requiredScopes } from 'express-oauth2-jwt-bearer';
 
 dotenv.config();
 export var jsonParser = bodyParser.json()
@@ -33,6 +34,12 @@ const config: DatabaseConfig = {
   databaseName: process.env.COUCHDB_DATABASE as string
 }
 
+var checkJwt = auth({
+  jwksUri: 'https://bisand.auth0.com/.well-known/jwks.json',
+  audience: 'https://api.sideburnwhisky.no/',
+  issuer: 'https://bisand.auth0.com/',
+});
+
 const dataService = new DataService(config, async () => {
 
   const app: express.Application = express();
@@ -40,7 +47,7 @@ const dataService = new DataService(config, async () => {
   const port: number = 8080;
 
   const userService = new UserService(dataService);
-  const userController = new UserController(app, userService);
+  const userController = new UserController(app, checkJwt, userService);
   userController.start();
 
   const articleService = new ArticleService(dataService);

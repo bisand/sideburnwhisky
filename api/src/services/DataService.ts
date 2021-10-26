@@ -73,19 +73,23 @@ export class DataService implements IDataService {
 
     private async init(databaseReadyCallback?: () => void) {
 
+        console.log('Starting database init...')
         await this.auth();
         this.startScheduler();
 
         try {
             const dblist = await this._nano.db.list();
             if (!dblist || dblist.indexOf(this._config.databaseName) === -1) {
+                console.log(`Database "${this._config.databaseName}" does not exists. Creating...`)
                 const result: DatabaseCreateResponse = await this._nano.db.create(this._config.databaseName);
                 if (!result.ok) {
                     throw new Error("An error occurred while trying to create database.");
                 }
+            } else {
+                console.log(`Database "${this._config.databaseName}" allready exists.`)
             }
         } catch (error: any) {
-            console.log(error);
+            console.error(error);
             if (error?.statusCode === 401) {
                 await this.auth();
                 await this.init(databaseReadyCallback)
@@ -95,5 +99,6 @@ export class DataService implements IDataService {
         this._db = this._nano.db.use(this._config.databaseName);
         if (databaseReadyCallback)
             databaseReadyCallback();
+        console.log('Database init complete.');
     }
 }
