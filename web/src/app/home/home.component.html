@@ -19,6 +19,27 @@
                     hvordan det vil se ut. Vi tar gjerne imot tilbakemeldinger og endringsforlag.</p>
             </div>
         </div>
+        <div style="padding: 13px;">
+            <div *ngFor="let article of articles" style="margin-top:11px;">
+                <h2>Kommer snart</h2>
+                <h6>Vi jobber på "spreng" med å ferdigstille sidene.</h6>
+                <div class="meta">
+                    <time class="date dt-published" datetime="2021-10-14T05:15:00+00:00" itemprop="datePublished">
+                        <mat-icon aria-hidden="false" aria-label="Publisert">edit_calendar</mat-icon> 14 oktober 2021
+                    </time>
+                    <span class="tags">
+                        <mat-icon aria-hidden="false" aria-label="Kategorier">sell</mat-icon>
+                        <a href="/tags/#web">web</a>
+                    </span>
+                </div>
+                <div class="card-content">
+                    <img src="../assets/images/work-in-progress.jpg" class="article-image" />
+                    <p>Vi er snart klare med litt mer innhold. Denne siden er tilgjengelig for å gi medlemmene en liten
+                        smakebit på
+                        hvordan det vil se ut. Vi tar gjerne imot tilbakemeldinger og endringsforlag.</p>
+                </div>
+                </div>
+        </div>
     </div>
     <div class="rightcolumn">
         <app-article-tool-box></app-article-tool-box>

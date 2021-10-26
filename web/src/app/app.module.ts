@@ -8,8 +8,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthModule } from '@auth0/auth0-angular';
 import { AuthButtonComponentComponent } from './auth-button-component/auth-button-component.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
 import { MatIconModule } from '@angular/material/icon';
+import { HttpClientModule } from '@angular/common/http';
+
 import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
 import { StatuteComponent } from './statute/statute.component';
@@ -37,6 +38,7 @@ import { ArticleEditorComponent } from './article-editor/article-editor.componen
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
     BrowserAnimationsModule,
     AuthModule.forRoot({
       domain: 'bisand.auth0.com',
