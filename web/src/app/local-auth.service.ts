@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
-import { LogoutOptions, User } from '@auth0/auth0-spa-js';
+import { IdToken, LogoutOptions, User } from '@auth0/auth0-spa-js';
 import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LocalAuthService {
+  accessToken?: string;
+  claims: IdToken | undefined | null;
   logout(options?: LogoutOptions) {
     this.authService.logout(options);
   }
@@ -26,9 +28,13 @@ export class LocalAuthService {
     this.authService.user$.subscribe(user => {
       this.profile = user;
     });
-    // this.authService.idTokenClaims$.subscribe((claims) => console.log(claims));
-    // this.authService.getAccessTokenSilently({}).subscribe(token => {
-    //   console.log(token);
-    // });
+    this.authService.idTokenClaims$.subscribe((claims) => {
+      this.claims = claims;
+      console.log(claims);
+    });
+    this.authService.getAccessTokenSilently({}).subscribe(token => {
+      this.accessToken = token;
+      console.log(token);
+    });
   }
 }
