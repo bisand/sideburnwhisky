@@ -12,7 +12,7 @@ import { ArticleService } from './services/ArticleService';
 import { ArticleController } from './controllers/ArticleController';
 import { ReviewService } from './services/ReviewService';
 import { ReviewController } from './controllers/ReviewController';
-import { auth, requiredScopes } from 'express-oauth2-jwt-bearer';
+import { auth } from 'express-oauth2-jwt-bearer';
 
 dotenv.config();
 export var jsonParser = bodyParser.json()

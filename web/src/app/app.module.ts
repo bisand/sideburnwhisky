@@ -20,6 +20,7 @@ import { EventsComponent } from './events/events.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { ArticleToolBoxComponent } from './article-tool-box/article-tool-box.component';
 import { ArticleEditorComponent } from './article-editor/article-editor.component';
+import { MdEditorComponent } from './md-editor/md-editor.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { ArticleEditorComponent } from './article-editor/article-editor.componen
     EventsComponent,
     NavBarComponent,
     ArticleToolBoxComponent,
-    ArticleEditorComponent
+    ArticleEditorComponent,
+    MdEditorComponent
   ],
   imports: [
     BrowserModule,

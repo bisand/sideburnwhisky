@@ -20,7 +20,7 @@ export class LocalAuthService {
 
   constructor(private authService: AuthService) {
     this.authService.error$.subscribe(error => {
-      console.error(error);
+      // console.error(error);
     });
     this.authService.isAuthenticated$.subscribe(isAuthenticated => {
       this.isAuthenticated = isAuthenticated;
