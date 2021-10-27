@@ -1,9 +1,36 @@
 <div class="row">
     <div class="leftcolumn">
         <div class="card">
-            <app-md-editor [compiled]="compiledMarkdown" [placeHolder]="startingValue"
-                (valueChanged)="onValueChanged($event)">
-            </app-md-editor>
+            <ul ngbNav #nav="ngbNav" class="nav-tabs">
+                <li ngbNavItem>
+                    <a ngbNavLink>Redigering</a>
+                    <ng-template ngbNavContent>
+                        <textarea [placeholder]="startingValue"
+                            (keyup)="onValueChange($event)">{{articleBody}}</textarea>
+                    </ng-template>
+                </li>
+                <li ngbNavItem>
+                    <a ngbNavLink>Forhåndsvisning</a>
+                    <ng-template ngbNavContent>
+                        <h2>{{articleTitle}}</h2>
+                        <h6>{{articleSubject}}</h6>
+                        <div class="meta">
+                            <time class="date dt-published" datetime="2021-10-14T05:15:00+00:00" itemprop="datePublished">
+                                <mat-icon aria-hidden="false" aria-label="Publisert">edit_calendar</mat-icon> 14 oktober 2021
+                            </time>
+                            <span class="tags">
+                                <mat-icon aria-hidden="false" aria-label="Kategorier">sell</mat-icon>
+                                <a href="/tags/#web">web</a>
+                            </span>
+                        </div>
+                        <div class="card-content">
+                            <img src="../assets/images/work-in-progress.jpg" class="article-image" />
+                            <div [innerHtml]="compiledMarkdown"></div>
+                        </div>
+                    </ng-template>
+                </li>
+            </ul>
+            <div [ngbNavOutlet]="nav"></div>
         </div>
     </div>
     <div class="rightcolumn">

@@ -6,7 +6,6 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AuthModule } from '@auth0/auth0-angular';
-import { AuthButtonComponentComponent } from './auth-button-component/auth-button-component.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatIconModule } from '@angular/material/icon';
 import { HttpClientModule } from '@angular/common/http';
@@ -20,12 +19,10 @@ import { EventsComponent } from './events/events.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { ArticleToolBoxComponent } from './article-tool-box/article-tool-box.component';
 import { ArticleEditorComponent } from './article-editor/article-editor.component';
-import { MdEditorComponent } from './md-editor/md-editor.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    AuthButtonComponentComponent,
     HomeComponent,
     AboutComponent,
     StatuteComponent,
@@ -35,7 +32,6 @@ import { MdEditorComponent } from './md-editor/md-editor.component';
     NavBarComponent,
     ArticleToolBoxComponent,
     ArticleEditorComponent,
-    MdEditorComponent
   ],
   imports: [
     BrowserModule,

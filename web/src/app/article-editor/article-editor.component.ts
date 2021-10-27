@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import * as marked from 'marked';
 
 @Component({
@@ -8,19 +8,28 @@ import * as marked from 'marked';
 })
 export class ArticleEditorComponent implements OnInit {
 
+  articleTitle?: string;
+  articleSubject?: string;
+  articleBody?: string;
   compiledMarkdown?: string;
   startingValue = '';
 
   constructor() { }
 
-  ngOnInit(): void {
-    this.startingValue = this.getPlaceHolder();
+  onValueChange(e: any) {
+    this.articleBody = e.target.value;
 
-    this.compiledMarkdown = this.compileMarkdown(this.startingValue);
+    if (!this.articleBody) {
+      // reset to initial state
+      this.compiledMarkdown = this.compileMarkdown(this.startingValue);
+    } else {
+      this.compiledMarkdown = this.compileMarkdown(this.articleBody);
+    }
   }
 
-  onValueChanged(value: string) {
-    this.compiledMarkdown = this.compileMarkdown(value);
+  ngOnInit(): void {
+    this.startingValue = this.getPlaceHolder();
+    this.compiledMarkdown = this.compileMarkdown(this.startingValue);
   }
 
   private compileMarkdown(value: string): string {
