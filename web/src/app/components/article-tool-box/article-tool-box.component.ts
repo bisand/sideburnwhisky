@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '@auth0/auth0-spa-js';
 import { Observable } from 'rxjs';
-import { LocalAuthService } from '../local-auth.service';
+import { LocalAuthService } from '../../services/local-auth.service';
 
 @Component({
   selector: 'app-article-tool-box',

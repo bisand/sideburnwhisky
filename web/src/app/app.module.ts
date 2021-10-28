@@ -13,15 +13,15 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
-import { HomeComponent } from './home/home.component';
-import { AboutComponent } from './about/about.component';
-import { StatuteComponent } from './statute/statute.component';
-import { ReviewsComponent } from './reviews/reviews.component';
-import { WhiskeyComponent } from './whiskey/whiskey.component';
-import { EventsComponent } from './events/events.component';
-import { NavBarComponent } from './nav-bar/nav-bar.component';
-import { ArticleToolBoxComponent } from './article-tool-box/article-tool-box.component';
-import { ArticleEditorComponent } from './article-editor/article-editor.component';
+import { HomeComponent } from './components/home/home.component';
+import { AboutComponent } from './components/about/about.component';
+import { StatuteComponent } from './components/statute/statute.component';
+import { ReviewsComponent } from './components/reviews/reviews.component';
+import { WhiskeyComponent } from './components/whiskey/whiskey.component';
+import { EventsComponent } from './components/events/events.component';
+import { NavBarComponent } from './components/nav-bar/nav-bar.component';
+import { ArticleToolBoxComponent } from './components/article-tool-box/article-tool-box.component';
+import { ArticleEditorComponent } from './components/article-editor/article-editor.component';
 
 @NgModule({
   declarations: [

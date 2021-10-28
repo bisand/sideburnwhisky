@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { LocalAuthService } from '../local-auth.service';
+import { LocalAuthService } from '../../services/local-auth.service';
 import { User } from '@auth0/auth0-spa-js';
 
 @Component({

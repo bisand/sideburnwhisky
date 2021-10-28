@@ -256,19 +256,30 @@ html,
 body {
   height: 100%;
 }
+
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
 input[type="text"] {
   box-sizing: border-box;
   width: 100%;
   padding: 0.5rem;
 }
-.text-editor {
+
+.text-editor-body {
   box-sizing: border-box;
   width: 100%;
   padding: 0.5rem;
   background-color: $input-background;
   height: 500px !important;
+}
+
+.text-editor-ingress {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0.5rem;
+  background-color: $input-background;
+  height: 140px !important;
 }

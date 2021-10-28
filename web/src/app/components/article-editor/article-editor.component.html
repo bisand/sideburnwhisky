@@ -11,8 +11,17 @@
                                     <label for="articleTitle">Tittel: </label>
                                     <input id="articleTitle" type="text" formControlName="articleTitle">
                                     <label for="articleSubject">Ingress: </label>
-                                    <input id="articleSubject" type="text" formControlName="articleSubject">
-
+                                    <!-- <input id="articleSubject" type="text" formControlName="articleSubject"> -->
+                                    <textarea id="articleSubject" class="text-editor-ingress" formControlName="articleBody"></textarea>
+                                </div>
+                                <div class="rightcolumn" style="text-align: center; display: block;">
+                                    <img [src]="imageUrl" class="article-image-small" />
+                                    <label class="btn btn-default p-0" style="width: 100%;">
+                                        <input id="imageUploader" type="file" accept="image/*" (change)="selectFiles($event)" style="width: 100%;" />
+                                    </label>
+                                    <button class="btn btn-success btn-sm" [disabled]="!selectedFiles" (click)="uploadFiles()" style="width: 100%;">
+                                        Upload
+                                    </button>
                                     <div *ngFor="let progressInfo of progressInfos" class="mb-2">
                                         <span>{{ progressInfo.fileName }}</span>
                                         <div class="progress">
@@ -23,19 +32,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="rightcolumn" style="text-align: center; display: block;">
-                                    <img [src]="imageUrl" class="article-image-small" />
-                                    <label class="btn btn-default p-0" style="width: 100%;">
-                                        <input id="imageUploader" type="file" accept="image/*" (change)="selectFiles($event)" style="width: 100%;" />
-                                    </label>
-                                    <button class="btn btn-success btn-sm" [disabled]="!selectedFiles" (click)="uploadFiles()" style="width: 100%;">
-                                        Upload
-                                    </button>
-                                </div>
                             </div>
                             <label for="articleBody">Tittel: </label>
-                            <textarea id="articleBody" [placeholder]="startingValue" class="text-editor" formControlName="articleBody"></textarea>
-                            <!-- (keyup)="onValueChange($event)"{{articleBody}} -->
+                            <textarea id="articleBody" [placeholder]="startingValue" class="text-editor-body" formControlName="articleBody"></textarea>
                         </form>
                     </ng-template>
                 </li>

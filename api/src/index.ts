@@ -68,7 +68,7 @@ const dataService = new DataService(config, async () => {
 
   // Handle articles
   const articleService = new ArticleService(dataService);
-  const articleController = new ArticleController(app, articleService);
+  const articleController = new ArticleController(app, checkJwt, articleService);
   articleController.start();
   articleService.addDemoArticle();
 
