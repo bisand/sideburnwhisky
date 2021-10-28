@@ -142,6 +142,12 @@ a:visited {
   margin-bottom: 20px;
 }
 
+.article-image-small {
+  float: left;
+  width: 200px;
+  margin: 20px;
+}
+
 .meta .date,
 .meta .tags,
 .meta .comments,
@@ -216,4 +222,14 @@ body {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+input[type="text"] {
+  box-sizing: border-box;
+  width: 100%;
+  padding: .5rem;
+}
+textarea {
+  box-sizing: border-box;
+  width: 100%;
+  padding: .5rem;
 }

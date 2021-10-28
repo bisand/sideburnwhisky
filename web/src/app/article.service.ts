@@ -16,7 +16,7 @@ export class ArticleService {
     return this.httpClient.get(environment.apiUrl + '/articles/');
   }
 
-  uploadImage(file: File): Observable<any> {
+  public uploadImage(file: File): Observable<any> {
 
     // Create form data
     const formData = new FormData();

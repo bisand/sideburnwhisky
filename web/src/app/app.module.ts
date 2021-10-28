@@ -4,6 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { AuthModule } from '@auth0/auth0-angular';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -38,6 +39,7 @@ import { ArticleEditorComponent } from './article-editor/article-editor.componen
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    ReactiveFormsModule,
     AuthModule.forRoot({
       domain: 'bisand.auth0.com',
       clientId: 'PJeWwDMvJmzo25dz8M1EgnK8txLlwyGF'
