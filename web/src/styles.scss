@@ -49,6 +49,7 @@ body {
 $box-shadow: 0 0.5rem 1rem rgba($black, 0.15) !default;
 $background: #22272e;
 $nav-background: #2d333b;
+$input-background: #353c46;
 $nav-link-color: #cdd9e5;
 $nav-link-hover-color: #8e98a1;
 $nav-link-visited-color: $nav-link-color;
@@ -65,11 +66,17 @@ body {
   overflow-y: scroll; /* Show vertical scrollbar */
 }
 
+label {
+  display: block;
+  margin-top: 20px;
+}
+
 input {
-  background-color: $nav-background;
+  background-color: $input-background;
   border-style: solid;
   border-color: $card-border-color;
   color: $default-foreground;
+  display: block;
 }
 
 .nav {
@@ -94,15 +101,31 @@ a:visited {
 
 .header .banner-large {
   height: 230px;
-  background: url(/assets/images/banner-top.jpg) no-repeat scroll top;
+  background: url(/assets/images/banner-plain.jpg) no-repeat scroll top;
 }
 .header .banner-med {
   height: 150px;
-  background: url(/assets/images/banner-med-top.jpg) no-repeat scroll top;
+  background: url(/assets/images/banner-plain.jpg) no-repeat scroll center;
 }
 .header .banner-small {
   height: 75px;
-  background: url(/assets/images/banner-small-top.jpg) no-repeat scroll top;
+  background: url(/assets/images/banner-plain.jpg) no-repeat scroll center;
+}
+
+.header .image-large {
+  margin-left: 50px;
+  max-height: 220px;
+  vertical-align: middle;
+}
+.header .image-med {
+  margin-left: 50px;
+  max-height: 140px;
+  vertical-align: middle;
+}
+.header .image-small {
+  margin-left: 25px;
+  max-height: 70px;
+  vertical-align: middle;
 }
 
 /* Header/Blog Title */
@@ -117,6 +140,11 @@ a:visited {
   max-width: $max-width;
   margin: auto;
   padding: auto;
+}
+
+.group {
+  display: block;
+  overflow: auto;
 }
 
 /* Create two unequal columns that floats next to each other */
@@ -137,14 +165,23 @@ a:visited {
 
 .article-image {
   float: left;
-  width: 300px;
+  max-width: 300px;
+  max-height: 300px;
   margin-right: 20px;
   margin-bottom: 20px;
 }
 
-.article-image-small {
+.image-preview {
   float: left;
-  width: 200px;
+  max-width: 50px;
+  max-height: 50px;
+  margin-right: 5px;
+}
+
+.article-image-small {
+  float: none;
+  max-width: 150px;
+  max-height: 150px;
   margin: 20px;
 }
 
@@ -226,10 +263,12 @@ body {
 input[type="text"] {
   box-sizing: border-box;
   width: 100%;
-  padding: .5rem;
+  padding: 0.5rem;
 }
-textarea {
+.text-editor {
   box-sizing: border-box;
   width: 100%;
-  padding: .5rem;
+  padding: 0.5rem;
+  background-color: $input-background;
+  height: 500px !important;
 }

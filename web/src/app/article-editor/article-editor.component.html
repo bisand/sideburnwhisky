@@ -6,18 +6,44 @@
                     <a ngbNavLink>Redigering</a>
                     <ng-template ngbNavContent>
                         <form [formGroup]="articleForm" (ngSubmit)="onSubmit()">
-                            <div class="leftcolumn">
-                                <label for="articleTitle">Tittel: </label>
-                                <input id="articleTitle" type="text" formControlName="articleTitle">
-                                <label for="articleSubject">Ingress: </label>
-                                <input id="articleSubject" type="text" formControlName="articleSubject">
-                            </div>
-                            <div class="rightcolumn">
-                                <img src="../assets/images/picture_placeholder.png" class="article-image-small" />
+                            <div class="group">
+                                <div class="leftcolumn">
+                                    <label for="articleTitle">Tittel: </label>
+                                    <input id="articleTitle" type="text" formControlName="articleTitle">
+                                    <label for="articleSubject">Ingress: </label>
+                                    <input id="articleSubject" type="text" formControlName="articleSubject">
+
+                                    <div class="row align-items-center">
+                                        <div class="col">
+                                            <div *ngIf="message.length" class="alert alert-secondary my-3" role="alert">
+                                                <ul *ngFor="let msg of message; let i = index">
+                                                    <li>{{ msg }}</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div *ngFor="let progressInfo of progressInfos" class="mb-2">
+                                        <span>{{ progressInfo.fileName }}</span>
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" attr.aria-valuenow="{{ progressInfo.value }}"
+                                                aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: progressInfo.value + '%' }">
+                                                {{ progressInfo.value }}%
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="rightcolumn" style="text-align: center; display: block;">
+                                    <img [src]="imageUrl" class="article-image-small" />
+                                    <label class="btn btn-default p-0" style="width: 100%;">
+                                        <input id="imageUploader" type="file" accept="image/*" (change)="selectFiles($event)" style="width: 100%;" />
+                                    </label>
+                                    <button class="btn btn-success btn-sm" [disabled]="!selectedFiles" (click)="uploadFiles()" style="width: 100%;">
+                                        Upload
+                                    </button>
+                                </div>
                             </div>
                             <label for="articleBody">Tittel: </label>
-                            <textarea id="articleBody" [placeholder]="startingValue"
-                                formControlName="articleBody"></textarea>
+                            <textarea id="articleBody" [placeholder]="startingValue" class="text-editor" formControlName="articleBody"></textarea>
                             <!-- (keyup)="onValueChange($event)"{{articleBody}} -->
                         </form>
                     </ng-template>
@@ -28,10 +54,8 @@
                         <h2>{{f.articleTitle.value}}</h2>
                         <h6>{{f.articleSubject.value}}</h6>
                         <div class="meta">
-                            <time class="date dt-published" datetime="2021-10-14T05:15:00+00:00"
-                                itemprop="datePublished">
-                                <mat-icon aria-hidden="false" aria-label="Publisert">edit_calendar</mat-icon> 14 oktober
-                                2021
+                            <time class="date dt-published" datetime="2021-10-14T05:15:00+00:00" itemprop="datePublished">
+                                <mat-icon aria-hidden="false" aria-label="Publisert">edit_calendar</mat-icon> 14 oktober 2021
                             </time>
                             <span class="tags">
                                 <mat-icon aria-hidden="false" aria-label="Kategorier">sell</mat-icon>
@@ -39,7 +63,7 @@
                             </span>
                         </div>
                         <div class="card-content">
-                            <img src="../assets/images/work-in-progress.jpg" class="article-image" />
+                            <img [src]="imageUrl" class="article-image" *ngIf="hasImage" />
                             <div [innerHtml]="compiledMarkdown"></div>
                         </div>
                     </ng-template>

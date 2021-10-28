@@ -24,6 +24,10 @@ export class ArticleService extends DocumentService {
         return '';
     }
 
+    public saveArticle(user: Article): Promise<Number>{
+        throw new Error('Method not implemented.');
+    }
+
     public async getArticles(): Promise<Article[]> {
         try {
             const response = await this._dataService.db.view(this._designName, "all", { include_docs: true });

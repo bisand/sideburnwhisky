@@ -1,14 +1,19 @@
 import express, { Request, Response } from 'express';
 import { jsonParser } from '../index';
+import { Article } from '../models/Article';
 import { ArticleService } from '../services/ArticleService';
+import { auth, requiredScopes } from 'express-oauth2-jwt-bearer';
 
 
 export class ArticleController {
+  private _checkScopes = requiredScopes('write:users');
+  private _checkJwt: express.Handler;
   private _app: express.Application;
   private _articleService: ArticleService;
-  constructor(app: express.Application, articleService: ArticleService) {
+  constructor(app: express.Application, checkJwt: express.Handler, articleService: ArticleService) {
     this._app = app;
     this._articleService = articleService;
+    this._checkJwt = checkJwt;
   }
 
   public start() {
@@ -22,15 +27,16 @@ export class ArticleController {
       res.send(users);
     });
 
-    this._app.put('/articles/', jsonParser, async (req: Request, res: Response) => {
-      // let user = new User();
-      // Object.assign(user, req.body);
-      // try {
-      //   const id = await this._articleService.saveUser(user);
-      //   res.send({ id });
-      // } catch (error: any) {
-      //   res.status(error.statusCode).send(error);
-      // }
+    this._app.post('/articles/', this._checkJwt, this._checkScopes, jsonParser, async (req: Request, res: Response) => {
+      let r = auth();
+      let user = new Article('test');
+      Object.assign(user, req.body);
+      try {
+        const id = await this._articleService.saveArticle(user);
+        res.send({ id });
+      } catch (error: any) {
+        res.status(error.statusCode).send(error);
+      }
     });
   }
 }

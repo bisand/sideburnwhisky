@@ -1,6 +1,9 @@
+import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import * as marked from 'marked';
+import { Observable } from 'rxjs';
+import { ArticleService } from '../article.service';
 
 @Component({
   selector: 'app-article-editor',
@@ -9,18 +12,31 @@ import * as marked from 'marked';
 })
 export class ArticleEditorComponent implements OnInit {
 
-  articleForm = this._formBuilder.group({
+  public articleForm = this._formBuilder.group({
     articleTitle: ['', Validators.required],
     articleSubject: ['', Validators.required],
     articleBody: ['', Validators.required],
   });
 
-  get f() { return this.articleForm.controls; }
+  public get hasImage(): Boolean {
+    return this.imageUrl !== this.imageUrlDefault;
+  }
 
-  compiledMarkdown?: string;
-  startingValue = '';
+  public get f() { return this.articleForm.controls; }
 
-  constructor(private _formBuilder: FormBuilder) { }
+  public compiledMarkdown?: string;
+  public startingValue = '';
+  public imageUrlDefault = '../assets/images/picture_placeholder.png';
+  public imageUrl = this.imageUrlDefault;
+
+  public selectedFiles?: FileList;
+  public progressInfos: any[] = [];
+  public message: string[] = [];
+
+  public previews: string[] = [];
+  public imageInfos?: Observable<any>;
+
+  constructor(private _articleService: ArticleService, private _formBuilder: FormBuilder) { }
 
   onValueChange(e: any) {
     if (!this.f.articleBody) {
@@ -38,6 +54,59 @@ export class ArticleEditorComponent implements OnInit {
       this.compiledMarkdown = this.compileMarkdown(val !== '' ? val : this.startingValue);
     });
 
+  }
+
+  selectFiles(event: any): void {
+    this.message = [];
+    this.progressInfos = [];
+    this.selectedFiles = event.target.files;
+
+    this.previews = [];
+    if (this.selectedFiles && this.selectedFiles[0]) {
+      const numberOfFiles = this.selectedFiles.length;
+      for (let i = 0; i < numberOfFiles; i++) {
+        const reader = new FileReader();
+
+        reader.onload = (e: any) => {
+          console.log(e.target.result);
+          this.imageUrl = e.target.result;
+        };
+
+        reader.readAsDataURL(this.selectedFiles[i]);
+      }
+    }
+  }
+
+  uploadFiles(): void {
+    this.message = [];
+
+    if (this.selectedFiles) {
+      for (let i = 0; i < this.selectedFiles.length; i++) {
+        this.upload(i, this.selectedFiles[i]);
+      }
+    }
+  }
+
+  upload(idx: number, file: File): void {
+    this.progressInfos[idx] = { value: 0, fileName: file.name };
+
+    if (file) {
+      this._articleService.uploadImage(file).subscribe(
+        (event: any) => {
+          if (event.type === HttpEventType.UploadProgress) {
+            this.progressInfos[idx].value = Math.round(100 * event.loaded / event.total);
+          } else if (event instanceof HttpResponse) {
+            const msg = 'Uploaded the file successfully: ' + file.name;
+            this.message.push(msg);
+            // this.imageInfos = this.uploadService.getFiles();
+          }
+        },
+        (err: any) => {
+          this.progressInfos[idx].value = null;
+          const msg = 'Could not upload the file: ' + file.name;
+          this.message.push(msg);
+        });
+    }
   }
 
   onSubmit() {
