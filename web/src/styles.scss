@@ -66,19 +66,6 @@ body {
   overflow-y: scroll; /* Show vertical scrollbar */
 }
 
-label {
-  display: block;
-  margin-top: 20px;
-}
-
-input {
-  background-color: $input-background;
-  border-style: solid;
-  border-color: $card-border-color;
-  color: $default-foreground;
-  display: block;
-}
-
 .nav {
   background: $nav-background;
 }
@@ -260,6 +247,27 @@ body {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+label {
+  display: block;
+  margin-top: 20px;
+}
+
+input {
+  background-color: $input-background;
+  border-style: solid;
+  border-color: $card-border-color;
+  color: $default-foreground;
+  display: block;
+}
+
+.input {
+  background-color: $input-background;
+  border-style: solid;
+  border-color: $card-border-color;
+  color: $default-foreground;
+  display: block;
 }
 
 input[type="text"] {

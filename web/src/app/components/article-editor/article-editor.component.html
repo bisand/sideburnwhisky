@@ -33,8 +33,20 @@
                                     </div>
                                 </div>
                             </div>
-                            <label for="articleBody">Tittel: </label>
+                            <label for="articleBody">Artikkeltekst: </label>
                             <textarea id="articleBody" [placeholder]="startingValue" class="text-editor-body" formControlName="articleBody"></textarea>
+                            <div class="row row-cols-2 py-4">
+                                <div class="col text-left">
+                                    <button class="btn btn-success btn-md w-50" [disabled]="!selectedFiles" (click)="uploadFiles()">
+                                        Lagre endringer
+                                    </button>
+                                </div>
+                                <div class="col text-right">
+                                    <button class="btn btn-warning btn-md w-50" [disabled]="!selectedFiles" (click)="uploadFiles()">
+                                        Publisere artikkel
+                                    </button>
+                                </div>
+                            </div>
                         </form>
                     </ng-template>
                 </li>

@@ -12,6 +12,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { HttpClientModule } from '@angular/common/http';
 
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 import { HomeComponent } from './components/home/home.component';
 import { AboutComponent } from './components/about/about.component';
@@ -49,9 +51,13 @@ import { ArticleEditorComponent } from './components/article-editor/article-edit
     NgbModule,
     MatIconModule,
     MatSnackBarModule,
+    MatFormFieldModule,
+    MatInputModule,
   ],
   providers: [
     MatSnackBarModule,
+    MatFormFieldModule,
+    MatInputModule,
   ],
   bootstrap: [AppComponent]
 })
