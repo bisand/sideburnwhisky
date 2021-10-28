@@ -4,7 +4,6 @@ import { DocumentService } from "./DocumentService";
 import { IDataService } from "./IDataService";
 
 export class ArticleService extends DocumentService {
-
     public async addDemoArticle() {
         try {
             var data = new Article('andre@biseth.net');
@@ -28,6 +27,24 @@ export class ArticleService extends DocumentService {
     public async getArticles(): Promise<Article[]> {
         try {
             const response = await this._dataService.db.view(this._designName, "all", { include_docs: true });
+            const result: Article[] = [];
+            response.rows.forEach(doc => {
+                result.push(Object.assign({} as Article, doc));
+            });
+            return result;
+        } catch (error: any) {
+            console.error(error);
+            if (error?.statusCode === 401) {
+                await this._dataService.auth();
+                return await this.getArticles();
+            }
+        }
+        return [];
+    }
+
+    public async getActiveArticles() {
+        try {
+            const response = await this._dataService.db.view(this._designName, "active", { include_docs: true });
             const result: Article[] = [];
             response.rows.forEach(doc => {
                 result.push(Object.assign({} as Article, doc));

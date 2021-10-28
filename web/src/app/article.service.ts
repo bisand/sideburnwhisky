@@ -7,11 +7,26 @@ import { environment } from './../environments/environment';
   providedIn: 'root'
 })
 export class ArticleService {
-  public getArticles():Observable<any> {
-    return this.httpClient.get(environment.apiUrl + '/articles/');
-  }
 
   constructor(private httpClient: HttpClient) {
     console.log(environment.apiUrl);
   }
+
+  public getArticles(): Observable<any> {
+    return this.httpClient.get(environment.apiUrl + '/articles/');
+  }
+
+  uploadImage(file: File): Observable<any> {
+
+    // Create form data
+    const formData = new FormData();
+
+    // Store form name as "file" with file data
+    formData.append("file", file, file.name);
+
+    // Make http post request over api
+    // with formData as req
+    return this.httpClient.post(environment.apiUrl+'/articles/', formData)
+  }
+
 }

@@ -18,8 +18,8 @@ export class ArticleController {
     });
 
     this._app.get('/articles/active', async (req: Request, res: Response) => {
-      // const users = await this._articleService.getActiveUsers();
-      // res.send(users);
+      const users = await this._articleService.getActiveArticles();
+      res.send(users);
     });
 
     this._app.put('/articles/', jsonParser, async (req: Request, res: Response) => {
