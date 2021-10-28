@@ -11,6 +11,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatIconModule } from '@angular/material/icon';
 import { HttpClientModule } from '@angular/common/http';
 
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+
 import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
 import { StatuteComponent } from './statute/statute.component';
@@ -46,8 +48,11 @@ import { ArticleEditorComponent } from './article-editor/article-editor.componen
     }),
     NgbModule,
     MatIconModule,
+    MatSnackBarModule,
   ],
-  providers: [],
+  providers: [
+    MatSnackBarModule,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

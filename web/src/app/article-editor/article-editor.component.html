@@ -13,15 +13,6 @@
                                     <label for="articleSubject">Ingress: </label>
                                     <input id="articleSubject" type="text" formControlName="articleSubject">
 
-                                    <div class="row align-items-center">
-                                        <div class="col">
-                                            <div *ngIf="message.length" class="alert alert-secondary my-3" role="alert">
-                                                <ul *ngFor="let msg of message; let i = index">
-                                                    <li>{{ msg }}</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
                                     <div *ngFor="let progressInfo of progressInfos" class="mb-2">
                                         <span>{{ progressInfo.fileName }}</span>
                                         <div class="progress">
