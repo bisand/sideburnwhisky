@@ -33,7 +33,16 @@
                                     </div>
                                 </div>
                             </div>
-                            <label for="articleBody">Artikkeltekst: </label>
+                            <div class="row">
+                                <div class="col align-bottom">
+                                    <label for="articleBody" style="display: inline-block;">Artikkeltekst: </label>
+                                </div>
+                                <div class="col align-bottom text-right">
+                                    <label for="articleBody" style="display: inline-block;">Hjelp til tekstformattering: <a
+                                            href="https://www.markdownguide.org/basic-syntax/" target="_blank">Markdown manual</a>
+                                    </label>
+                                </div>
+                            </div>
                             <textarea id="articleBody" [placeholder]="startingValue" class="text-editor-body" formControlName="articleBody"></textarea>
                             <div class="row row-cols-2 py-4">
                                 <div class="col text-left">

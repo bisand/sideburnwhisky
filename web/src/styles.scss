@@ -267,7 +267,7 @@ label {
 input {
   background-color: $input-background;
   border-style: solid;
-  border-color: $card-border-color;
+  border-color: rgb(100,100,100);
   color: $default-foreground;
   display: block;
 }
@@ -275,19 +275,23 @@ input {
 .input {
   background-color: $input-background;
   border-style: solid;
-  border-color: $card-border-color;
+  border-color: rgb(100,100,100);
   color: $default-foreground;
   display: block;
 }
 
 input[type="text"] {
   box-sizing: border-box;
+  border-color: rgb(100,100,100);
   width: 100%;
   padding: 0.5rem;
 }
 
 .text-editor-body {
   box-sizing: border-box;
+  border-color: rgb(100,100,100) !important;
+  border-style: solid;
+  border-width: 1px;
   width: 100%;
   padding: 0.5rem;
   background-color: $input-background;
@@ -296,6 +300,7 @@ input[type="text"] {
 
 .text-editor-ingress {
   box-sizing: border-box;
+  border-color: rgb(100,100,100) !important;
   width: 100%;
   padding: 0.5rem;
   background-color: $input-background;
