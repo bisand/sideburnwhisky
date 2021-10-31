@@ -35,11 +35,8 @@
                             style="width: 40px" /> {{ profile?.name }}
                     </button>
                     <div class="dropdown-divider"></div>
-                    <button ngbDropdownItem routerLink="/profile/" *ngIf="profile">
-                        <mat-icon aria-hidden="false" aria-label="Kategorier">user</mat-icon>
-                    </button>
-                    <button ngbDropdownItem routerLink="/portfolio-editor/" *ngIf="profile">
-                        <mat-icon aria-hidden="false" aria-label="Kategorier">edit</mat-icon>
+                    <button ngbDropdownItem routerLink="/brukerprofil/" *ngIf="profile">
+                        <mat-icon aria-hidden="false" aria-label="Kategorier">person</mat-icon> Brukerprofil
                     </button>
                     <div class="dropdown-divider"></div>
                     <button ngbDropdownItem (click)="logoutWithRedirect()" id="qsLogoutBtn">

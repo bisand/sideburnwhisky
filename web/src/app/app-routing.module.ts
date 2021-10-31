@@ -6,6 +6,7 @@ import { EventsComponent } from './components/events/events.component';
 import { HomeComponent } from './components/home/home.component';
 import { ReviewsComponent } from './components/reviews/reviews.component';
 import { StatuteComponent } from './components/statute/statute.component';
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path: 'tester', component: ReviewsComponent },
   { path: 'arrangementer', component: EventsComponent },
   { path: 'artikkelredigering', component: ArticleEditorComponent },
+  { path: 'brukerprofil', component: UserProfileComponent },
   { path: '**', redirectTo: '/' }
 ];
 

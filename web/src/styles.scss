@@ -49,7 +49,7 @@ body {
 $box-shadow: 0 0.5rem 1rem rgba($black, 0.15) !default;
 $background: #22272e;
 $nav-background: #2d333b;
-$input-background: #353c46;
+$input-background: #1c202b;
 $nav-link-color: #cdd9e5;
 $nav-link-hover-color: #8e98a1;
 $nav-link-visited-color: $nav-link-color;
@@ -71,7 +71,8 @@ body {
   border-bottom-color: rgb(100, 100, 100);
 }
 
-.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+.nav-tabs .nav-item.show .nav-link,
+.nav-tabs .nav-link.active {
   background: $card-background;
   border-bottom: 0px none $card-background;
   border-left: 2px solid rgb(100, 100, 100);
@@ -259,6 +260,10 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
+hr{
+  border: 1 px solid $card-border-color;
+}
+
 label {
   display: block;
   margin-top: 20px;
@@ -267,7 +272,7 @@ label {
 input {
   background-color: $input-background;
   border-style: solid;
-  border-color: rgb(100,100,100);
+  border-color: rgb(100, 100, 100);
   color: $default-foreground;
   display: block;
 }
@@ -275,34 +280,36 @@ input {
 .input {
   background-color: $input-background;
   border-style: solid;
-  border-color: rgb(100,100,100);
+  border-color: rgb(100, 100, 100);
   color: $default-foreground;
   display: block;
 }
 
 input[type="text"] {
+  background-color: $input-background;
   box-sizing: border-box;
-  border-color: rgb(100,100,100);
+  border: 2px solid rgb(100, 100, 100);
   width: 100%;
   padding: 0.5rem;
+  display: block;
 }
 
 .text-editor-body {
   box-sizing: border-box;
-  border-color: rgb(100,100,100) !important;
-  border-style: solid;
-  border-width: 1px;
+  border: 2px solid rgb(100, 100, 100) !important;
   width: 100%;
   padding: 0.5rem;
-  background-color: $input-background;
+  background-color: $input-background !important;
   height: 500px !important;
+  display: block;
 }
 
 .text-editor-ingress {
   box-sizing: border-box;
-  border-color: rgb(100,100,100) !important;
+  border: 2px solid rgb(100, 100, 100) !important;
   width: 100%;
   padding: 0.5rem;
-  background-color: $input-background;
+  background-color: $input-background !important;
   height: 140px !important;
+  display: block;
 }

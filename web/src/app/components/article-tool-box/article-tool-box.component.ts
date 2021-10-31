@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '@auth0/auth0-spa-js';
 import { Observable } from 'rxjs';
+import { ArticleService } from 'src/app/services/article.service';
 import { LocalAuthService } from '../../services/local-auth.service';
 
 @Component({
@@ -11,13 +12,13 @@ import { LocalAuthService } from '../../services/local-auth.service';
 export class ArticleToolBoxComponent implements OnInit {
 
   public get isAuthenticated(): Boolean{
-    return this.auth.isAuthenticated;
+    return this._auth.isAuthenticated;
   }
   public get profile(): User | null | undefined{
-    return this.auth.profile;
+    return this._auth.profile;
   }
 
-  constructor(private auth: LocalAuthService) {
+  constructor(private _auth: LocalAuthService, private _articleService: ArticleService) {
   }
 
   ngOnInit(): void {

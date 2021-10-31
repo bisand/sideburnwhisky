@@ -9,14 +9,16 @@ import { Observable } from 'rxjs';
 export class LocalAuthService {
   accessToken?: string;
   claims: IdToken | undefined | null;
+  user: User | null | undefined;
+  isAuthenticated: boolean = false;
+  profile: User | null | undefined;
+
   logout(options?: LogoutOptions) {
     this.authService.logout(options);
   }
   loginWithRedirect() {
     this.authService.loginWithRedirect();
   }
-  isAuthenticated: boolean = false;
-  profile: User | null | undefined;
 
   constructor(private authService: AuthService) {
     this.authService.error$.subscribe(error => {
@@ -27,6 +29,8 @@ export class LocalAuthService {
     });
     this.authService.user$.subscribe(user => {
       this.profile = user;
+      this.user = user;
+      console.log(user);
     });
     this.authService.idTokenClaims$.subscribe((claims) => {
       this.claims = claims;

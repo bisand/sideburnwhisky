@@ -24,6 +24,7 @@ import { EventsComponent } from './components/events/events.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { ArticleToolBoxComponent } from './components/article-tool-box/article-tool-box.component';
 import { ArticleEditorComponent } from './components/article-editor/article-editor.component';
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { ArticleEditorComponent } from './components/article-editor/article-edit
     NavBarComponent,
     ArticleToolBoxComponent,
     ArticleEditorComponent,
+    UserProfileComponent,
   ],
   imports: [
     BrowserModule,
@@ -46,7 +48,8 @@ import { ArticleEditorComponent } from './components/article-editor/article-edit
     ReactiveFormsModule,
     AuthModule.forRoot({
       domain: 'bisand.auth0.com',
-      clientId: 'PJeWwDMvJmzo25dz8M1EgnK8txLlwyGF'
+      clientId: 'PJeWwDMvJmzo25dz8M1EgnK8txLlwyGF',
+      scope: 'openid profile email read:articles write:articles'
     }),
     NgbModule,
     MatIconModule,
