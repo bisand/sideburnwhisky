@@ -260,7 +260,7 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-hr{
+hr {
   border: 1 px solid $card-border-color;
 }
 
@@ -275,6 +275,10 @@ input {
   border-color: rgb(100, 100, 100);
   color: $default-foreground;
   display: block;
+}
+
+*:focus {
+  outline: none;
 }
 
 .input {
@@ -312,4 +316,16 @@ input[type="text"] {
   background-color: $input-background !important;
   height: 140px !important;
   display: block;
+}
+
+.dropdown-item {
+  color: $default-foreground;
+}
+
+.dropdown-item:hover {
+  background-color: $default-foreground;
+}
+
+.dropdown-divider {
+  border-top: 1px solid $card-border-color;
 }
