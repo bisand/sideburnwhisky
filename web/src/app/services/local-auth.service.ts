@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
 import { IdToken, LogoutOptions, User } from '@auth0/auth0-spa-js';
 import { Observable } from 'rxjs';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,31 +15,33 @@ export class LocalAuthService {
   profile: User | null | undefined;
 
   logout(options?: LogoutOptions) {
-    this.authService.logout(options);
+    this._authService.logout(options);
   }
   loginWithRedirect() {
-    this.authService.loginWithRedirect();
+    this._authService.loginWithRedirect();
   }
 
-  constructor(private authService: AuthService) {
-    this.authService.error$.subscribe(error => {
+  constructor(private _authService: AuthService, private _userService: UserService) {
+    this._authService.error$.subscribe(error => {
       // console.error(error);
     });
-    this.authService.isAuthenticated$.subscribe(isAuthenticated => {
+    this._authService.isAuthenticated$.subscribe(isAuthenticated => {
       this.isAuthenticated = isAuthenticated;
     });
-    this.authService.user$.subscribe(user => {
+    this._authService.user$.subscribe(user => {
       this.profile = user;
       this.user = user;
       console.log(user);
     });
-    this.authService.idTokenClaims$.subscribe((claims) => {
+    this._authService.idTokenClaims$.subscribe((claims) => {
       this.claims = claims;
       console.log(claims);
     });
-    this.authService.getAccessTokenSilently({}).subscribe(token => {
+    this._authService.getAccessTokenSilently({}).subscribe(token => {
       this.accessToken = token;
       console.log(token);
+      const permissions = _userService.getPermissions();
+      console.log(permissions);
     });
   }
 }

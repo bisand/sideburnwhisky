@@ -9,7 +9,7 @@ import { Article } from '../models/Article'
 })
 export class ArticleService {
 
-  constructor(private httpClient: HttpClient, private http: HttpClient) {
+  constructor(private httpClient: HttpClient) {
     console.log(environment.apiUrl);
   }
 
@@ -22,7 +22,7 @@ export class ArticleService {
       reportProgress: true,
       responseType: 'json'
     });
-    return this.http.request(req);
+    return this.httpClient.request(req);
   }
 
   public uploadImage(file: File): Observable<HttpEvent<any>> {
@@ -43,7 +43,7 @@ export class ArticleService {
       responseType: 'json'
     });
 
-    return this.http.request(req);
+    return this.httpClient.request(req);
 
   }
 

@@ -18,6 +18,11 @@ export class UserController {
 
   public start() {
 
+    this._app.get('/user/permissions', this._checkJwt, async (req: Request, res: Response) => {
+      const users = await this._userService.getUsers();
+      res.send(users);
+    });
+
     this._app.get('/users', this._checkJwt, async (req: Request, res: Response) => {
       const users = await this._userService.getUsers();
       res.send(users);
