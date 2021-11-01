@@ -47,9 +47,28 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
     BrowserAnimationsModule,
     ReactiveFormsModule,
     AuthModule.forRoot({
+      // The domain and clientId were configured in the previous chapter
       domain: 'bisand.auth0.com',
       clientId: 'PJeWwDMvJmzo25dz8M1EgnK8txLlwyGF',
-      scope: 'openid profile email read:articles write:articles'
+      // Request this audience at user authentication time
+      audience: 'https://bisand.auth0.com/api/v2/',
+      // Request this scope at user authentication time
+      scope: 'read:current_user',
+      // Specify configuration for the interceptor              
+      httpInterceptor: {
+        allowedList: [
+          {
+            // Match any request that starts 'https://bisand.auth0.com/api/v2/' (note the asterisk)
+            uri: 'https://bisand.auth0.com/api/v2/*',
+            tokenOptions: {
+              // The attached token should target this audience
+              audience: 'https://bisand.auth0.com/api/v2/',
+              // The attached token should have these scopes
+              scope: 'read:current_user'
+            }
+          }
+        ]
+      }
     }),
     NgbModule,
     MatIconModule,

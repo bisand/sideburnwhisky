@@ -6,7 +6,7 @@ import { ReviewService } from '../services/ReviewService';
 export class ReviewController {
   private _app: express.Application;
   private _reviewService: ReviewService;
-  constructor(app: express.Application, reviewService: ReviewService) {
+  constructor(app: express.Application, checkJwt: express.Handler, reviewService: ReviewService) {
     this._app = app;
     this._reviewService = reviewService;
   }

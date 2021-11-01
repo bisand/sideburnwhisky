@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
 import { IdToken, LogoutOptions, User } from '@auth0/auth0-spa-js';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { UserService } from './user.service';
 
 @Injectable({
@@ -40,8 +40,9 @@ export class LocalAuthService {
     this._authService.getAccessTokenSilently({}).subscribe(token => {
       this.accessToken = token;
       console.log(token);
-      const permissions = _userService.getPermissions();
-      console.log(permissions);
+      this._userService.getPermissions().subscribe(permissions => {
+        console.log(permissions);
+      })
     });
   }
 }

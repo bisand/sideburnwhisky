@@ -1,4 +1,6 @@
 import express, { Request, Response } from 'express';
+import jwt from 'express-jwt';
+import jwks from 'jwks-rsa';
 import helmet from 'helmet';
 import bodyParser from 'body-parser'
 import dotenv from 'dotenv';
@@ -36,10 +38,22 @@ const config: DatabaseConfig = {
   databaseName: process.env.COUCHDB_DATABASE as string
 }
 
-var checkJwt = auth({
-  jwksUri: 'https://bisand.auth0.com/.well-known/jwks.json',
+// var checkJwt = auth({
+//   jwksUri: 'https://bisand.auth0.com/.well-known/jwks.json',
+//   audience: 'https://api.sideburnwhisky.no/',
+//   issuer: 'https://bisand.auth0.com/',
+// });
+
+const jwtCheck = jwt({
+  secret: jwks.expressJwtSecret({
+    cache: true,
+    rateLimit: true,
+    jwksRequestsPerMinute: 5,
+    jwksUri: 'https://bisand.auth0.com/.well-known/jwks.json'
+  }),
   audience: 'https://api.sideburnwhisky.no/',
   issuer: 'https://bisand.auth0.com/',
+  algorithms: ['RS256']
 });
 
 // Prepare database connection.
@@ -63,18 +77,18 @@ const dataService = new DataService(config, async () => {
 
   // Handle users
   const userService = new UserService(dataService);
-  const userController = new UserController(app, checkJwt, userService);
+  const userController = new UserController(app, jwtCheck, userService);
   userController.start();
 
   // Handle articles
   const articleService = new ArticleService(dataService);
-  const articleController = new ArticleController(app, checkJwt, articleService);
+  const articleController = new ArticleController(app, jwtCheck, articleService);
   articleController.start();
   articleService.addDemoArticle();
 
   // Handle reviews
   const reviewService = new ReviewService(dataService);
-  const reviewController = new ReviewController(app, reviewService);
+  const reviewController = new ReviewController(app, jwtCheck, reviewService);
   reviewController.start();
   reviewService.addDemoReview();
 

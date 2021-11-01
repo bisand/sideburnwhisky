@@ -3,14 +3,15 @@ import { User } from '../models/User';
 import { UserService } from '../services/UserService';
 import { jsonParser } from '../index';
 import { auth, requiredScopes } from 'express-oauth2-jwt-bearer';
+import jwt from 'express-jwt';
 
 
 export class UserController {
   private _checkScopes = requiredScopes('write:users');
   private _app: express.Application;
   private _userService: UserService;
-  private _checkJwt: express.Handler;
-  constructor(app: express.Application, checkJwt: express.Handler, userService: UserService) {
+  private _checkJwt: jwt.RequestHandler;
+  constructor(app: express.Application, checkJwt: jwt.RequestHandler, userService: UserService) {
     this._app = app;
     this._userService = userService;
     this._checkJwt = checkJwt;

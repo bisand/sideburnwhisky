@@ -25,6 +25,13 @@
                 "<node_internals>/**",
                 "node_modules/**"
             ]
+        },
+        {
+            "type": "pwa-chrome",
+            "request": "launch",
+            "name": "Debug web",
+            "url": "http://localhost:4200",
+            "webRoot": "${workspaceFolder}/web"
         }
     ]
 }

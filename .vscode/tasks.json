@@ -18,6 +18,14 @@
 			"problemMatcher": [],
 			"label": "npm: build - web",
 			"detail": "tsc --build"
+		},
+		{
+			"type": "npm",
+			"script": "serve",
+			"path": "web/",
+			"group": "build",
+			"problemMatcher": [],
+			"label": "npm: serve - web",
 		}
 	]
 }
