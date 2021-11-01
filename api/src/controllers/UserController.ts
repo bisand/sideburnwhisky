@@ -10,8 +10,8 @@ export class UserController {
   private _checkScopes = requiredScopes('write:users');
   private _app: express.Application;
   private _userService: UserService;
-  private _checkJwt: jwt.RequestHandler;
-  constructor(app: express.Application, checkJwt: jwt.RequestHandler, userService: UserService) {
+  private _checkJwt: express.Handler;
+  constructor(app: express.Application, checkJwt: express.Handler, userService: UserService) {
     this._app = app;
     this._userService = userService;
     this._checkJwt = checkJwt;

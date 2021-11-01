@@ -7,13 +7,14 @@ import { environment } from '../../environments/environment';
   providedIn: 'root'
 })
 export class UserService {
+  private _apiUrl: string;
 
   constructor(private httpClient: HttpClient) { 
-    console.log(environment.apiUrl);
+    this._apiUrl = environment.apiUrl;
   }
 
   public getPermissions(): Observable<any> {
-    return this.httpClient.get(environment.apiUrl + '/user/permissions/');
+    return this.httpClient.get(this._apiUrl + '/user/permissions/');
   }
 
 }
