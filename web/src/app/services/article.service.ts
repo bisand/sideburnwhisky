@@ -8,17 +8,18 @@ import { Article } from '../models/Article'
   providedIn: 'root'
 })
 export class ArticleService {
+  private _apiUrl: string;
 
   constructor(private httpClient: HttpClient) {
-    console.log(environment.apiUrl);
+    this._apiUrl = environment.apiUrl;
   }
 
   public getArticles(): Observable<any> {
-    return this.httpClient.get(environment.apiUrl + '/articles/');
+    return this.httpClient.get(this._apiUrl + '/articles/');
   }
 
   public createNewArticle(article: Article): Observable<HttpEvent<any>> {
-    const req = new HttpRequest('POST', `${environment.apiUrl}/articles`, article, {
+    const req = new HttpRequest('POST', `${this._apiUrl}/articles`, article, {
       reportProgress: true,
       responseType: 'json'
     });
@@ -38,7 +39,7 @@ export class ArticleService {
     // return this.httpClient.post(environment.apiUrl+'/articles/', formData)
     formData.append('file', file);
 
-    const req = new HttpRequest('POST', `${environment.apiUrl}/articles`, formData, {
+    const req = new HttpRequest('POST', `${this._apiUrl}/articles`, formData, {
       reportProgress: true,
       responseType: 'json'
     });

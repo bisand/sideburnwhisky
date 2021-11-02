@@ -50,10 +50,23 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
       domain: 'bisand.auth0.com',
       clientId: 'PJeWwDMvJmzo25dz8M1EgnK8txLlwyGF',
       audience: 'https://api.sideburnwhisky.no/',
-      httpInterceptor:{
-        allowedList:[
-          'https://api.sideburnwhisky.no/*',
-          'http://api.example:8080/*',
+      httpInterceptor: {
+        allowedList: [
+          {
+            uri: 'https://api.sideburnwhisky.no/*',
+            allowAnonymous: true,
+          },
+          {
+            uri: 'http://api.example:8080/*',
+            allowAnonymous: true,
+          },
+          {
+            uri: 'https://your-domain.auth0.com/api/v2/users',
+            tokenOptions: {
+              audience: 'https://your-domain.com/api/v2/',
+              scope: 'read:users',
+            },
+          },
         ]
       }
     }),

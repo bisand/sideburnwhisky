@@ -16,7 +16,9 @@ export class HomeComponent implements OnInit {
     this.articleService.getArticles().subscribe((data: any[]) => {
       console.log(data);
       this.articles = data;
-    })
+    }, error => {
+      console.log(error);
+    });
   }
 
 }

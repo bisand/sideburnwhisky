@@ -23,19 +23,22 @@ export class LocalAuthService {
 
   constructor(private _authService: AuthService, private _userService: UserService) {
     this._authService.error$.subscribe(error => {
-      // console.error(error);
     });
     this._authService.isAuthenticated$.subscribe(isAuthenticated => {
       this.isAuthenticated = isAuthenticated;
+    }, error => {
+      console.log('Login required.')
     });
     this._authService.user$.subscribe(user => {
       this.profile = user;
       this.user = user;
-      console.log(user);
+    }, error => {
+      console.log('Login required.')
     });
     this._authService.idTokenClaims$.subscribe((claims) => {
       this.claims = claims;
-      console.log(claims);
+    }, error => {
+      console.log('Login required.')
     });
     this._authService.getAccessTokenSilently({}).subscribe(token => {
       this.accessToken = token;
@@ -43,6 +46,8 @@ export class LocalAuthService {
       this._userService.getPermissions().subscribe(permissions => {
         console.log(permissions);
       })
+    }, error => {
+      console.log('Login required.')
     });
   }
 }
