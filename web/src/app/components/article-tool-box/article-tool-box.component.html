@@ -1,4 +1,4 @@
-<div class="card" *ngIf="isAuthenticated">
+<div class="card" *ngIf="isAuthenticated && articleWriterPermission">
     <div class="card-header">Verktøy</div>
     <a routerLink="/artikkelredigering">Ny artikkel</a>
     <hr>

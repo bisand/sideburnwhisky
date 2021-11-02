@@ -1,4 +1,5 @@
 import express, { Request, Response } from 'express';
+import { auth } from 'express-oauth2-jwt-bearer';
 import jwt from 'express-jwt';
 import jwks from 'jwks-rsa';
 import helmet from 'helmet';
@@ -14,7 +15,6 @@ import { ArticleService } from './services/ArticleService';
 import { ArticleController } from './controllers/ArticleController';
 import { ReviewService } from './services/ReviewService';
 import { ReviewController } from './controllers/ReviewController';
-import { auth } from 'express-oauth2-jwt-bearer';
 
 dotenv.config();
 export var jsonParser = bodyParser.json()

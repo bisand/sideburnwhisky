@@ -11,12 +11,16 @@ import { LocalAuthService } from '../../services/local-auth.service';
 })
 export class ArticleToolBoxComponent implements OnInit {
 
-  public get isAuthenticated(): Boolean{
+  public get isAuthenticated(): Boolean {
     return this._auth.isAuthenticated;
   }
-  public get profile(): User | null | undefined{
+  public get profile(): User | null | undefined {
     return this._auth.profile;
   }
+  public get articleWriterPermission(): Boolean {
+    return this._auth.hasPermission(['write:articles']);
+  }
+
 
   constructor(private _auth: LocalAuthService, private _articleService: ArticleService) {
   }

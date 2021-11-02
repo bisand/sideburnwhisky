@@ -1,22 +1,32 @@
 import { Injectable } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
 import { IdToken, LogoutOptions, User } from '@auth0/auth0-spa-js';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
 import { UserService } from './user.service';
+import jwt_decode from "jwt-decode";
 
 @Injectable({
   providedIn: 'root'
 })
 export class LocalAuthService {
-  accessToken?: string;
+  private _accessToken: string = '';
   claims: IdToken | undefined | null;
   user: User | null | undefined;
   isAuthenticated: boolean = false;
   profile: User | null | undefined;
 
+  private _checker = (arr: string[], target: string[]) => target.every(v => arr.includes(v));
+
+  public hasPermission(permissions: string[]): Boolean {
+    const data: any = jwt_decode(this._accessToken);
+    const result = this._checker(data.permissions, permissions);
+    return result;
+  }
+
   logout(options?: LogoutOptions) {
     this._authService.logout(options);
   }
+
   loginWithRedirect() {
     this._authService.loginWithRedirect();
   }
@@ -41,11 +51,7 @@ export class LocalAuthService {
       console.log('Login required.')
     });
     this._authService.getAccessTokenSilently({}).subscribe(token => {
-      this.accessToken = token;
-      console.log(token);
-      this._userService.getPermissions().subscribe(permissions => {
-        console.log(permissions);
-      })
+      this._accessToken = token;
     }, error => {
       console.log('Login required.')
     });

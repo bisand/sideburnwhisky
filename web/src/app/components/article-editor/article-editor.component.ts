@@ -5,6 +5,7 @@ import * as marked from 'marked';
 import { Observable } from 'rxjs';
 import { ArticleService } from '../../services/article.service';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition, } from '@angular/material/snack-bar';
+import { LocalAuthService } from 'src/app/services/local-auth.service';
 
 @Component({
   selector: 'app-article-editor',
@@ -34,7 +35,7 @@ export class ArticleEditorComponent implements OnInit {
   public progressInfos: any[] = [];
   public imageInfos?: Observable<any>;
 
-  constructor(private _articleService: ArticleService, private _formBuilder: FormBuilder, private _snackBar: MatSnackBar) { }
+  constructor(public auth: LocalAuthService, private _articleService: ArticleService, private _formBuilder: FormBuilder, private _snackBar: MatSnackBar) { }
 
   onValueChange(e: any) {
     if (!this.f.articleBody) {
