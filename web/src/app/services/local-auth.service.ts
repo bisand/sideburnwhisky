@@ -10,6 +10,8 @@ import jwt_decode from "jwt-decode";
 })
 export class LocalAuthService {
   private _accessToken: string = '';
+  private _parsedToken: any = {};
+
   claims: IdToken | undefined | null;
   user: User | null | undefined;
   isAuthenticated: boolean = false;
@@ -18,9 +20,7 @@ export class LocalAuthService {
   private _checker = (arr: string[], target: string[]) => target.every(v => arr.includes(v));
 
   public hasPermission(permissions: string[]): Boolean {
-    const data: any = jwt_decode(this._accessToken);
-    const result = this._checker(data.permissions, permissions);
-    return result;
+    return this._checker(this._parsedToken.permissions, permissions);
   }
 
   logout(options?: LogoutOptions) {
@@ -52,6 +52,7 @@ export class LocalAuthService {
     });
     this._authService.getAccessTokenSilently({}).subscribe(token => {
       this._accessToken = token;
+      this._parsedToken = jwt_decode(this._accessToken);
     }, error => {
       console.log('Login required.')
     });
