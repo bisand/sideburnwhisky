@@ -23,8 +23,36 @@ export class LocalAuthService {
     return this._checker(this._parsedToken.permissions, permissions);
   }
 
-  public get hasArticleWriterPermission(): Boolean {
+  public get isArticleWriter(): Boolean {
     return this.hasPermission(['write:articles']);
+  }
+
+  public get isArticlePublisher(): Boolean {
+    return this.hasPermission(['write:articles', 'publish:articles']);
+  }
+
+  public get isReviewWriter(): Boolean {
+    return this.hasPermission(['write:reviews']);
+  }
+
+  public get isReviewPublisher(): Boolean {
+    return this.hasPermission(['write:reviews', 'publish:reviews']);
+  }
+
+  public get isEventWriter(): Boolean {
+    return this.hasPermission(['write:articles']);
+  }
+
+  public get isEventPublisher(): Boolean {
+    return this.hasPermission(['write:events', 'publish:events']);
+  }
+
+  public get isUserAdmin(): Boolean {
+    return this.hasPermission(['write:users']);
+  }
+
+  public get isUserViewer(): Boolean {
+    return this.hasPermission(['write:users']);
   }
 
   logout(options?: LogoutOptions) {
