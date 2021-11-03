@@ -5,5 +5,7 @@
     <h5>Upubliserte artikler</h5>
     <div *ngFor="let article of articles" class="card">
         {{ article.doc.title }} - {{ article.doc.author }}
+        <mat-icon aria-hidden="false" aria-label="Publisert">edit</mat-icon>
+        <mat-icon aria-hidden="false" aria-label="Publisert">delete</mat-icon>
     </div>
 </div>
