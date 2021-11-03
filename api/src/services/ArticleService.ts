@@ -24,13 +24,13 @@ export class ArticleService extends DocumentService {
         return '';
     }
 
-    public saveArticle(user: Article): Promise<Number>{
+    public saveArticle(user: Article): Promise<Number> {
         throw new Error('Method not implemented.');
     }
 
-    public async getArticles(): Promise<Article[]> {
+    public async getArticles(viewName: string): Promise<Article[]> {
         try {
-            const response = await this._dataService.db.view(this._designName, "all", { include_docs: true });
+            const response = await this._dataService.db.view(this._designName, viewName, { include_docs: true });
             const result: Article[] = [];
             response.rows.forEach(doc => {
                 result.push(Object.assign({} as Article, doc));
@@ -40,25 +40,7 @@ export class ArticleService extends DocumentService {
             console.error(error);
             if (error?.statusCode === 401) {
                 await this._dataService.auth();
-                return await this.getArticles();
-            }
-        }
-        return [];
-    }
-
-    public async getActiveArticles() {
-        try {
-            const response = await this._dataService.db.view(this._designName, "active", { include_docs: true });
-            const result: Article[] = [];
-            response.rows.forEach(doc => {
-                result.push(Object.assign({} as Article, doc));
-            });
-            return result;
-        } catch (error: any) {
-            console.error(error);
-            if (error?.statusCode === 401) {
-                await this._dataService.auth();
-                return await this.getArticles();
+                return await this.getArticles(viewName);
             }
         }
         return [];
@@ -73,14 +55,19 @@ export class ArticleService extends DocumentService {
 
     // Remember to change version number in the design document when changing views.
     private createViews() {
-        const allUsers = `function (doc) {
+        const allArticles = `function (doc) {
             if (doc.type === "article") { 
                 emit(doc.title, doc.datePublished)
             }
         }`;
-        const activeUsers = `function (doc) {
+        const activeArticles = `function (doc) {
             if (doc.type === "article" && doc.active) { 
                 emit(doc.title, doc.datePublished)
+            }
+        }`;
+        const unpublishedArticles = `function (doc) {
+            if (doc.type === "article" && doc.published == false) { 
+                emit(doc.title, doc.author)
             }
         }`;
 
@@ -88,13 +75,16 @@ export class ArticleService extends DocumentService {
         const ddoc: any = {
 
             _id: '_design/' + this._designName,
-            version: '2',
+            version: '3',
             views: {
                 'active': {
-                    map: activeUsers
+                    map: activeArticles
+                },
+                'unpublished': {
+                    map: unpublishedArticles
                 },
                 'all': {
-                    map: allUsers
+                    map: allArticles
                 },
             },
             options: {

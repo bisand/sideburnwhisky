@@ -3,5 +3,7 @@
     <a routerLink="/artikkelredigering">Ny artikkel</a>
     <hr>
     <h5>Upubliserte artikler</h5>
-    <p>...</p>
+    <div *ngFor="let article of articles" class="card">
+        {{ article.doc.title }} - {{ article.doc.author }}
+    </div>
 </div>

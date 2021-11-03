@@ -18,12 +18,17 @@ export class ArticleController {
 
   public start() {
     this._app.get('/articles', async (req: Request, res: Response) => {
-      const articles = await this._articleService.getArticles();
+      const articles = await this._articleService.getArticles('all');
       res.send(articles);
     });
 
     this._app.get('/articles/active', async (req: Request, res: Response) => {
-      const users = await this._articleService.getActiveArticles();
+      const users = await this._articleService.getArticles('active');
+      res.send(users);
+    });
+
+    this._app.get('/articles/unpublished', async (req: Request, res: Response) => {
+      const users = await this._articleService.getArticles('unpublished');
       res.send(users);
     });
 

@@ -10,11 +10,18 @@ import { LocalAuthService } from '../../services/local-auth.service';
   styleUrls: ['./article-tool-box.component.scss']
 })
 export class ArticleToolBoxComponent implements OnInit {
+  articles: any = [];
 
   constructor(public auth: LocalAuthService, private _articleService: ArticleService) {
   }
 
   ngOnInit(): void {
+    this._articleService.getArticles().subscribe((data: any[]) => {
+      console.log(data);
+      this.articles = data;
+    }, error => {
+      console.log(error);
+    });
   }
 
 }

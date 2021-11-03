@@ -18,6 +18,10 @@ export class ArticleService {
     return this.httpClient.get(this._apiUrl + '/articles/');
   }
 
+  public getUnpublishedArticles(): Observable<any> {
+    return this.httpClient.get(this._apiUrl + '/articles/unpublished/');
+  }
+
   public createNewArticle(article: Article): Observable<HttpEvent<any>> {
     const req = new HttpRequest('POST', `${this._apiUrl}/articles`, article, {
       reportProgress: true,
