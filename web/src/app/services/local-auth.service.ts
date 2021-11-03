@@ -23,6 +23,10 @@ export class LocalAuthService {
     return this._checker(this._parsedToken.permissions, permissions);
   }
 
+  public get hasArticleWriterPermission(): Boolean {
+    return this.hasPermission(['write:articles']);
+  }
+
   logout(options?: LogoutOptions) {
     this._authService.logout(options);
   }
