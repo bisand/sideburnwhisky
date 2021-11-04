@@ -14,6 +14,7 @@ const routes: Routes = [
   { path: 'om-oss', component: AboutComponent },
   { path: 'tester', component: ReviewsComponent },
   { path: 'arrangementer', component: EventsComponent },
+  { path: 'artikkelredigering/:id', component: ArticleEditorComponent },
   { path: 'artikkelredigering', component: ArticleEditorComponent },
   { path: 'brukerprofil', component: UserProfileComponent },
   { path: '**', redirectTo: '/' }

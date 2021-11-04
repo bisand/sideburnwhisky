@@ -2,10 +2,12 @@ import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import * as marked from 'marked';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { ArticleService } from '../../services/article.service';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition, } from '@angular/material/snack-bar';
 import { LocalAuthService } from 'src/app/services/local-auth.service';
+import { Article } from 'src/app/models/Article';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-article-editor',
@@ -13,6 +15,10 @@ import { LocalAuthService } from 'src/app/services/local-auth.service';
   styleUrls: ['./article-editor.component.scss']
 })
 export class ArticleEditorComponent implements OnInit {
+
+  private _routeSub!: Subscription;
+  private _articleId: string | undefined;
+  private _article: Article | undefined;
 
   public articleForm = this._formBuilder.group({
     articleTitle: ['', Validators.required],
@@ -35,7 +41,12 @@ export class ArticleEditorComponent implements OnInit {
   public progressInfos: any[] = [];
   public imageInfos?: Observable<any>;
 
-  constructor(public auth: LocalAuthService, private _articleService: ArticleService, private _formBuilder: FormBuilder, private _snackBar: MatSnackBar) { }
+  constructor(
+    public auth: LocalAuthService,
+    private _articleService: ArticleService,
+    private _formBuilder: FormBuilder,
+    private _snackBar: MatSnackBar,
+    private _route: ActivatedRoute) { }
 
   onValueChange(e: any) {
     if (!this.f.articleBody) {
@@ -53,6 +64,12 @@ export class ArticleEditorComponent implements OnInit {
       this.compiledMarkdown = this.compileMarkdown(val !== '' ? val : this.startingValue);
     });
 
+    this._routeSub = this._route.params.subscribe(params => {
+      this._articleId = params['id'];
+      if (this._articleId) {
+        // Handle articleId. Load article etc.
+      }
+    });
   }
 
   selectFiles(event: any): void {
