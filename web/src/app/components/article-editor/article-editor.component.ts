@@ -68,6 +68,9 @@ export class ArticleEditorComponent implements OnInit {
       this._articleId = params['id'];
       if (this._articleId) {
         // Handle articleId. Load article etc.
+      } else { 
+        this._article = undefined;
+        this._articleId = undefined;
       }
     });
   }
