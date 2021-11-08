@@ -1,3 +1,4 @@
+import { DocumentViewParams } from 'nano';
 import { Article } from "../models/Article";
 import { HttpError } from "../models/HttpError";
 import { DocumentService } from "./DocumentService";
@@ -28,9 +29,13 @@ export class ArticleService extends DocumentService {
         throw new Error('Method not implemented.');
     }
 
-    public async getArticles(viewName: string): Promise<Article[]> {
+    public async getArticles(viewName: string, key?: string): Promise<Article[]> {
         try {
-            const response = await this._dataService.db.view(this._designName, viewName, { include_docs: true });
+            const params: DocumentViewParams = {
+                include_docs: true,
+                key: key
+            };
+            const response = await this._dataService.db.view(this._designName, viewName, params);
             const result: Article[] = [];
             response.rows.forEach(doc => {
                 result.push(Object.assign({} as Article, doc));
@@ -57,17 +62,22 @@ export class ArticleService extends DocumentService {
     private createViews() {
         const allArticles = `function (doc) {
             if (doc.type === "article") { 
-                emit(doc.title, doc.datePublished)
+                emit(doc.author, doc.title)
             }
         }`;
         const activeArticles = `function (doc) {
             if (doc.type === "article" && doc.active) { 
-                emit(doc.title, doc.datePublished)
+                emit(doc.author, doc.title)
             }
         }`;
         const unpublishedArticles = `function (doc) {
-            if (doc.type === "article" && doc.published == false) { 
-                emit(doc.title, doc.author)
+            if (doc.type === "article" && !doc.published) { 
+                emit(doc.author, doc.title)
+            }
+        }`;
+        const publishedArticles = `function (doc) {
+            if (doc.type === "article" && doc.published) { 
+                emit(doc.author, doc.title)
             }
         }`;
 
@@ -75,13 +85,16 @@ export class ArticleService extends DocumentService {
         const ddoc: any = {
 
             _id: '_design/' + this._designName,
-            version: '3',
+            version: '7',
             views: {
                 'active': {
                     map: activeArticles
                 },
                 'unpublished': {
                     map: unpublishedArticles
+                },
+                'published': {
+                    map: publishedArticles
                 },
                 'all': {
                     map: allArticles
