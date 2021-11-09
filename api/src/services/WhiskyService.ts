@@ -42,14 +42,12 @@ export class WhiskyService extends DocumentService {
         return [];
     }
 
-    private _designName: string = 'sideburn-whiskys';
-
     constructor(dataService: IDataService) {
-        super(dataService);
+        super(dataService, 'sideburn-whiskys');
     }
 
     // Remember to change version number in the design document when changing views.
-    protected createViews() {
+    protected createViews(designName: string) {
         const allWhiskys = `function (doc) {
             if (doc.type === "whisky") { 
                 emit(doc.name, doc.datePublished)
@@ -64,7 +62,7 @@ export class WhiskyService extends DocumentService {
         // Design Document
         const ddoc: any = {
 
-            _id: '_design/' + this._designName,
+            _id: '_design/' + designName,
             version: '2',
             views: {
                 'active': {

@@ -51,14 +51,12 @@ export class ArticleService extends DocumentService {
         return [];
     }
 
-    private _designName: string = 'sideburn-articles';
-
     constructor(dataService: IDataService) {
-        super(dataService);
+        super(dataService, 'sideburn-articles');
     }
 
     // Remember to change version number in the design document when changing views.
-    protected createViews() {
+    protected createViews(designName: string) {
         const allArticles = `function (doc) {
             if (doc.type === "article") { 
                 emit(doc.author, doc.title)
@@ -83,7 +81,7 @@ export class ArticleService extends DocumentService {
         // Design Document
         const ddoc: any = {
 
-            _id: '_design/' + this._designName,
+            _id: '_design/' + designName,
             version: '7',
             views: {
                 'active': {

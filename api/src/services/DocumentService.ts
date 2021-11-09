@@ -3,12 +3,14 @@ import { IDataService } from './IDataService';
 
 export abstract class DocumentService {
     protected _dataService: IDataService;
-    constructor(dataService: IDataService) {
+    protected _designName: string;
+    constructor(dataService: IDataService, viewDesignName: string) {
         this._dataService = dataService;
-        this.createViews();
+        this._designName = viewDesignName;
+        this.createViews(viewDesignName);
     }
 
-    protected abstract createViews(): void;
+    protected abstract createViews(designName: string): void;
 
     protected generateTextId(textInId: string): string {
         let id = this.replaceSpecialChars(textInId).replace(/[^A-Z0-9]+/ig, "-").replace(/[^A-Z0-9]+/ig, "-").toLowerCase();
