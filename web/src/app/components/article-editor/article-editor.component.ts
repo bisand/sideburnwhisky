@@ -8,6 +8,7 @@ import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition
 import { LocalAuthService } from 'src/app/services/local-auth.service';
 import { Article } from 'src/app/models/Article';
 import { ActivatedRoute } from '@angular/router';
+import { IArticle } from 'src/app/models/IArticle';
 
 @Component({
   selector: 'app-article-editor',
@@ -20,18 +21,27 @@ export class ArticleEditorComponent implements OnInit {
   private _articleId: string | undefined;
   public article!: Article;
 
-  public articleForm = this._formBuilder.group({
-    articleTitle: ['', Validators.required],
-    articleSubject: ['', Validators.required],
-    articleBody: ['', Validators.required],
-  });
+  public formModel: { [key in keyof IArticle]: FormControl } = {
+    title: new FormControl(null, Validators.required),
+    subject: new FormControl(null, Validators.required),
+    body: new FormControl(null, Validators.required),
+    dateCreated: new FormControl(null, Validators.required),
+    dateModified: new FormControl(null, Validators.required),
+    datePublished: new FormControl(null, Validators.required),
+    publishDate: new FormControl(null, Validators.required),
+    author: new FormControl(null, Validators.required),
+    tags: new FormControl(null, Validators.required),
+    image: new FormControl(null, Validators.required),
+  };
+  form: FormGroup = new FormGroup(this.formModel);
+
   public activeTab: number = 0;
 
   public get hasImage(): Boolean {
     return this.imageUrl !== this.imageUrlDefault;
   }
 
-  public get f() { return this.articleForm.controls; }
+  public get f() { return this.formModel; }
   public get articleReady() { return this.article !== undefined }
 
   public compiledMarkdown?: string;
@@ -51,18 +61,18 @@ export class ArticleEditorComponent implements OnInit {
     private _route: ActivatedRoute) { }
 
   onValueChange(e: any) {
-    if (!this.f.articleBody) {
+    if (!this.f.body) {
       // reset to initial state
       this.compiledMarkdown = this.compileMarkdown(this.startingValue);
     } else {
-      this.compiledMarkdown = this.compileMarkdown(this.f.articleBody.value);
+      this.compiledMarkdown = this.compileMarkdown(this.f.body.value);
     }
   }
 
   ngOnInit(): void {
     this.startingValue = this.getPlaceHolder();
     this.compiledMarkdown = this.compileMarkdown(this.startingValue);
-    this.f.articleBody.valueChanges.subscribe(val => {
+    this.f.body?.valueChanges.subscribe(val => {
       this.compiledMarkdown = this.compileMarkdown(val !== '' ? val : this.startingValue);
     });
 
@@ -132,13 +142,13 @@ export class ArticleEditorComponent implements OnInit {
 
   onSubmit() {
     // TODO: Use EventEmitter with form value
-    console.warn(this.articleForm.value);
+    console.warn(this.formModel.title);
   }
 
-  newArticle(){
+  newArticle() {
     this.article = new Article(this.auth.profile?.email as string);
     this.activeTab = 0;
-    this.article.title='';
+    this.article.title = '';
   }
 
   openSnackBar(message: string) {

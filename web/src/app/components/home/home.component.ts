@@ -10,10 +10,10 @@ export class HomeComponent implements OnInit {
 
   articles: any = [];
 
-  constructor(private articleService: ArticleService) { }
+  constructor(private _articleService: ArticleService) { }
 
   ngOnInit(): void {
-    this.articleService.getArticles().subscribe((data: any[]) => {
+    this._articleService.getArticles().subscribe((data: any[]) => {
       this.articles = data;
     }, error => {
       console.log(error);

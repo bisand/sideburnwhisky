@@ -6,13 +6,13 @@
         <li [ngbNavItem]="0" *ngIf="articleReady">
             <a ngbNavLink>Redigering</a>
             <ng-template ngbNavContent>
-                <form [formGroup]="articleForm" (ngSubmit)="onSubmit()">
+                <form [formGroup]="form" (ngSubmit)="onSubmit()">
                     <div class="group">
                         <div class="leftcolumn">
                             <label for="articleTitle">Tittel: </label>
-                            <input id="articleTitle" type="text" formControlName="articleTitle" [(ngModel)]="article.title">
+                            <input id="articleTitle" type="text" [formControl]="formModel.title" />
                             <label for="articleSubject">Ingress: </label>
-                            <textarea id="articleSubject" class="text-editor-ingress" formControlName="articleSubject"></textarea>
+                            <textarea id="articleSubject" class="text-editor-ingress" [formControl]="formModel.subject"></textarea>
                         </div>
                         <div class="rightcolumn" style="text-align: center; display: block;">
                             <img [src]="imageUrl" class="article-image-small" />
@@ -43,7 +43,7 @@
                             </label>
                         </div>
                     </div>
-                    <textarea id="articleBody" [placeholder]="startingValue" class="text-editor-body" formControlName="articleBody"></textarea>
+                    <textarea id="articleBody" [placeholder]="startingValue" class="text-editor-body" [formControl]="formModel.body"></textarea>
                     <div class="row row-cols-2 py-4">
                         <div class="col text-left">
                             <button *ngIf="auth.isArticleWriter" class="btn btn-success btn-md w-50" [disabled]="!selectedFiles" (click)="uploadFiles()">
@@ -62,8 +62,8 @@
         <li [ngbNavItem]="1" *ngIf="articleReady">
             <a ngbNavLink>Forhåndsvisning</a>
             <ng-template ngbNavContent>
-                <h2>{{f.articleTitle.value}}</h2>
-                <h6>{{f.articleSubject.value}}</h6>
+                <h2>{{f.title}}</h2>
+                <h6>{{f.subject}}</h6>
                 <div class="meta">
                     <time class="date dt-published" datetime="2021-10-14T05:15:00+00:00" itemprop="datePublished">
                         <mat-icon aria-hidden="false" aria-label="Publisert">edit_calendar</mat-icon> 14 oktober 2021

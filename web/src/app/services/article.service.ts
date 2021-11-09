@@ -24,7 +24,8 @@ export class ArticleService {
   }
 
   public getUnpublishedArticles(): Observable<any> {
-    return this.httpClient.get(this._apiUrl + '/articles/unpublished/');
+    let articles = this.httpClient.get(this._apiUrl + '/articles/unpublished/');
+    return articles;
   }
 
   public createNewArticle(article: Article): Observable<HttpEvent<any>> {
