@@ -17,7 +17,6 @@ export class ArticleToolBoxComponent implements OnInit {
 
   ngOnInit(): void {
     this._articleService.getUnpublishedArticles().subscribe((data: any[]) => {
-      console.log(data);
       this.articles = data;
     }, error => {
       console.log(error);
