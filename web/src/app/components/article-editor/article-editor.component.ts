@@ -18,19 +18,21 @@ export class ArticleEditorComponent implements OnInit {
 
   private _routeSub!: Subscription;
   private _articleId: string | undefined;
-  private _article: Article | undefined;
+  public article!: Article;
 
   public articleForm = this._formBuilder.group({
     articleTitle: ['', Validators.required],
     articleSubject: ['', Validators.required],
     articleBody: ['', Validators.required],
   });
+  public activeTab: number = 0;
 
   public get hasImage(): Boolean {
     return this.imageUrl !== this.imageUrlDefault;
   }
 
   public get f() { return this.articleForm.controls; }
+  public get articleReady() { return this.article !== undefined }
 
   public compiledMarkdown?: string;
   public startingValue = '';
@@ -67,9 +69,13 @@ export class ArticleEditorComponent implements OnInit {
     this._routeSub = this._route.params.subscribe(params => {
       this._articleId = params['id'];
       if (this._articleId) {
-        // Handle articleId. Load article etc.
-      } else { 
-        this._article = undefined;
+        this._articleService.getArticle(this._articleId).subscribe((data: any) => {
+          this.article = data;
+        }, error => {
+          console.log(error);
+        });
+      } else {
+        this.article = new Article(this.auth.profile?.email as string);
         this._articleId = undefined;
       }
     });
@@ -127,6 +133,12 @@ export class ArticleEditorComponent implements OnInit {
   onSubmit() {
     // TODO: Use EventEmitter with form value
     console.warn(this.articleForm.value);
+  }
+
+  newArticle(){
+    this.article = new Article(this.auth.profile?.email as string);
+    this.activeTab = 0;
+    this.article.title='';
   }
 
   openSnackBar(message: string) {

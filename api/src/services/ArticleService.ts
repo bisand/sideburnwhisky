@@ -29,6 +29,22 @@ export class ArticleService extends DocumentService {
         throw new Error('Method not implemented.');
     }
 
+    public async getArticle(id: string): Promise<Article | null> {
+        try {
+            const response = await this._dataService.db.get(id);
+            let result: Article = new Article('');
+            result = (Object.assign({} as Article, response));
+            return result;
+        } catch (error: any) {
+            console.error(error);
+            if (error?.statusCode === 401) {
+                await this._dataService.auth();
+                return await this.getArticle(id);
+            }
+        }
+        return null;
+    }
+
     public async getArticles(viewName: string, key?: string): Promise<Article[]> {
         try {
             const params: DocumentViewParams = {

@@ -1,6 +1,6 @@
 <div class="card" *ngIf="auth.isAuthenticated && auth.isArticleWriter">
     <div class="card-header">Verktøy</div>
-    <a routerLink="/artikkelredigering">Ny artikkel</a>
+    <a routerLink="/artikkelredigering">Artikkelredigering</a>
     <hr>
     <h5>Upubliserte artikler</h5>
     <div *ngFor="let article of articles" class="card">

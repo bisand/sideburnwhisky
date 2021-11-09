@@ -14,6 +14,11 @@ export class ArticleController {
     return res;
   });
 
+  private _isArticlePublisher = claimCheck((payload: any) => {
+    const res = (payload.permissions && payload.permissions.includes('publish:articles'));
+    return res;
+  });
+
   constructor(app: express.Application, checkJwt: express.Handler, articleService: ArticleService) {
     this._app = app;
     this._articleService = articleService;
@@ -21,8 +26,13 @@ export class ArticleController {
   }
 
   public start() {
+    this._app.get('/articles/:id', async (req: Request, res: Response) => {
+      const articles = await this._articleService.getArticle(req.params.id);
+      res.send(articles);
+    });
+
     this._app.get('/articles', async (req: Request, res: Response) => {
-      const articles = await this._articleService.getArticles('all');
+      const articles = await this._articleService.getArticles('published');
       res.send(articles);
     });
 
@@ -37,8 +47,8 @@ export class ArticleController {
       res.send(articles);
     });
 
-    this._app.get('/articles/unpublished/all', this._checkJwt, async (req: Request, res: Response) => {
-      const articles = await this._articleService.getArticles('all-unpublished');
+    this._app.get('/articles/unpublished/all', this._checkJwt, this._isArticlePublisher, async (req: Request, res: Response) => {
+      const articles = await this._articleService.getArticles('unpublished');
       res.send(articles);
     });
 

@@ -18,6 +18,11 @@ export class ArticleService {
     return this.httpClient.get(this._apiUrl + '/articles/');
   }
 
+  public getArticle(id: string): Observable<any> {
+    let article = this.httpClient.get(this._apiUrl + '/articles/' + id);
+    return article;
+  }
+
   public getUnpublishedArticles(): Observable<any> {
     return this.httpClient.get(this._apiUrl + '/articles/unpublished/');
   }
