@@ -55,11 +55,10 @@ export class ArticleService extends DocumentService {
 
     constructor(dataService: IDataService) {
         super(dataService);
-        this.createViews();
     }
 
     // Remember to change version number in the design document when changing views.
-    private createViews() {
+    protected createViews() {
         const allArticles = `function (doc) {
             if (doc.type === "article") { 
                 emit(doc.author, doc.title)

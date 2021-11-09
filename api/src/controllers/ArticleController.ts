@@ -3,7 +3,6 @@ import { jsonParser } from '../index';
 import { Article } from '../models/Article';
 import { ArticleService } from '../services/ArticleService';
 import { auth, requiredScopes, claimCheck, claimEquals, claimIncludes, JWTPayload } from 'express-oauth2-jwt-bearer';
-import jwt_decode from "jwt-decode";
 
 export class ArticleController {
   private _checkJwt: express.Handler;
@@ -33,7 +32,7 @@ export class ArticleController {
     });
 
     this._app.get('/articles/unpublished', this._checkJwt, this._isArticleWriter, async (req: Request, res: Response) => {
-      const user = req.auth?.payload['https://sideburnwhisky'] as string;
+      const user = req.auth?.payload['https://sideburnwhisky.no/email'] as string;
       const articles = await this._articleService.getArticles('unpublished', user);
       res.send(articles);
     });

@@ -46,11 +46,10 @@ export class WhiskyService extends DocumentService {
 
     constructor(dataService: IDataService) {
         super(dataService);
-        this.createViews();
     }
 
     // Remember to change version number in the design document when changing views.
-    private createViews() {
+    protected createViews() {
         const allWhiskys = `function (doc) {
             if (doc.type === "whisky") { 
                 emit(doc.name, doc.datePublished)

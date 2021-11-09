@@ -1,7 +1,5 @@
 import express, { Request, Response } from 'express';
 import { auth } from 'express-oauth2-jwt-bearer';
-import jwt from 'express-jwt';
-import jwks from 'jwks-rsa';
 import helmet from 'helmet';
 import bodyParser from 'body-parser'
 import dotenv from 'dotenv';
@@ -43,18 +41,6 @@ var checkJwt = auth({
   audience: 'https://api.sideburnwhisky.no/',
   issuer: 'https://bisand.auth0.com/',
 });
-
-// const jwtCheck = jwt({
-//   secret: jwks.expressJwtSecret({
-//     cache: true,
-//     rateLimit: true,
-//     jwksRequestsPerMinute: 5,
-//     jwksUri: 'https://bisand.auth0.com/.well-known/jwks.json'
-//   }),
-//   audience: 'https://api.sideburnwhisky.no/',
-//   issuer: 'https://bisand.auth0.com/',
-//   algorithms: ['RS256']
-// });
 
 // Prepare database connection.
 const dataService = new DataService(config, async () => {

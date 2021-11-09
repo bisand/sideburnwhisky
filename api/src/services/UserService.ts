@@ -60,11 +60,10 @@ export class UserService extends DocumentService {
 
     constructor(dataService: IDataService) {
         super(dataService);
-        this.createViews();
     }
 
     // Remember to change version number in the design document when changing views.
-    private createViews() {
+    protected createViews() {
         const allUsers = `function (doc) {
             if (doc.type === "user") { 
                 emit(doc.username, doc.firstName + ' ' + doc.lastName)

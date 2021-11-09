@@ -46,11 +46,10 @@ export class ReviewService extends DocumentService {
 
     constructor(dataService: IDataService) {
         super(dataService);
-        this.createViews();
     }
 
     // Remember to change version number in the design document when changing views.
-    private createViews() {
+    protected createViews() {
         const allReviews = `function (doc) {
             if (doc.type === "review") { 
                 emit(doc.title, doc.datePublished)

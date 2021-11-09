@@ -5,7 +5,10 @@ export abstract class DocumentService {
     protected _dataService: IDataService;
     constructor(dataService: IDataService) {
         this._dataService = dataService;
+        this.createViews();
     }
+
+    protected abstract createViews(): void;
 
     protected generateTextId(textInId: string): string {
         let id = this.replaceSpecialChars(textInId).replace(/[^A-Z0-9]+/ig, "-").replace(/[^A-Z0-9]+/ig, "-").toLowerCase();
