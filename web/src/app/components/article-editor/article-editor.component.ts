@@ -35,7 +35,7 @@ export class ArticleEditorComponent implements OnInit {
   };
   form: FormGroup = new FormGroup(this.formModel);
 
-  public activeTab: number = 0;
+  public activeTab: Observable<number>;
 
   public get hasImage(): Boolean {
     return this.imageUrl !== this.imageUrlDefault;
@@ -44,8 +44,7 @@ export class ArticleEditorComponent implements OnInit {
   public get f() { return this.formModel; }
   public get articleReady() { return this.article !== undefined }
 
-  public compiledMarkdown?: string;
-  public startingValue = '';
+  public compiledBodyMarkdown?: string;
   public imageUrlDefault = '../assets/images/picture_placeholder.png';
   public imageUrl = this.imageUrlDefault;
 
@@ -58,22 +57,24 @@ export class ArticleEditorComponent implements OnInit {
     private _articleService: ArticleService,
     private _formBuilder: FormBuilder,
     private _snackBar: MatSnackBar,
-    private _route: ActivatedRoute) { }
+    private _route: ActivatedRoute) { 
 
-  onValueChange(e: any) {
-    if (!this.f.body) {
-      // reset to initial state
-      this.compiledMarkdown = this.compileMarkdown(this.startingValue);
-    } else {
-      this.compiledMarkdown = this.compileMarkdown(this.f.body.value);
+      this.activeTab = new Observable<number>();
+
     }
-  }
 
   ngOnInit(): void {
-    this.startingValue = this.getPlaceHolder();
-    this.compiledMarkdown = this.compileMarkdown(this.startingValue);
+
+    this.activeTab?.subscribe(val => {
+      this.compiledBodyMarkdown = this.compileMarkdown(this.f.body.value);
+    });
     this.f.body?.valueChanges.subscribe(val => {
-      this.compiledMarkdown = this.compileMarkdown(val !== '' ? val : this.startingValue);
+    });
+
+    this.f.title?.valueChanges.subscribe(val => {
+    });
+
+    this.f.subject?.valueChanges.subscribe(val => {
     });
 
     this._routeSub = this._route.params.subscribe(params => {
@@ -81,6 +82,7 @@ export class ArticleEditorComponent implements OnInit {
       if (this._articleId) {
         this._articleService.getArticle(this._articleId).subscribe((data: any) => {
           this.article = data;
+          this.form.patchValue(this.article);
         }, error => {
           console.log(error);
         });
@@ -147,7 +149,7 @@ export class ArticleEditorComponent implements OnInit {
 
   newArticle() {
     this.article = new Article(this.auth.profile?.email as string);
-    this.activeTab = 0;
+    //this.activeTab.pipe() = 0;
     this.article.title = '';
   }
 

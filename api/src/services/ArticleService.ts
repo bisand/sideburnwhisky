@@ -11,7 +11,7 @@ export class ArticleService extends DocumentService {
             data.title = this.getLoremIpsum().generateSentences(1);
             data.subject = this.getLoremIpsum().generateSentences(4);
             data.body = this.getLoremIpsum().generateParagraphs(7);
-            data._id = this.generateTextId(data.title);
+            //data._id = this.generateTextId(data.title);
             const response = await this._dataService.db.insert(data);
             if (response.ok)
                 return response.id;

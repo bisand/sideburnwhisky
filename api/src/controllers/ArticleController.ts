@@ -26,11 +26,6 @@ export class ArticleController {
   }
 
   public start() {
-    this._app.get('/articles/:id', async (req: Request, res: Response) => {
-      const articles = await this._articleService.getArticle(req.params.id);
-      res.send(articles);
-    });
-
     this._app.get('/articles', async (req: Request, res: Response) => {
       const articles = await this._articleService.getArticles('published');
       res.send(articles);
@@ -49,6 +44,11 @@ export class ArticleController {
 
     this._app.get('/articles/unpublished/all', this._checkJwt, this._isArticlePublisher, async (req: Request, res: Response) => {
       const articles = await this._articleService.getArticles('unpublished');
+      res.send(articles);
+    });
+
+    this._app.get('/articles/:id', async (req: Request, res: Response) => {
+      const articles = await this._articleService.getArticle(req.params.id);
       res.send(articles);
     });
 

@@ -17,7 +17,7 @@ export class LocalAuthService {
   isAuthenticated: boolean = false;
   profile: User | null | undefined;
 
-  private _checker = (arr: string[], target: string[]) => target.every(v => arr.includes(v));
+  private _checker = (arr: string[], target: string[]) => target?.every(v => arr?.includes(v));
 
   public hasPermission(permissions: string[]): Boolean {
     return this._checker(this._parsedToken.permissions, permissions);

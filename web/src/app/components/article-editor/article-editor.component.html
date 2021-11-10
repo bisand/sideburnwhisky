@@ -43,7 +43,7 @@
                             </label>
                         </div>
                     </div>
-                    <textarea id="articleBody" [placeholder]="startingValue" class="text-editor-body" [formControl]="formModel.body"></textarea>
+                    <textarea id="articleBody" class="text-editor-body" [formControl]="formModel.body"></textarea>
                     <div class="row row-cols-2 py-4">
                         <div class="col text-left">
                             <button *ngIf="auth.isArticleWriter" class="btn btn-success btn-md w-50" [disabled]="!selectedFiles" (click)="uploadFiles()">
@@ -62,8 +62,8 @@
         <li [ngbNavItem]="1" *ngIf="articleReady">
             <a ngbNavLink>Forhåndsvisning</a>
             <ng-template ngbNavContent>
-                <h2>{{f.title}}</h2>
-                <h6>{{f.subject}}</h6>
+                <h2>{{ f.title.value }}</h2>
+                <h6>{{ f.subject.value }}</h6>
                 <div class="meta">
                     <time class="date dt-published" datetime="2021-10-14T05:15:00+00:00" itemprop="datePublished">
                         <mat-icon aria-hidden="false" aria-label="Publisert">edit_calendar</mat-icon> 14 oktober 2021
@@ -75,7 +75,7 @@
                 </div>
                 <div class="card-content">
                     <img [src]="imageUrl" class="article-image" *ngIf="hasImage" />
-                    <div [innerHtml]="compiledMarkdown"></div>
+                    <div [innerHtml]="compiledBodyMarkdown"></div>
                 </div>
             </ng-template>
         </li>
