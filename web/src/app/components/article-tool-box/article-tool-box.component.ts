@@ -23,4 +23,13 @@ export class ArticleToolBoxComponent implements OnInit {
     });
   }
 
+  public async deleteArticle(id: string) {
+    await this._articleService.deleteArticle(id).toPromise();
+    this._articleService.getUnpublishedArticles().subscribe((data: any[]) => {
+      this.articles = data;
+    }, error => {
+      console.log(error);
+    });
+  }
+
 }

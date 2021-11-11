@@ -23,6 +23,11 @@ export class ArticleService {
     return article;
   }
 
+  public deleteArticle(id: string): Observable<any> {
+    let result = this.httpClient.delete(this._apiUrl + '/articles/' + id);
+    return result;
+  }
+
   public getUnpublishedArticles(): Observable<any> {
     let articles = this.httpClient.get(this._apiUrl + '/articles/unpublished/');
     return articles;
@@ -30,6 +35,14 @@ export class ArticleService {
 
   public createNewArticle(article: Article): Observable<HttpEvent<any>> {
     const req = new HttpRequest('POST', `${this._apiUrl}/articles`, article, {
+      reportProgress: true,
+      responseType: 'json'
+    });
+    return this.httpClient.request(req);
+  }
+
+  public saveArticle(article: Article) {
+    const req = new HttpRequest('PUT', `${this._apiUrl}/articles`, article, {
       reportProgress: true,
       responseType: 'json'
     });

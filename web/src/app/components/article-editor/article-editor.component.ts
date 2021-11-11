@@ -184,8 +184,9 @@ export class ArticleEditorComponent implements ComponentCanDeactivate, OnInit, O
     console.warn(this.formModel.title);
   }
 
-  public saveArticle() {
-
+  public async saveArticle() {
+    Object.assign(this.article, this.form.getRawValue());
+    const result = await this._articleService.saveArticle(this.article).toPromise();
   }
 
   public publishArticle() {

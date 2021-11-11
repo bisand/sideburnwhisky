@@ -206,6 +206,14 @@ a:visited {
   margin-right: 3px;
 }
 
+.icon-delete {
+  cursor: pointer;
+}
+
+.icon-delete:hover {
+  cursor: pointer;
+}
+
 /* Add a card effect for articles */
 .card {
   background-color: $card-background;

@@ -25,8 +25,19 @@ export class ArticleService extends DocumentService {
         return '';
     }
 
-    public saveArticle(user: Article): Promise<Number> {
-        throw new Error('Method not implemented.');
+    public async saveArticle(article: Article): Promise<string> {
+        try {
+            const response = await this._dataService.db.insert(article);
+            if (response.ok)
+                return response.id;
+        } catch (error: any) {
+            if (error?.statusCode === 401) {
+                await this._dataService.auth();
+                await this.addDemoArticle();
+            } else
+                throw new HttpError(error.statusCode, error.message);
+        }
+        return '';
     }
 
     public async getArticle(id: string): Promise<Article | null> {
@@ -43,6 +54,20 @@ export class ArticleService extends DocumentService {
             }
         }
         return null;
+    }
+
+    public async deleteArticle(id: string, rev: string): Promise<boolean> {
+        try {
+            const response = await this._dataService.db.destroy(id, rev);
+            return response.ok;
+        } catch (error: any) {
+            console.error(error);
+            if (error?.statusCode === 401) {
+                await this._dataService.auth();
+                return await this.deleteArticle(id, rev);
+            }
+        }
+        return false;
     }
 
     public async getArticles(viewName: string, key?: string): Promise<Article[]> {
