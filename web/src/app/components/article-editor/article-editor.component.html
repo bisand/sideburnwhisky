@@ -71,12 +71,12 @@
     <div [ngbNavOutlet]="nav"></div>
     <div class="row row-cols-2 py-4">
         <div class="col text-left">
-            <button *ngIf="auth.isArticleWriter" class="btn btn-success btn-md w-50" [disabled]="!selectedFiles" (click)="uploadFiles()">
+            <button *ngIf="auth.isArticleWriter" class="btn btn-success btn-md w-50" [disabled]="!canSaveArticle" (click)="saveArticle()">
                 Lagre endringer
             </button>
         </div>
         <div class="col text-right">
-            <button *ngIf="auth.isArticlePublisher" class="btn btn-warning btn-md w-50" [disabled]="!selectedFiles" (click)="uploadFiles()">
+            <button *ngIf="auth.isArticlePublisher" class="btn btn-warning btn-md w-50" [disabled]="!canPublishArticle" (click)="publishArticle()">
                 Publisere artikkel
             </button>
         </div>

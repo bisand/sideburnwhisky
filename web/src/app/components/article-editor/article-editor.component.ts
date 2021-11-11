@@ -26,17 +26,19 @@ export class ArticleEditorComponent implements OnInit {
     title: new FormControl(null, Validators.required),
     subject: new FormControl(null, Validators.required),
     body: new FormControl(null, Validators.required),
-    dateCreated: new FormControl(null, Validators.required),
-    dateModified: new FormControl(null, Validators.required),
-    datePublished: new FormControl(null, Validators.required),
-    publishDate: new FormControl(null, Validators.required),
-    author: new FormControl(null, Validators.required),
-    tags: new FormControl(null, Validators.required),
-    image: new FormControl(null, Validators.required),
+    dateCreated: new FormControl(null),
+    dateModified: new FormControl(null),
+    datePublished: new FormControl(null),
+    publishDate: new FormControl(null),
+    author: new FormControl(null),
+    tags: new FormControl(null),
+    image: new FormControl(null),
   };
   form: FormGroup = new FormGroup(this.formModel);
 
   public activeTab: number;
+  public canSaveArticle!: boolean;
+  public canPublishArticle!: boolean;
 
   public get hasImage(): Boolean {
     return this.imageUrl !== this.imageUrlDefault;
@@ -64,7 +66,24 @@ export class ArticleEditorComponent implements OnInit {
 
   }
 
+  private _checkForm() {
+    if (this.form.valid) {
+      this.canSaveArticle = true;
+      this.canPublishArticle = true;
+    }
+  }
+
   ngOnInit(): void {
+
+    this.form.statusChanges.subscribe(val => {
+      if (val === 'VALID') {
+        this.canSaveArticle = true;
+        this.canPublishArticle = this.article._id !== undefined;
+      } else {
+        this.canSaveArticle = false;
+        this.canPublishArticle = false;
+      }
+    });
 
     this.f.body?.valueChanges.subscribe(val => {
     });
@@ -77,10 +96,12 @@ export class ArticleEditorComponent implements OnInit {
 
     this._routeSub = this._route.params.subscribe(params => {
       this._articleId = params['id'];
+      this.canSaveArticle = true;
       if (this._articleId) {
         this._articleService.getArticle(this._articleId).subscribe((data: any) => {
           this.article = data;
           this.form.patchValue(this.article);
+          this.canPublishArticle = true;
         }, error => {
           console.log(error);
         });
@@ -151,6 +172,14 @@ export class ArticleEditorComponent implements OnInit {
     console.warn(this.formModel.title);
   }
 
+  public saveArticle() {
+
+  }
+
+  public publishArticle() {
+
+  }
+
   public newArticle() {
     this.article = new Article(this.auth.profile?.email as string);
     //this.activeTab.pipe() = 0;
@@ -169,3 +198,4 @@ export class ArticleEditorComponent implements OnInit {
     return marked.parser(marked.lexer(value));
   }
 }
+
