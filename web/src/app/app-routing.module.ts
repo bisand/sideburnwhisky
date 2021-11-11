@@ -7,6 +7,7 @@ import { HomeComponent } from './components/home/home.component';
 import { ReviewsComponent } from './components/reviews/reviews.component';
 import { StatuteComponent } from './components/statute/statute.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
+import { PendingChangesGuard } from './pending-changes.guard';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -14,8 +15,8 @@ const routes: Routes = [
   { path: 'om-oss', component: AboutComponent },
   { path: 'tester', component: ReviewsComponent },
   { path: 'arrangementer', component: EventsComponent },
-  { path: 'artikkelredigering/:id', component: ArticleEditorComponent },
-  { path: 'artikkelredigering', component: ArticleEditorComponent },
+  { path: 'artikkelredigering/:id', component: ArticleEditorComponent, canDeactivate: [PendingChangesGuard] },
+  { path: 'artikkelredigering', component: ArticleEditorComponent, canDeactivate: [PendingChangesGuard] },
   { path: 'brukerprofil', component: UserProfileComponent },
   { path: '**', redirectTo: '/' }
 ];

@@ -25,6 +25,7 @@ import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { ArticleToolBoxComponent } from './components/article-tool-box/article-tool-box.component';
 import { ArticleEditorComponent } from './components/article-editor/article-editor.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
+import { PendingChangesGuard } from './pending-changes.guard';
 
 @NgModule({
   declarations: [
@@ -84,7 +85,8 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
       provide: HTTP_INTERCEPTORS,
       useClass: AuthHttpInterceptor,
       multi: true,
-    }
+    },
+    PendingChangesGuard,
   ],
   bootstrap: [AppComponent]
 })

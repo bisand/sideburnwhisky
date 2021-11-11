@@ -1,5 +1,5 @@
 import { HttpEventType, HttpResponse } from '@angular/common/http';
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, HostListener, OnDestroy } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import * as marked from 'marked';
 import { Observable, Subscription } from 'rxjs';
@@ -10,24 +10,36 @@ import { Article } from 'src/app/models/Article';
 import { ActivatedRoute } from '@angular/router';
 import { IArticle } from 'src/app/models/IArticle';
 import { NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
+import { ComponentCanDeactivate } from '../../pending-changes.guard';
 
 @Component({
   selector: 'app-article-editor',
   templateUrl: './article-editor.component.html',
   styleUrls: ['./article-editor.component.scss']
 })
-export class ArticleEditorComponent implements OnInit {
+export class ArticleEditorComponent implements ComponentCanDeactivate, OnInit, OnDestroy {
+
+  // @HostListener allows us to also guard against browser refresh, close, etc.
+  @HostListener('window:beforeunload')
+  canDeactivate(): boolean | Observable<boolean> {
+    // insert logic to check if there are pending changes here;
+    // returning true will navigate without confirmation
+    // returning false will show a confirm dialog before navigating away
+    return this.article?.title === this.formModel.title.value
+      && this.article?.subject === this.formModel.subject.value
+      && this.article?.body === this.formModel.body.value;
+  }
 
   private _routeSub!: Subscription;
   private _articleId: string | undefined;
   public article!: Article;
 
   public formModel: { [key in keyof IArticle]: FormControl } = {
-    title: new FormControl(null, Validators.required),
-    subject: new FormControl(null, Validators.required),
-    body: new FormControl(null, Validators.required),
-    dateCreated: new FormControl(null),
-    dateModified: new FormControl(null),
+    title: new FormControl('', Validators.required),
+    subject: new FormControl('', Validators.required),
+    body: new FormControl('', Validators.required),
+    dateCreated: new FormControl(Date.now()),
+    dateModified: new FormControl(Date.now()),
     datePublished: new FormControl(null),
     publishDate: new FormControl(null),
     author: new FormControl(null),
@@ -65,12 +77,8 @@ export class ArticleEditorComponent implements OnInit {
     this.activeTab = 0;
 
   }
-
-  private _checkForm() {
-    if (this.form.valid) {
-      this.canSaveArticle = true;
-      this.canPublishArticle = true;
-    }
+  ngOnDestroy(): void {
+    this._routeSub.unsubscribe();
   }
 
   ngOnInit(): void {
@@ -106,8 +114,12 @@ export class ArticleEditorComponent implements OnInit {
           console.log(error);
         });
       } else {
-        this.article = new Article(this.auth.profile?.email as string);
-        this._articleId = undefined;
+        this.auth.user$.subscribe(user => {
+          this.article = new Article(user?.email as string);
+          this.form.patchValue(this.article);
+          this.canSaveArticle = false;
+          this.canPublishArticle = false;
+        });
       }
     });
   }

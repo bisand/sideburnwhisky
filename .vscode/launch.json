@@ -24,7 +24,7 @@
             "skipFiles": [
                 "<node_internals>/**",
                 "node_modules/**"
-            ]
+            ],
         },
         {
             "type": "pwa-chrome",
@@ -32,6 +32,15 @@
             "name": "Debug web",
             "url": "http://localhost:4200",
             "webRoot": "${workspaceFolder}/web"
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Server/Client",
+            "configurations": [
+                "Debug api",
+                "Debug web"
+            ],
         }
     ]
 }

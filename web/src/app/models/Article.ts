@@ -18,5 +18,8 @@ export class Article extends BaseDocument implements IArticle {
         this.author = author
         this.dateCreated = new Date();
         this.dateModified = this.dateCreated;
+        this.title = '';
+        this.subject = '';
+        this.body = '';
     }
 }

@@ -55,6 +55,10 @@ export class LocalAuthService {
     return this.hasPermission(['write:users']);
   }
 
+  public get user$(): Observable<User | null | undefined> {
+    return this._authService.user$;
+  }
+
   logout(options?: LogoutOptions) {
     this._authService.logout(options);
   }
