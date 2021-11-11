@@ -6,6 +6,6 @@
     <div *ngFor="let article of articles" class="card">
         {{ article.doc.title }} - {{ article.doc.author }}
         <a routerLink="/artikkelredigering/{{article.id}}"><mat-icon aria-hidden="false" aria-label="Publisert">edit</mat-icon></a>
-        <mat-icon aria-hidden="false" class="icon-delete" aria-label="Publisert" (click)="deleteArticle(article.id)">delete</mat-icon>
+        <mat-icon aria-hidden="false" class="icon-delete" aria-label="Publisert" (click)="deleteArticle(article)">delete</mat-icon>
     </div>
 </div>

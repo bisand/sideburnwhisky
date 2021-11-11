@@ -26,6 +26,7 @@ import { ArticleToolBoxComponent } from './components/article-tool-box/article-t
 import { ArticleEditorComponent } from './components/article-editor/article-editor.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { PendingChangesGuard } from './pending-changes.guard';
+import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { PendingChangesGuard } from './pending-changes.guard';
     ArticleToolBoxComponent,
     ArticleEditorComponent,
     UserProfileComponent,
+    ConfirmModalComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from '@auth0/auth0-spa-js';
+import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
+import { Article } from 'src/app/models/Article';
 import { ArticleService } from 'src/app/services/article.service';
 import { LocalAuthService } from '../../services/local-auth.service';
+import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component';
 
 @Component({
   selector: 'app-article-tool-box',
@@ -12,7 +14,7 @@ import { LocalAuthService } from '../../services/local-auth.service';
 export class ArticleToolBoxComponent implements OnInit {
   articles: any = [];
 
-  constructor(public auth: LocalAuthService, private _articleService: ArticleService) {
+  constructor(public auth: LocalAuthService, private _articleService: ArticleService, private _modalService: NgbModal) {
   }
 
   ngOnInit(): void {
@@ -23,13 +25,16 @@ export class ArticleToolBoxComponent implements OnInit {
     });
   }
 
-  public async deleteArticle(id: string) {
-    await this._articleService.deleteArticle(id).toPromise();
-    this._articleService.getUnpublishedArticles().subscribe((data: any[]) => {
-      this.articles = data;
-    }, error => {
-      console.log(error);
-    });
+  public async deleteArticle(article: any) {
+    let result = await this._modalService.open(ConfirmModalComponent, { windowClass: 'dark-modal', modalDialogClass: 'dark-modal' }).result;
+    if (result === 'OK') {
+      await this._articleService.deleteArticle(article.id).toPromise();
+      this._articleService.getUnpublishedArticles().subscribe((data: any[]) => {
+        this.articles = data;
+      }, error => {
+        console.log(error);
+      });
+    }
   }
 
 }
