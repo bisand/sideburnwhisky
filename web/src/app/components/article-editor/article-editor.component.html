@@ -2,7 +2,7 @@
     <div *ngIf="!articleReady">
         <button type="button" (click)="newArticle()" class="btn btn-success mt-3 mb-3">Ny artikkel</button>
     </div>
-    <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" class="nav nav-tabs">
+    <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" (navChange)="onNavChange($event)" class="nav nav-tabs">
         <li [ngbNavItem]="0" *ngIf="articleReady">
             <a ngbNavLink>Redigering</a>
             <ng-template ngbNavContent>
@@ -44,18 +44,6 @@
                         </div>
                     </div>
                     <textarea id="articleBody" class="text-editor-body" [formControl]="formModel.body"></textarea>
-                    <div class="row row-cols-2 py-4">
-                        <div class="col text-left">
-                            <button *ngIf="auth.isArticleWriter" class="btn btn-success btn-md w-50" [disabled]="!selectedFiles" (click)="uploadFiles()">
-                                Lagre endringer
-                            </button>
-                        </div>
-                        <div class="col text-right">
-                            <button *ngIf="auth.isArticlePublisher" class="btn btn-warning btn-md w-50" [disabled]="!selectedFiles" (click)="uploadFiles()">
-                                Publisere artikkel
-                            </button>
-                        </div>
-                    </div>
                 </form>
             </ng-template>
         </li>
@@ -81,4 +69,16 @@
         </li>
     </ul>
     <div [ngbNavOutlet]="nav"></div>
+    <div class="row row-cols-2 py-4">
+        <div class="col text-left">
+            <button *ngIf="auth.isArticleWriter" class="btn btn-success btn-md w-50" [disabled]="!selectedFiles" (click)="uploadFiles()">
+                Lagre endringer
+            </button>
+        </div>
+        <div class="col text-right">
+            <button *ngIf="auth.isArticlePublisher" class="btn btn-warning btn-md w-50" [disabled]="!selectedFiles" (click)="uploadFiles()">
+                Publisere artikkel
+            </button>
+        </div>
+    </div>
 </div>

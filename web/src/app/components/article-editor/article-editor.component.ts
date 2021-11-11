@@ -9,6 +9,7 @@ import { LocalAuthService } from 'src/app/services/local-auth.service';
 import { Article } from 'src/app/models/Article';
 import { ActivatedRoute } from '@angular/router';
 import { IArticle } from 'src/app/models/IArticle';
+import { NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-article-editor',
@@ -35,7 +36,7 @@ export class ArticleEditorComponent implements OnInit {
   };
   form: FormGroup = new FormGroup(this.formModel);
 
-  public activeTab: Observable<number>;
+  public activeTab: number;
 
   public get hasImage(): Boolean {
     return this.imageUrl !== this.imageUrlDefault;
@@ -57,17 +58,14 @@ export class ArticleEditorComponent implements OnInit {
     private _articleService: ArticleService,
     private _formBuilder: FormBuilder,
     private _snackBar: MatSnackBar,
-    private _route: ActivatedRoute) { 
+    private _route: ActivatedRoute) {
 
-      this.activeTab = new Observable<number>();
+    this.activeTab = 0;
 
-    }
+  }
 
   ngOnInit(): void {
 
-    this.activeTab?.subscribe(val => {
-      this.compiledBodyMarkdown = this.compileMarkdown(this.f.body.value);
-    });
     this.f.body?.valueChanges.subscribe(val => {
     });
 
@@ -93,7 +91,13 @@ export class ArticleEditorComponent implements OnInit {
     });
   }
 
-  selectFiles(event: any): void {
+  public onNavChange(changeEvent: NgbNavChangeEvent) {
+    if (changeEvent.nextId === 1) {
+      this.compiledBodyMarkdown = this.compileMarkdown(this.f.body.value);
+    }
+  }
+
+  public selectFiles(event: any): void {
     this.progressInfos = [];
     this.selectedFiles = event.target.files;
 
@@ -112,7 +116,7 @@ export class ArticleEditorComponent implements OnInit {
     }
   }
 
-  uploadFiles(): void {
+  public uploadFiles(): void {
     if (this.selectedFiles) {
       for (let i = 0; i < this.selectedFiles.length; i++) {
         this.upload(i, this.selectedFiles[i]);
@@ -120,7 +124,7 @@ export class ArticleEditorComponent implements OnInit {
     }
   }
 
-  upload(idx: number, file: File): void {
+  public upload(idx: number, file: File): void {
     this.progressInfos[idx] = { value: 0, fileName: file.name };
 
     if (file) {
@@ -142,18 +146,18 @@ export class ArticleEditorComponent implements OnInit {
     }
   }
 
-  onSubmit() {
+  public onSubmit() {
     // TODO: Use EventEmitter with form value
     console.warn(this.formModel.title);
   }
 
-  newArticle() {
+  public newArticle() {
     this.article = new Article(this.auth.profile?.email as string);
     //this.activeTab.pipe() = 0;
     this.article.title = '';
   }
 
-  openSnackBar(message: string) {
+  public openSnackBar(message: string) {
     this._snackBar.open(message, 'lukk', {
       horizontalPosition: 'center',
       verticalPosition: 'top',
@@ -163,36 +167,5 @@ export class ArticleEditorComponent implements OnInit {
 
   private compileMarkdown(value: string): string {
     return marked.parser(marked.lexer(value));
-  }
-
-  private getPlaceHolder() {
-    return (
-      '# Title \n' +
-      '## Title\n' +
-      '### Title\n' +
-      '#### Title\n\n' +
-
-      '**bold**\n\n' +
-
-      '*italic*\n\n' +
-
-      'inline `code`\n\n' +
-
-      '### code block\n' +
-      '```\n' +
-      `const foo = () => {
-        return 1;
-      }\n` +
-
-      '```\n\n' +
-
-      '### unorderd list\n' +
-      '- item 1\n' +
-      '* item 2\n\n' +
-
-      '### orderd list\n\n' +
-      '1. item a\n' +
-      '2. item b'
-    );
   }
 }
