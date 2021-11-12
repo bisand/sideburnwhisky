@@ -25,11 +25,14 @@ export class ArticleService extends DocumentService {
         return '';
     }
 
-    public async saveArticle(article: Article): Promise<string> {
+    public async saveArticle(article: Article): Promise<Article> {
         try {
             const response = await this._dataService.db.insert(article);
-            if (response.ok)
-                return response.id;
+            if (response.ok) {
+                article._id = response.id;
+                article._rev = response.rev;
+                return article;
+            }
         } catch (error: any) {
             if (error?.statusCode === 401) {
                 await this._dataService.auth();
@@ -37,7 +40,7 @@ export class ArticleService extends DocumentService {
             } else
                 throw new HttpError(error.statusCode, error.message);
         }
-        return '';
+        throw new HttpError(400, 'Could not save article.');
     }
 
     public async getArticle(id: string): Promise<Article | null> {

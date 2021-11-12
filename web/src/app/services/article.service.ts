@@ -42,7 +42,7 @@ export class ArticleService {
   }
 
   public saveArticle(article: Article) {
-    const req = new HttpRequest('PUT', `${this._apiUrl}/articles`, article, {
+    const req = new HttpRequest('PUT', `${this._apiUrl}/articles/${article._id}`, article, {
       reportProgress: true,
       responseType: 'json'
     });

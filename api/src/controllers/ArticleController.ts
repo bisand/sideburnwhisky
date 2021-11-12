@@ -9,15 +9,23 @@ export class ArticleController {
   private _app: express.Application;
   private _articleService: ArticleService;
 
-  private _isArticleWriter = claimCheck((payload: any) => {
+  private _hasWriteAccess = claimCheck((payload: any) => {
     const res = (payload.permissions && payload.permissions.includes('write:articles'));
     return res;
   });
 
-  private _isArticlePublisher = claimCheck((payload: any) => {
+  private _isArticleWriter(req: Request): boolean {
+    return (req.auth?.payload as any)?.permissions?.includes('write:articles');
+  }
+
+  private _hasPublishAccess = claimCheck((payload: any) => {
     const res = (payload.permissions && payload.permissions.includes('publish:articles'));
     return res;
   });
+
+  private _isArticlePublisher(req: Request): boolean {
+    return (req.auth?.payload as any)?.permissions?.includes('publish:articles');
+  }
 
   constructor(app: express.Application, checkJwt: express.Handler, articleService: ArticleService) {
     this._app = app;
@@ -36,13 +44,13 @@ export class ArticleController {
       res.send(articles);
     });
 
-    this._app.get('/articles/unpublished', this._checkJwt, this._isArticleWriter, async (req: Request, res: Response) => {
+    this._app.get('/articles/unpublished', this._checkJwt, this._hasWriteAccess, async (req: Request, res: Response) => {
       const user = req.auth?.payload['https://sideburnwhisky.no/email'] as string;
       const articles = await this._articleService.getArticles('unpublished', user);
       res.send(articles);
     });
 
-    this._app.get('/articles/unpublished/all', this._checkJwt, this._isArticlePublisher, async (req: Request, res: Response) => {
+    this._app.get('/articles/unpublished/all', this._checkJwt, this._hasPublishAccess, async (req: Request, res: Response) => {
       const articles = await this._articleService.getArticles('unpublished');
       res.send(articles);
     });
@@ -52,10 +60,10 @@ export class ArticleController {
       res.send(articles);
     });
 
-    this._app.delete('/articles/:id', this._checkJwt, this._isArticleWriter, async (req: Request, res: Response) => {
+    this._app.delete('/articles/:id', this._checkJwt, this._hasWriteAccess, async (req: Request, res: Response) => {
       const user = req.auth?.payload['https://sideburnwhisky.no/email'] as string;
       const article = await this._articleService.getArticle(req.params.id);
-      if (article?.author !== user && !(req.auth?.payload as any).permissions?.includes('publish:articles')) {
+      if (article?.author !== user && !this._isArticlePublisher(req)) {
         res.sendStatus(403);
       } else {
         if (await this._articleService.deleteArticle(req.params.id, article?._rev as string)) {
@@ -67,27 +75,38 @@ export class ArticleController {
       }
     });
 
-    this._app.post('/articles/', this._checkJwt, jsonParser, async (req: Request, res: Response) => {
-      let user = new Article('test');
-      Object.assign(user, req.body);
-      try {
-        const id = await this._articleService.saveArticle(user);
-        res.send({ id });
-      } catch (error: any) {
-        res.status(error.statusCode).send(error);
-      }
-    });
-
-    this._app.put('/articles/', this._checkJwt, this._isArticleWriter, jsonParser, async (req: Request, res: Response) => {
+    this._app.post('/articles/:id?', this._checkJwt, jsonParser, async (req: Request, res: Response) => {
+      const articleId = req.params.id as string;
       const user = req.auth?.payload['https://sideburnwhisky.no/email'] as string;
       let article = new Article('');
       Object.assign(article, req.body);
-      if (article?.author !== user && !(req.auth?.payload as any).permissions?.includes('publish:articles')) {
+      if (article?.author !== user && !this._isArticlePublisher(req)) {
         res.sendStatus(403);
       } else {
         try {
-          const id = await this._articleService.saveArticle(article);
-          res.header('Content-Location', '/articles/' + article._id).sendStatus(204);
+          if (articleId) {
+            article._id = articleId;
+          }
+          const result = await this._articleService.saveArticle(article);
+          res.header('Location', '/articles/' + result._id).status(articleId ? 200 : 201).send(result);
+        } catch (error: any) {
+          res.status(error.statusCode).send(error);
+        }
+      }
+    });
+
+    this._app.put('/articles/:id', this._checkJwt, this._hasWriteAccess, jsonParser, async (req: Request, res: Response) => {
+      const articleId = req.params.id as string;
+      const user = req.auth?.payload['https://sideburnwhisky.no/email'] as string;
+      let article = new Article('');
+      Object.assign(article, req.body);
+      if (article?.author !== user && !this._isArticlePublisher(req)) {
+        res.sendStatus(403);
+      } else {
+        try {
+          article._id = articleId;
+          const result = await this._articleService.saveArticle(article);
+          res.header('Location', '/articles/' + result._id).sendStatus(204);
         } catch (error: any) {
           res.status(error.statusCode).send(error);
         }
