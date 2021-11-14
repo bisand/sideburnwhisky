@@ -1,51 +1,57 @@
-<div class="row">
-    <div class="leftcolumn">
-        <div class="card">
-            <h2>Kommer snart</h2>
-            <h6>Vi jobber på "spreng" med å ferdigstille sidene.</h6>
-            <div class="meta">
-                <time class="date dt-published" datetime="2021-10-14T05:15:00+00:00" itemprop="datePublished">
-                    <mat-icon aria-hidden="false" aria-label="Publisert">edit_calendar</mat-icon> 14 oktober 2021
-                </time>
-                <span class="tags">
-                    <mat-icon aria-hidden="false" aria-label="Kategorier">sell</mat-icon>
-                    <a href="/tags/#web">web</a>
-                </span>
-            </div>
-            <div class="card-content">
-                <img src="../assets/images/work-in-progress.jpg" class="article-image float-none float-md-left" />
-                <p>Vi er snart klare med litt mer innhold. Denne siden er tilgjengelig for å gi medlemmene en liten
-                    smakebit på
-                    hvordan det vil se ut. Vi tar gjerne imot tilbakemeldinger og endringsforlag.</p>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg">
+            <!-- <div class="card">
+                <h2>Kommer snart</h2>
+                <h6>Vi jobber på "spreng" med å ferdigstille sidene.</h6>
+                <div class="meta">
+                    <time class="date dt-published" datetime="2021-10-14T05:15:00+00:00" itemprop="datePublished">
+                        <mat-icon aria-hidden="false" aria-label="Publisert">edit_calendar</mat-icon> 14 oktober 2021
+                    </time>
+                    <span class="tags">
+                        <mat-icon aria-hidden="false" aria-label="Kategorier">sell</mat-icon>
+                        <a href="/tags/#web">web</a>
+                    </span>
+                </div>
+                <div class="card-content">
+                    <img src="../assets/images/work-in-progress.jpg" class="article-image float-none float-md-left" />
+                    <p>Vi er snart klare med litt mer innhold. Denne siden er tilgjengelig for å gi medlemmene en liten
+                        smakebit på
+                        hvordan det vil se ut. Vi tar gjerne imot tilbakemeldinger og endringsforlag.</p>
+                </div>
+            </div> -->
+            <div *ngFor="let article of articles" class="card">
+                <h2>{{article.doc.title}}</h2>
+                <div> <a routerLink="/artikkelredigering/{{article.id}}">
+                        <mat-icon aria-hidden="false" aria-label="Publisert">edit</mat-icon>
+                    </a>
+                </div>
+                <h6>{{article.doc.subject}}</h6>
+                <div class="meta">
+                    <time class="date dt-published" datetime="2021-10-14T05:15:00+00:00" itemprop="datePublished">
+                        <mat-icon aria-hidden="false" aria-label="Publisert">edit_calendar</mat-icon> 14 oktober 2021
+                    </time>
+                    <span class="tags">
+                        <mat-icon aria-hidden="false" aria-label="Kategorier">sell</mat-icon>
+                        <a href="/tags/#web">web</a>
+                    </span>
+                </div>
+                <div class="card-content">
+                    <img src="../assets/images/work-in-progress.jpg" class="article-image float-none float-md-left" />
+                    <p>{{article.doc.body}}</p>
+                </div>
             </div>
         </div>
-        <div *ngFor="let article of articles" class="card">
-            <h2>{{article.doc.title}}</h2>
-            <h6>{{article.doc.subject}}</h6>
-            <div class="meta">
-                <time class="date dt-published" datetime="2021-10-14T05:15:00+00:00" itemprop="datePublished">
-                    <mat-icon aria-hidden="false" aria-label="Publisert">edit_calendar</mat-icon> 14 oktober 2021
-                </time>
-                <span class="tags">
-                    <mat-icon aria-hidden="false" aria-label="Kategorier">sell</mat-icon>
-                    <a href="/tags/#web">web</a>
-                </span>
+        <div class="col-lg-3">
+            <app-article-tool-box></app-article-tool-box>
+            <div class="card">
+                <div class="card-header">Søk</div>
+                <input type="text" />
             </div>
-            <div class="card-content">
-                <img src="../assets/images/work-in-progress.jpg" class="article-image" />
-                <p>{{article.doc.body}}</p>
+            <div class="card">
+                <div class="card-header">Populære nyheter</div>
+                <p>...</p>
             </div>
-        </div>
-    </div>
-    <div class="rightcolumn">
-        <app-article-tool-box></app-article-tool-box>
-        <div class="card">
-            <div class="card-header">Søk</div>
-            <input type="text" />
-        </div>
-        <div class="card">
-            <div class="card-header">Populære nyheter</div>
-            <p>...</p>
         </div>
     </div>
 </div>
