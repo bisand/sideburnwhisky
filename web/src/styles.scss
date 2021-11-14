@@ -60,7 +60,7 @@ $max-width: 1600px;
 
 body {
   font-family: Arial;
-  padding: 20px 20px 20px 20px;
+  padding: 0px 0px 0px 0px;
   background: $background;
   color: $default-foreground;
   overflow-y: scroll; /* Show vertical scrollbar */
@@ -138,6 +138,8 @@ a:visited {
   max-width: $max-width;
   margin: auto;
   padding: auto;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 .group {
