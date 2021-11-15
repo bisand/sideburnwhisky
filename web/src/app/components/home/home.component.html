@@ -21,16 +21,24 @@
                 </div>
             </div> -->
             <div *ngFor="let article of articles" class="card">
-                <h2>{{article.doc.title}}</h2>
-                <div class="float-right">
-                    <a routerLink="/artikkelredigering/{{article.id}}">
-                        <mat-icon aria-hidden="false" aria-label="Publisert">edit</mat-icon>
-                    </a>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col pl-0">
+                            <h2>{{article.doc.title}}</h2>
+                        </div>
+                        <div class="col-1 align-middle">
+                            <div *ngIf="auth.hasAccessArticleEdit(article.doc)">
+                                <a class="float-right mt-1" routerLink="/artikkelredigering/{{article.id}}">
+                                    <mat-icon aria-hidden="false" aria-label="Publisert">edit</mat-icon>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <h6>{{article.doc.subject}}</h6>
                 <div class="meta">
                     <time class="date dt-published" datetime="2021-10-14T05:15:00+00:00" itemprop="datePublished">
-                        <mat-icon aria-hidden="false" aria-label="Publisert">edit_calendar</mat-icon> 14 oktober 2021
+                        <mat-icon aria-hidden="false" aria-label="Publisert">edit_calendar</mat-icon> 14 oktober 2025
                     </time>
                     <span class="tags">
                         <mat-icon aria-hidden="false" aria-label="Kategorier">sell</mat-icon>

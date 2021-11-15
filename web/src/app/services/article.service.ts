@@ -1,4 +1,4 @@
-import { HttpClient, HttpEvent, HttpRequest } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpHeaderResponse, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
@@ -10,26 +10,26 @@ import { Article } from '../models/Article'
 export class ArticleService {
   private _apiUrl: string;
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private _httpClient: HttpClient) {
     this._apiUrl = environment.apiUrl;
   }
 
   public getArticles(): Observable<any> {
-    return this.httpClient.get(this._apiUrl + '/articles/');
+    return this._httpClient.get(this._apiUrl + '/articles/');
   }
 
   public getArticle(id: string): Observable<any> {
-    let article = this.httpClient.get(this._apiUrl + '/articles/' + id);
+    let article = this._httpClient.get(this._apiUrl + '/articles/' + id);
     return article;
   }
 
   public deleteArticle(id: string): Observable<any> {
-    let result = this.httpClient.delete(this._apiUrl + '/articles/' + id);
+    let result = this._httpClient.delete(this._apiUrl + '/articles/' + id);
     return result;
   }
 
   public getUnpublishedArticles(): Observable<any> {
-    let articles = this.httpClient.get(this._apiUrl + '/articles/unpublished/');
+    let articles = this._httpClient.get(this._apiUrl + '/articles/unpublished/');
     return articles;
   }
 
@@ -38,7 +38,7 @@ export class ArticleService {
       reportProgress: true,
       responseType: 'json'
     });
-    return this.httpClient.request(req);
+    return this._httpClient.request(req);
   }
 
   public saveArticle(article: Article) {
@@ -46,15 +46,19 @@ export class ArticleService {
       reportProgress: true,
       responseType: 'json'
     });
-    return this.httpClient.request(req);
+    return this._httpClient.request(req);
   }
 
-  public publishArticle(article: Article) {
-    const req = new HttpRequest('PATCH', `${this._apiUrl}/articles/${article._id}/publish`, {}, {
-      reportProgress: true,
-      responseType: 'json'
+  public async publishArticle(article: Article): Promise<any> {
+    const result = await this._httpClient.patch(`${this._apiUrl}/articles/${article._id}/publish`, {}).toPromise().then(res=>{
+      return res;
     });
-    return this.httpClient.request(req);
+    return result;
+  }
+
+  public async unpublishArticle(article: Article): Promise<any> {
+    const result = await this._httpClient.patch(`${this._apiUrl}/articles/${article._id}/unpublish`, {}).toPromise();
+    return result;
   }
 
   public uploadImage(file: File): Observable<HttpEvent<any>> {
@@ -75,7 +79,7 @@ export class ArticleService {
       responseType: 'json'
     });
 
-    return this.httpClient.request(req);
+    return this._httpClient.request(req);
 
   }
 

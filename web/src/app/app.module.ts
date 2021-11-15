@@ -27,6 +27,7 @@ import { ArticleEditorComponent } from './components/article-editor/article-edit
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { PendingChangesGuard } from './pending-changes.guard';
 import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.component';
+import { ArticleViewerComponent } from './components/article-viewer/article-viewer.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.
     ArticleEditorComponent,
     UserProfileComponent,
     ConfirmModalComponent,
+    ArticleViewerComponent,
   ],
   imports: [
     BrowserModule,

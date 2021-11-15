@@ -88,7 +88,7 @@ export class ArticleController {
             article._id = articleId;
           }
           const result = await this._articleService.saveArticle(article);
-          res.header('Location', '/articles/' + result._id).status(articleId ? 200 : 201).send(result);
+          res.header('Content-Location', '/articles/' + result._id).status(articleId ? 200 : 201).send(result);
         } catch (error: any) {
           res.status(error.statusCode).send(error);
         }
@@ -106,7 +106,7 @@ export class ArticleController {
         try {
           article._id = articleId;
           const result = await this._articleService.saveArticle(article);
-          res.header('Location', '/articles/' + result._id).sendStatus(204);
+          res.header('Content-Location', '/articles/' + result._id).status(204).send('');
         } catch (error: any) {
           res.status(error.statusCode).send(error);
         }
@@ -127,7 +127,27 @@ export class ArticleController {
           article.published = true;
           article.publishDate = new Date();
           const result = await this._articleService.saveArticle(article);
-          res.header('Location', '/articles/' + result._id).sendStatus(204);
+          res.header('Content-Location', '/articles/' + result._id).status(204).send('');
+        } catch (error: any) {
+          res.status(error.statusCode).send(error);
+        }
+      }
+    });
+
+    this._app.patch('/articles/:id/unpublish', this._checkJwt, this._hasWriteAccess, jsonParser, async (req: Request, res: Response) => {
+      const articleId = req.params.id as string;
+      const user = req.auth?.payload['https://sideburnwhisky.no/email'] as string;
+      const article = await this._articleService.getArticle(req.params.id) as Article;
+      if(!article){
+        res.sendStatus(404);
+      }
+      if (article?.author !== user && !this._isArticlePublisher(req)) {
+        res.sendStatus(403);
+      } else {
+        try {
+          article.published = false;
+          const result = await this._articleService.saveArticle(article);
+          res.header('Content-Location', '/articles/' + result._id).sendStatus(204);
         } catch (error: any) {
           res.status(error.statusCode).send(error);
         }

@@ -7,10 +7,11 @@ import { ArticleService } from '../../services/article.service';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition, } from '@angular/material/snack-bar';
 import { LocalAuthService } from 'src/app/services/local-auth.service';
 import { Article } from 'src/app/models/Article';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { IArticle } from 'src/app/models/IArticle';
-import { NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { ComponentCanDeactivate } from '../../pending-changes.guard';
+import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component';
 
 @Component({
   selector: 'app-article-editor',
@@ -72,7 +73,9 @@ export class ArticleEditorComponent implements ComponentCanDeactivate, OnInit, O
     private _articleService: ArticleService,
     private _formBuilder: FormBuilder,
     private _snackBar: MatSnackBar,
-    private _route: ActivatedRoute) {
+    private _route: ActivatedRoute,
+    private _modalService: NgbModal,
+    private _router: Router) {
 
     this.activeTab = 0;
 
@@ -186,18 +189,48 @@ export class ArticleEditorComponent implements ComponentCanDeactivate, OnInit, O
 
   public async saveArticle() {
     Object.assign(this.article, this.form.getRawValue());
+    if (this.article.published) {
+      const articleConfirm = await this.confirm('Lagre artikkel', 'Artikkelen er allerede publisert. Er du sikker på at du vil lagre endringene?');
+      if (!articleConfirm) {
+        return;
+      }
+    }
     const result = await this._articleService.saveArticle(this.article).toPromise();
   }
 
   public async publishArticle() {
+    const articleConfirm = await this.confirm('Publisere artikkel', 'Du er i ferd med å publisere artikkelen. Er du sikker på at du vil fortsette?');
+    if (!articleConfirm) {
+      return;
+    }
     Object.assign(this.article, this.form.getRawValue());
-    const result = await this._articleService.publishArticle(this.article).toPromise();
+    const result = await this._articleService.publishArticle(this.article);
+    this._router.navigate(result.headers.Location);
+  }
+
+  public async unpublishArticle() {
+    const articleConfirm = await this.confirm('Avpublisere artikkel', '<div class="btn-danger">Du er i ferd med å avpublisere artikkelen. Er du sikker på at du vil fortsette?</div>');
+    if (!articleConfirm) {
+      return;
+    }
+    Object.assign(this.article, this.form.getRawValue());
+    const result = await this._articleService.unpublishArticle(this.article);
   }
 
   public newArticle() {
     this.article = new Article(this.auth.profile?.email as string);
-    //this.activeTab.pipe() = 0;
     this.article.title = '';
+  }
+
+  private async confirm(title: string, message: string): Promise<boolean> {
+    let modalRef = this._modalService.open(ConfirmModalComponent, { windowClass: 'dark-modal', modalDialogClass: 'dark-modal' });
+    (modalRef.componentInstance as ConfirmModalComponent).textTitle = title;
+    (modalRef.componentInstance as ConfirmModalComponent).textBody = message;
+    let result = await modalRef.result.then();
+    if (result === 'OK') {
+      return true;
+    }
+    return false;
   }
 
   public openSnackBar(message: string) {

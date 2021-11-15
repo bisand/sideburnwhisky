@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { LocalAuthService } from 'src/app/services/local-auth.service';
 import { ArticleService } from '../../services/article.service';
 
 @Component({
@@ -10,7 +11,7 @@ export class HomeComponent implements OnInit {
 
   articles: any = [];
 
-  constructor(private _articleService: ArticleService) { }
+  constructor(public auth: LocalAuthService, private _articleService: ArticleService) { }
 
   ngOnInit(): void {
     this._articleService.getArticles().subscribe((data: any[]) => {

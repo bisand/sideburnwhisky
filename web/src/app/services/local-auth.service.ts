@@ -4,6 +4,7 @@ import { IdToken, LogoutOptions, User } from '@auth0/auth0-spa-js';
 import { Observable, of, Subscription } from 'rxjs';
 import { UserService } from './user.service';
 import jwt_decode from "jwt-decode";
+import { Article } from '../models/Article';
 
 @Injectable({
   providedIn: 'root'
@@ -57,6 +58,13 @@ export class LocalAuthService {
 
   public get user$(): Observable<User | null | undefined> {
     return this._authService.user$;
+  }
+
+  public hasAccessArticleEdit(article: Article): Boolean {
+    if (article?.author !== (this.user?.email as string) && !this.isArticlePublisher)
+      return false;
+
+    return this.isArticleWriter;
   }
 
   logout(options?: LogoutOptions) {
