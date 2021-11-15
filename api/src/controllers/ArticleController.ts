@@ -112,5 +112,26 @@ export class ArticleController {
         }
       }
     });
+
+    this._app.patch('/articles/:id/publish', this._checkJwt, this._hasWriteAccess, jsonParser, async (req: Request, res: Response) => {
+      const articleId = req.params.id as string;
+      const user = req.auth?.payload['https://sideburnwhisky.no/email'] as string;
+      const article = await this._articleService.getArticle(req.params.id) as Article;
+      if(!article){
+        res.sendStatus(404);
+      }
+      if (article?.author !== user && !this._isArticlePublisher(req)) {
+        res.sendStatus(403);
+      } else {
+        try {
+          article.published = true;
+          article.publishDate = new Date();
+          const result = await this._articleService.saveArticle(article);
+          res.header('Location', '/articles/' + result._id).sendStatus(204);
+        } catch (error: any) {
+          res.status(error.statusCode).send(error);
+        }
+      }
+    });
   }
 }

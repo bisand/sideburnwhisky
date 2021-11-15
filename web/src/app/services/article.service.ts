@@ -49,6 +49,14 @@ export class ArticleService {
     return this.httpClient.request(req);
   }
 
+  public publishArticle(article: Article) {
+    const req = new HttpRequest('PATCH', `${this._apiUrl}/articles/${article._id}/publish`, {}, {
+      reportProgress: true,
+      responseType: 'json'
+    });
+    return this.httpClient.request(req);
+  }
+
   public uploadImage(file: File): Observable<HttpEvent<any>> {
 
     // Create form data

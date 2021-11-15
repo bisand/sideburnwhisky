@@ -12,6 +12,8 @@ export class Article extends BaseDocument implements IArticle {
     public author: string;
     public tags!: string[];
     public image!: string;
+    public active: boolean;
+    public published: boolean;
 
     constructor(author: string) {
         super('article');
@@ -21,5 +23,7 @@ export class Article extends BaseDocument implements IArticle {
         this.title = '';
         this.subject = '';
         this.body = '';
+        this.active = false;
+        this.published = false;
     }
 }

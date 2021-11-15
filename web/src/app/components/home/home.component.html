@@ -22,7 +22,8 @@
             </div> -->
             <div *ngFor="let article of articles" class="card">
                 <h2>{{article.doc.title}}</h2>
-                <div> <a routerLink="/artikkelredigering/{{article.id}}">
+                <div class="float-right">
+                    <a routerLink="/artikkelredigering/{{article.id}}">
                         <mat-icon aria-hidden="false" aria-label="Publisert">edit</mat-icon>
                     </a>
                 </div>

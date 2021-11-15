@@ -10,12 +10,16 @@ export class Article extends BaseDocument {
     public body?: string;
     public author: string;
     public tags?: string[];
-    public image?: string;    
+    public image?: string;
+    public active: boolean;
+    public published: boolean;
 
     constructor(author: string){
         super('article');
         this.author = author
         this.dateCreated = new Date();
         this.dateModified = this.dateCreated;
+        this.active = false;
+        this.published = false;
     }
 }
