@@ -92,32 +92,26 @@ export class LocalAuthService implements OnInit {
   }
 
   constructor(private _authService: AuthService, private _userService: UserService, private _snackBar: MatSnackBar) {
-    this._authService.error$.subscribe(error => {
-    });
-    this._authService.isAuthenticated$.subscribe(isAuthenticated => {
-      this.isAuthenticated = isAuthenticated;
-      this._authService.user$.subscribe(user => {
+    this._authService.user$.subscribe(user => {
+      if (user) {
         this.profile = user;
         this.user = user;
-        if (user) {
-          this._authService.idTokenClaims$.subscribe((claims) => {
-            this.claims = claims;
-          }, error => {
-            this.openSnackBar(`idTokenClaims error: ${error}.`);
-          });
-          this._authService.getAccessTokenSilently({}).subscribe(token => {
-            this._accessToken = token;
-            this._parsedToken = jwt_decode(this._accessToken);
-          }, error => {
-            this.openSnackBar(`getAccessTokenSilently error: ${error}.`);
-          });
-          this.openSnackBar(`User ${user?.email} - successfully authenticated.`);
-        }
-      }, error => {
-        this.openSnackBar(`User error: ${error}.`);
-      });
+        this.isAuthenticated = true;
+        this._authService.idTokenClaims$.subscribe((claims) => {
+          this.claims = claims;
+        }, error => {
+          this.openSnackBar(`idTokenClaims error: ${error}.`);
+        });
+        this._authService.getAccessTokenSilently({}).subscribe(token => {
+          this._accessToken = token;
+          this._parsedToken = jwt_decode(this._accessToken);
+        }, error => {
+          this.openSnackBar(`getAccessTokenSilently error: ${error}.`);
+        });
+        this.openSnackBar(`User ${user?.email} - successfully authenticated.`);
+      }
     }, error => {
-      this.openSnackBar(`isAuthenticated error: ${error}.`);
+      this.openSnackBar(`User error: ${error}.`);
     });
   }
 }

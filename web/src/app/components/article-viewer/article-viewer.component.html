@@ -19,7 +19,7 @@
                 <h6>{{article?.subject}}</h6>
                 <div class="meta">
                     <time class="date dt-published" datetime="2021-10-14T05:15:00+00:00" itemprop="datePublished">
-                        <mat-icon aria-hidden="false" aria-label="Publisert">edit_calendar</mat-icon> 14 oktober 2025
+                        <mat-icon aria-hidden="false" aria-label="Publisert">edit_calendar</mat-icon> 14 oktober 2021
                     </time>
                     <span class="tags">
                         <mat-icon aria-hidden="false" aria-label="Kategorier">sell</mat-icon>
@@ -28,7 +28,7 @@
                 </div>
                 <div class="card-content">
                     <img src="../assets/images/work-in-progress.jpg" class="article-image float-none float-md-left" />
-                    <p>{{article?.body}}</p>
+                    <p [innerHTML]="compileMarkdown(article?.body)"></p>
                 </div>
             </div>
         </div>

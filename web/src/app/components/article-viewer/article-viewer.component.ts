@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { Article } from 'src/app/models/Article';
 import { ArticleService } from 'src/app/services/article.service';
 import { LocalAuthService } from 'src/app/services/local-auth.service';
+import * as marked from 'marked';
 
 @Component({
   selector: 'app-article-viewer',
@@ -29,5 +30,11 @@ export class ArticleViewerComponent implements OnInit {
         });
       }
     });
+  }
+
+  public compileMarkdown(value: string | undefined): string {
+    if (value)
+      return marked.parser(marked.lexer(value));
+    return '';
   }
 }
