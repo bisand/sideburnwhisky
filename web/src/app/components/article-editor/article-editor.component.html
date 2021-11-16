@@ -78,10 +78,10 @@
                     </button>
                 </div>
                 <div class="col text-right">
-                    <button *ngIf="auth.isArticlePublisher && !article.published" class="btn btn-warning btn-md w-50" [disabled]="!canPublishArticle" (click)="publishArticle()">
+                    <button *ngIf="auth.isArticlePublisher && !article?.published" class="btn btn-warning btn-md w-50" [disabled]="!canPublishArticle" (click)="publishArticle()">
                         Publisere artikkel
                     </button>
-                    <button *ngIf="auth.isArticlePublisher && article.published" class="btn btn-danger btn-md w-50" [disabled]="!canPublishArticle" (click)="unpublishArticle()">
+                    <button *ngIf="auth.isArticlePublisher && article?.published" class="btn btn-danger btn-md w-50" [disabled]="!canPublishArticle" (click)="unpublishArticle()">
                         Avpublisere artikkel
                     </button>
                 </div>

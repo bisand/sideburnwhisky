@@ -1,6 +1,7 @@
 import { HttpClient, HttpEvent, HttpHeaderResponse, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { Article } from '../models/Article'
 
@@ -49,15 +50,15 @@ export class ArticleService {
     return this._httpClient.request(req);
   }
 
-  public async publishArticle(article: Article): Promise<any> {
-    const result = await this._httpClient.patch(`${this._apiUrl}/articles/${article._id}/publish`, {}).toPromise().then(res=>{
-      return res;
-    });
+  public async publishArticle(article: Article): Promise<Article> {
+    const result = await this._httpClient.get<Article>(`${this._apiUrl}/articles/${article._id}/publish`)
+      .toPromise();
     return result;
   }
 
-  public async unpublishArticle(article: Article): Promise<any> {
-    const result = await this._httpClient.patch(`${this._apiUrl}/articles/${article._id}/unpublish`, {}).toPromise();
+  public async unpublishArticle(article: Article): Promise<Article> {
+    const result = await this._httpClient.get<Article>(`${this._apiUrl}/articles/${article._id}/unpublish`)
+      .toPromise();
     return result;
   }
 

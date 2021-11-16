@@ -205,7 +205,7 @@ export class ArticleEditorComponent implements ComponentCanDeactivate, OnInit, O
     }
     Object.assign(this.article, this.form.getRawValue());
     const result = await this._articleService.publishArticle(this.article);
-    this._router.navigate(result.headers.Location);
+    this._router.navigate(['artikkel', result._id]);
   }
 
   public async unpublishArticle() {
@@ -214,7 +214,7 @@ export class ArticleEditorComponent implements ComponentCanDeactivate, OnInit, O
       return;
     }
     Object.assign(this.article, this.form.getRawValue());
-    const result = await this._articleService.unpublishArticle(this.article);
+    this.article = await this._articleService.unpublishArticle(this.article);
   }
 
   public newArticle() {

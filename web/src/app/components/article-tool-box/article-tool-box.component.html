@@ -4,8 +4,25 @@
     <hr>
     <h5>Upubliserte artikler</h5>
     <div *ngFor="let article of articles" class="card">
-        {{ article.doc.title }} - {{ article.doc.author }}
-        <a routerLink="/artikkelredigering/{{article.id}}"><mat-icon aria-hidden="false" aria-label="Publisert">edit</mat-icon></a>
-        <mat-icon aria-hidden="false" class="icon-delete" aria-label="Publisert" (click)="deleteArticle(article.doc)">delete</mat-icon>
+        <div class="content">
+            <div class="row">
+                <div class="col">{{ article.doc.title }}</div>
+            </div>
+            <div class="row">
+                <div class="col">{{ article.doc.author }}</div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <a routerLink="/artikkelredigering/{{article.id}}">
+                        <mat-icon aria-hidden="false" aria-label="Publisert">edit</mat-icon>
+                    </a>
+                </div>
+                <div class="col align-right">
+                    <mat-icon aria-hidden="false" class="icon-delete" aria-label="Publisert" (click)="deleteArticle(article.doc)">delete</mat-icon>
+                </div>
+            </div>
+        </div>
+
+
     </div>
 </div>

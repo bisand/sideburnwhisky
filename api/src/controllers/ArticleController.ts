@@ -113,10 +113,10 @@ export class ArticleController {
       }
     });
 
-    this._app.patch('/articles/:id/publish', this._checkJwt, this._hasWriteAccess, jsonParser, async (req: Request, res: Response) => {
+    this._app.get('/articles/:id/publish', this._checkJwt, this._hasWriteAccess, async (req: Request, res: Response) => {
       const articleId = req.params.id as string;
       const user = req.auth?.payload['https://sideburnwhisky.no/email'] as string;
-      const article = await this._articleService.getArticle(req.params.id) as Article;
+      const article = await this._articleService.getArticle(articleId) as Article;
       if(!article){
         res.sendStatus(404);
       }
@@ -127,17 +127,17 @@ export class ArticleController {
           article.published = true;
           article.publishDate = new Date();
           const result = await this._articleService.saveArticle(article);
-          res.header('Content-Location', '/articles/' + result._id).status(204).send('');
+          res.send(result);
         } catch (error: any) {
           res.status(error.statusCode).send(error);
         }
       }
     });
 
-    this._app.patch('/articles/:id/unpublish', this._checkJwt, this._hasWriteAccess, jsonParser, async (req: Request, res: Response) => {
+    this._app.get('/articles/:id/unpublish', this._checkJwt, this._hasWriteAccess, async (req: Request, res: Response) => {
       const articleId = req.params.id as string;
       const user = req.auth?.payload['https://sideburnwhisky.no/email'] as string;
-      const article = await this._articleService.getArticle(req.params.id) as Article;
+      const article = await this._articleService.getArticle(articleId) as Article;
       if(!article){
         res.sendStatus(404);
       }
@@ -147,7 +147,7 @@ export class ArticleController {
         try {
           article.published = false;
           const result = await this._articleService.saveArticle(article);
-          res.header('Content-Location', '/articles/' + result._id).sendStatus(204);
+          res.send(result);
         } catch (error: any) {
           res.status(error.statusCode).send(error);
         }
