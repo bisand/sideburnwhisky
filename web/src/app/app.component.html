@@ -5,9 +5,6 @@
   <app-nav-bar></app-nav-bar>
 </div>
 <div class="content">
-  <ngb-alert #alertSuccess class="m-3" *ngIf="auth.successMessage" type="success" (closed)="auth.successMessage = ''">{{ auth.successMessage }}</ngb-alert>
-  <ngb-alert #alertWarning class="m-3" *ngIf="auth.warningMessage" type="warning" (closed)="auth.warningMessage = ''">{{ auth.warningMessage }}</ngb-alert>
-  <ngb-alert #alertError class="m-3" *ngIf="auth.errorMessage" type="danger" (closed)="auth.errorMessage = ''">{{ auth.errorMessage }}</ngb-alert>
   <router-outlet></router-outlet>
 </div>
 <div class="footer">

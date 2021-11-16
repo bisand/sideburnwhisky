@@ -5,8 +5,7 @@ import { Observable, of, Subject, Subscription } from 'rxjs';
 import { UserService } from './user.service';
 import jwt_decode from "jwt-decode";
 import { Article } from '../models/Article';
-import { NgbAlert } from '@ng-bootstrap/ng-bootstrap';
-import { debounceTime } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root'
@@ -14,13 +13,6 @@ import { debounceTime } from 'rxjs/operators';
 export class LocalAuthService implements OnInit {
   private _accessToken: string = '';
   private _parsedToken: any = {};
-  private _success = new Subject<string>();
-  private _warning = new Subject<string>();
-  private _error = new Subject<string>();
-
-  alertSuccess: NgbAlert | undefined;
-  alertWarning: NgbAlert | undefined;
-  alertError: NgbAlert | undefined;
 
   claims: IdToken | undefined | null;
   user: User | null | undefined;
@@ -29,7 +21,7 @@ export class LocalAuthService implements OnInit {
 
   private _checker = (arr: string[], target: string[]) => target?.every(v => arr?.includes(v));
 
-  public successMessage?: string;
+  public successMessage = new Observable<string>();
   public warningMessage?: string;
   public errorMessage?: string;
 
@@ -91,53 +83,40 @@ export class LocalAuthService implements OnInit {
   ngOnInit(): void {
   }
 
-  constructor(private _authService: AuthService, private _userService: UserService) {
-    this._success.subscribe(message => this.successMessage = message);
-    this._success.pipe(debounceTime(5000)).subscribe(() => {
-      if (this.alertSuccess) {
-        this.alertSuccess.close();
-      }
+  public openSnackBar(message: string) {
+    this._snackBar.open(message, 'lukk', {
+      horizontalPosition: 'center',
+      verticalPosition: 'top',
+      duration: 5000,
     });
-    this._warning.subscribe(message => this.warningMessage = message);
-    this._success.pipe(debounceTime(5000)).subscribe(() => {
-      if (this.alertWarning) {
-        this.alertWarning.close();
-      }
-    });
-    this._error.subscribe(message => this.errorMessage = message);
-    this._success.pipe(debounceTime(5000)).subscribe(() => {
-      if (this.alertError) {
-        this.alertError.close();
-      }
-    });
+  }
 
+  constructor(private _authService: AuthService, private _userService: UserService, private _snackBar: MatSnackBar) {
     this._authService.error$.subscribe(error => {
     });
     this._authService.isAuthenticated$.subscribe(isAuthenticated => {
       this.isAuthenticated = isAuthenticated;
     }, error => {
-      console.log('Login required.')
+      this.openSnackBar(`isAuthenticated error: ${error}.`);
     });
     this._authService.user$.subscribe(user => {
       this.profile = user;
       this.user = user;
-      this._success.next(`user ${user?.email} - successfully authenticated.`);
+      if (user)
+        this.openSnackBar(`User ${user?.email} - successfully authenticated.`);
     }, error => {
-      this._warning.next(`Login required: ${error}.`);
-      console.log('Login required.')
+      this.openSnackBar(`User error: ${error}.`);
     });
     this._authService.idTokenClaims$.subscribe((claims) => {
       this.claims = claims;
     }, error => {
-      this._warning.next(`Login required: ${error}.`);
-      console.log('Login required.')
+      this.openSnackBar(`idTokenClaims error: ${error}.`);
     });
     this._authService.getAccessTokenSilently({}).subscribe(token => {
       this._accessToken = token;
       this._parsedToken = jwt_decode(this._accessToken);
     }, error => {
-      this._warning.next(`Login required: ${error}.`);
-      console.log('Login required.')
+      this.openSnackBar(`getAccessTokenSilently error: ${error}.`);
     });
   }
 }

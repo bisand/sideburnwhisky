@@ -46,6 +46,8 @@ export class ArticleEditorComponent implements ComponentCanDeactivate, OnInit, O
     author: new FormControl(null),
     tags: new FormControl(null),
     image: new FormControl(null),
+    active: new FormControl(false),
+    published: new FormControl(false)
   };
   form: FormGroup = new FormGroup(this.formModel);
 

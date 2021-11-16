@@ -9,4 +9,6 @@ export interface IArticle {
     author: string;
     tags: string[];
     image: string;
+    active: boolean;
+    published: boolean;
 }

@@ -1,6 +1,5 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterContentInit, AfterViewChecked, AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
-import { NgbAlert } from '@ng-bootstrap/ng-bootstrap';
 import { LocalAuthService } from './services/local-auth.service';
 
 @Component({
@@ -8,24 +7,22 @@ import { LocalAuthService } from './services/local-auth.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements AfterViewInit {
+export class AppComponent implements OnInit, AfterContentInit, AfterViewInit, AfterViewChecked {
   title = 'Sideburn Whiskylaug';
 
-  @ViewChild('alertSuccess', { static: false }) alertSuccess: NgbAlert | undefined;
-  @ViewChild('alertWarning', { static: false }) alertWarning: NgbAlert | undefined;
-  @ViewChild('alertError', { static: false }) alertError: NgbAlert | undefined;
-
   constructor(public auth: LocalAuthService) {
-    auth.successMessage = ' ';
-    auth.warningMessage = ' ';
-    auth.errorMessage = ' ';
   }
+
+  ngOnInit(): void {
+  }
+
   ngAfterViewInit(): void {
-    this.auth.alertSuccess = this.alertSuccess;
-    this.auth.alertWarning = this.alertWarning;
-    this.auth.alertError = this.alertError;
-    this.auth.successMessage = '';
-    this.auth.warningMessage = '';
-    this.auth.errorMessage = '';
   }
+
+  ngAfterContentInit(): void {
+  }
+
+  ngAfterViewChecked(): void {
+  }
+
 }
