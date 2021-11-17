@@ -73,11 +73,12 @@ export class ArticleService extends DocumentService {
         return false;
     }
 
-    public async getArticles(viewName: string, key?: string): Promise<Article[]> {
+    public async getArticles(viewName: string, key?: string, descending?: boolean): Promise<Article[]> {
         try {
             const params: DocumentViewParams = {
                 include_docs: true,
-                key: key
+                key: key !== '' ? key : undefined,
+                descending: descending
             };
             const response = await this._dataService.db.view(this._designName, viewName, params);
             const result: Article[] = [];
@@ -126,7 +127,7 @@ export class ArticleService extends DocumentService {
         const ddoc: any = {
 
             _id: '_design/' + designName,
-            version: '7',
+            version: '10',
             views: {
                 'active': {
                     map: activeArticles

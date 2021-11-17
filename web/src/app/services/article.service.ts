@@ -16,7 +16,7 @@ export class ArticleService {
   }
 
   public getArticles(): Observable<any> {
-    return this._httpClient.get(this._apiUrl + '/articles/');
+    return this._httpClient.get(this._apiUrl + '/articles/?descending=true');
   }
 
   public getArticle(id: string): Observable<any> {
@@ -30,7 +30,7 @@ export class ArticleService {
   }
 
   public getUnpublishedArticles(): Observable<any> {
-    let articles = this._httpClient.get(this._apiUrl + '/articles/unpublished/');
+    let articles = this._httpClient.get(this._apiUrl + '/articles/unpublished/?descending=true');
     return articles;
   }
 

@@ -3,6 +3,7 @@ import { jsonParser } from '../index';
 import { Article } from '../models/Article';
 import { ArticleService } from '../services/ArticleService';
 import { auth, requiredScopes, claimCheck, claimEquals, claimIncludes, JWTPayload } from 'express-oauth2-jwt-bearer';
+import { Tools } from  '../tools';
 
 export class ArticleController {
   private _checkJwt: express.Handler;
@@ -35,23 +36,27 @@ export class ArticleController {
 
   public start() {
     this._app.get('/articles', async (req: Request, res: Response) => {
-      const articles = await this._articleService.getArticles('published');
+      const descending = Tools.getBoolean(req.query.descending);
+      const articles = await this._articleService.getArticles('published', '', descending);
       res.send(articles);
     });
 
     this._app.get('/articles/active', async (req: Request, res: Response) => {
-      const articles = await this._articleService.getArticles('active');
+      const descending = Tools.getBoolean(req.query.descending);
+      const articles = await this._articleService.getArticles('active', '', descending);
       res.send(articles);
     });
 
     this._app.get('/articles/unpublished', this._checkJwt, this._hasWriteAccess, async (req: Request, res: Response) => {
+      const descending = Tools.getBoolean(req.query.descending);
       const user = req.auth?.payload['https://sideburnwhisky.no/email'] as string;
-      const articles = await this._articleService.getArticles('unpublished', user);
+      const articles = await this._articleService.getArticles('unpublished', user, descending);
       res.send(articles);
     });
 
     this._app.get('/articles/unpublished/all', this._checkJwt, this._hasPublishAccess, async (req: Request, res: Response) => {
-      const articles = await this._articleService.getArticles('unpublished');
+      const descending = Tools.getBoolean(req.query.descending);
+      const articles = await this._articleService.getArticles('unpublished', '', descending);
       res.send(articles);
     });
 
@@ -125,7 +130,7 @@ export class ArticleController {
       } else {
         try {
           article.published = true;
-          article.publishDate = new Date();
+          article.datePublished = new Date();
           const result = await this._articleService.saveArticle(article);
           res.send(result);
         } catch (error: any) {
