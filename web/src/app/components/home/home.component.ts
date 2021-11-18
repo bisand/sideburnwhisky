@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LocalAuthService } from 'src/app/services/local-auth.service';
 import { ArticleService } from '../../services/article.service';
 import * as marked from 'marked';
+import * as DOMPurify from 'dompurify';
 
 @Component({
   selector: 'app-home',
@@ -24,7 +25,7 @@ export class HomeComponent implements OnInit {
 
   public compileMarkdown(value: string | undefined): string {
     if (value)
-      return marked.parser(marked.lexer(value));
+      return DOMPurify.sanitize(marked.parser(marked.lexer(value)));
     return '';
   }
 }

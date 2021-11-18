@@ -12,6 +12,7 @@ import { IArticle } from 'src/app/models/IArticle';
 import { NgbModal, NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { ComponentCanDeactivate } from '../../pending-changes.guard';
 import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component';
+import * as DOMPurify from 'dompurify';
 
 @Component({
   selector: 'app-article-editor',
@@ -131,7 +132,7 @@ export class ArticleEditorComponent implements ComponentCanDeactivate, OnInit, O
 
   public onNavChange(changeEvent: NgbNavChangeEvent) {
     if (changeEvent.nextId === 1) {
-      this.compiledBodyMarkdown = this.compileMarkdown(this.f.body.value);
+      this.compiledBodyMarkdown = DOMPurify.sanitize(this.compileMarkdown(this.f.body.value));
     }
   }
 
