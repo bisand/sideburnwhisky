@@ -164,9 +164,8 @@ export class ArticleEditorComponent implements ComponentCanDeactivate, OnInit, O
   }
 
   public upload(idx: number, file: File): void {
-    this.progressInfos[idx] = { value: 0, fileName: file.name };
-
     if (file) {
+      this.progressInfos[idx] = { value: 0, fileName: file.name };
       this._articleService.uploadImage(file).subscribe(
         (event: any) => {
           if (event.type === HttpEventType.UploadProgress) {

@@ -108,7 +108,7 @@ export class LocalAuthService implements OnInit {
         }, error => {
           this.openSnackBar(`getAccessTokenSilently error: ${error}.`);
         });
-        this.openSnackBar(`User ${user?.email} - successfully authenticated.`);
+        this.openSnackBar(`User ${user.email} - successfully authenticated.`);
       }
     }, error => {
       this.openSnackBar(`User error: ${error}.`);

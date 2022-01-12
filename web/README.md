@@ -1,4 +1,5 @@
 # SideburnWeb
+[![DeepScan grade](https://deepscan.io/api/teams/16513/projects/19835/branches/520483/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=16513&pid=19835&bid=520483)
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.2.9.
 
