@@ -2,14 +2,12 @@ version: "3.9"
 
 services:
   web:
+    image: bisand/sideburnwhisky-web
     restart: always
-    container_name: web
-    build: ./web/
     ports:
       - "8585:80"
   db:
-    build: ./db/
-    container_name: db
+    image: bisand/sideburnwhisky-db
     restart: always
     environment:
       - 'COUCHDB_USER=${COUCHDB_USER}'
@@ -19,9 +17,8 @@ services:
     ports:
       - "${COUCHDB_PORT}:${COUCHDB_PORT}"
   api:
+    image: bisand/sideburnwhisky-api
     restart: always
-    container_name: api
-    build: ./api/
     links: ['db']
     environment:
       - 'COUCHDB_USER=${COUCHDB_USER}'

@@ -4,7 +4,7 @@ WORKDIR /app
 COPY package.json /app
 RUN npm install
 COPY . /app
-RUN npm run build --prod
+RUN export NODE_OPTIONS=--openssl-legacy-provider && npm run build --prod
 
 FROM nginx:alpine
 COPY ./nginx.conf /etc/nginx/nginx.conf
