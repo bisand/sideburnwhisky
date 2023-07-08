@@ -13,7 +13,7 @@ services:
       - 'COUCHDB_USER=${COUCHDB_USER}'
       - 'COUCHDB_PASSWORD=${COUCHDB_PASSWORD}'
     volumes:
-      - "./db/couchdb/data:/opt/couchdb/data"
+      - "couchdb-data:/opt/couchdb/data"
     ports:
       - "${COUCHDB_PORT}:${COUCHDB_PORT}"
   api:
@@ -28,3 +28,6 @@ services:
       - 'COUCHDB_DATABASE=${COUCHDB_DATABASE}'
     ports:
       - "8686:8080"
+
+volumes:
+  couchdb-data:
